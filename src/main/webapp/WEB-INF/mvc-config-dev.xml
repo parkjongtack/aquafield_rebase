@@ -26,12 +26,15 @@
             base-package="org.springframework.samples.web"/>  -->
 
 
-	<context:component-scan base-package="com.soft.web" />
+	<context:component-scan base-package="com.soft.web"/>
+	
+	
 	
 	<task:annotation-driven/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<!-- mvc:resources mapping="/common/**" location="/common/" / -->
+	<mvc:resources mapping="/*.txt" location="/" />
 	<mvc:resources mapping="/common/editor/**" location="/common/editor/" />
 	<mvc:resources mapping="/common/front/css/**" location="/common/front/css/" />
 	<mvc:resources mapping="/common/front/js/**" location="/common/front/js/" />
@@ -221,5 +224,5 @@
     <bean id="passwordEncoder" class="com.soft.web.base.PasswordEncoder" />
 
     <bean id="aquaScheduler" class="com.soft.web.crontab.AquaScheduler" />
-
+		
 </beans>
