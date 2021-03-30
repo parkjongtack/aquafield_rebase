@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontMemberDao">
+
+<select id="searchId" parameterType="java.util.Map" resultType="String">
+ <![CDATA[
+	SELECT MEM_ID 
+	  FROM TB_MEMBER
+	 WHERE DI_CERTI = #{di_certi}
+   	   AND POINT_CODE = #{point_code}  
+ ]]>	
+</select>
+
+<select id="idChk" parameterType="java.util.Map" resultType="Int">
+ <![CDATA[
+	SELECT COUNT(*) AS CNT 
+	  FROM TB_MEMBER
+	 WHERE MEM_ID = #{mem_id}
+   	   AND POINT_CODE = #{point_code}  
+ ]]>	
+</select>
+
+<select id="memberInfo" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT MEM_UID
+		  ,row_to_str(MEM_NM) AS MEM_NM
+		  ,MEM_ID
+		  ,row_to_str(MOBILE_NUM) AS MOBILE_NUM
+		  ,MEM_BIRTH
+		  ,BIRTH_TYPE
+		  ,MEM_GENDER
+		  ,row_to_str(HOME_ADDR1) AS HOME_ADDR1
+		  ,row_to_str(HOME_ADDR2) AS HOME_ADDR2
+		  ,COMPANY_NM
+		  ,row_to_str(COMPANY_ADDR1) AS COMPANY_ADDR1
+		  ,row_to_str(COMPANY_ADDR2) AS COMPANY_ADDR2
+		  ,row_to_str(COMPANY_PHONE_NUM) AS COMPANY_PHONE_NUM
+		  ,JOB_NM
+		  ,MEMORY_DAY
+		  ,POINT_CODE
+		  ,MEM_RATING
+		  ,TERMS_AT
+		  ,RECEIVED_INFO_AT
+	  FROM TB_MEMBER
+	 WHERE MEM_ID = #{mem_id}
+	   AND MEM_PW = str_to_row(#{mem_pw})
+   	   AND POINT_CODE = #{point_code}  
+ ]]>	
+</select>
+
+<select id="memberUpdInfo" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT MEM_UID
+		  ,row_to_str(MEM_NM) AS MEM_NM
+		  ,MEM_ID
+		  ,row_to_str(MOBILE_NUM) AS MOBILE_NUM
+		  ,MEM_BIRTH
+		  ,BIRTH_TYPE
+		  ,MEM_GENDER
+		  ,row_to_str(HOME_ADDR1) AS HOME_ADDR1
+		  ,row_to_str(HOME_ADDR2) AS HOME_ADDR2
+		  ,COMPANY_NM
+		  ,row_to_str(COMPANY_ADDR1) AS COMPANY_ADDR1
+		  ,row_to_str(COMPANY_ADDR2) AS COMPANY_ADDR2
+		  ,row_to_str(COMPANY_PHONE_NUM) AS COMPANY_PHONE_NUM
+		  ,JOB_NM
+		  ,MEMORY_DAY
+		  ,POINT_CODE
+		  ,MEM_RATING
+		  ,TERMS_AT
+		  ,RECEIVED_INFO_AT
+	  FROM TB_MEMBER
+	 WHERE MEM_UID = #{mem_uid}
+ ]]>	
+</select>
+
+<select id="inactMemInfo" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT A.MEM_UID
+		  ,row_to_str(A.MEM_NM) AS MEM_NM
+		  ,A.MEM_ID
+		  ,row_to_str(A.MOBILE_NUM) AS MOBILE_NUM
+		  ,A.MEM_BIRTH
+		  ,A.BIRTH_TYPE
+		  ,A.MEM_GENDER
+		  ,row_to_str(A.HOME_ADDR1) AS HOME_ADDR1
+		  ,row_to_str(A.HOME_ADDR2) AS HOME_ADDR2
+		  ,A.COMPANY_NM
+		  ,row_to_str(A.COMPANY_ADDR1) AS COMPANY_ADDR1
+		  ,row_to_str(A.COMPANY_ADDR2) AS COMPANY_ADDR2
+		  ,row_to_str(A.COMPANY_PHONE_NUM) AS COMPANY_PHONE_NUM
+		  ,A.JOB_NM
+		  ,A.MEMORY_DAY
+		  ,A.POINT_CODE
+		  ,A.MEM_RATING
+		  ,A.TERMS_AT
+		  ,A.RECEIVED_INFO_AT
+		  ,B.INACTIVITY_UID
+		  ,B.LAST_LOGIN_DATE
+		  ,B.INACTIVITY_AT
+		  ,B.INACTIVITY_DATE
+		  ,B.SEND_MAIL_DATE
+	 FROM TB_MEMBER A, TB_MEMBER_INACTIVITY B
+	WHERE A.MEM_UID = B.MEM_UID
+	  AND B.INACTIVITY_AT = 'Y'
+	  AND A.POINT_CODE = #{point_code}
+	  AND A.MEM_ID = #{mem_id}
+		AND A.MEM_PW = str_to_row(#{mem_pw}) 
+ ]]>	
+</select>
+
+<update id="lastLoginUpd" parameterType="Int">
+ <![CDATA[
+	UPDATE TB_MEMBER SET LAST_LOGIN_DATE = sysdate
+	 			   WHERE MEM_UID = #{mem_uid}
+ ]]>	
+</update>
+
+<update id="setInactMem" parameterType="java.util.Map">
+ <![CDATA[
+ 	UPDATE TB_MEMBER SET MEM_NM = str_to_row(#{mem_nm})
+ 						,MOBILE_NUM = str_to_row(#{mobile_num})
+ 						,HOME_ADDR1 = str_to_row(#{home_addr1})
+ 						,HOME_ADDR2 = str_to_row(#{home_addr2}) 
+				   WHERE MEM_UID = #{mem_uid} 
+ ]]>
+</update> 
+
+<update id="setPassword" parameterType="java.util.Map">
+ <![CDATA[
+ 	UPDATE TB_MEMBER SET MEM_PW = str_to_row(#{mem_pw})
+				   WHERE DI_CERTI = #{di_certi}
+				     AND POINT_CODE = #{point_code}  
+ ]]>
+</update>  
+
+<update id="memberUpd" parameterType="java.util.Map">
+
+	UPDATE TB_MEMBER SET MEM_BIRTH = #{mem_birth}
+	                    ,BIRTH_TYPE = #{birth_type}
+	                    ,MEM_GENDER = #{mem_gender}
+	                    ,HOME_ADDR1 = str_to_row(#{home_addr1})
+	                    ,HOME_ADDR2 = str_to_row(#{home_addr2})
+	                    ,UPD_ID = #{upd_id}
+	                    ,UPD_DATE = sysdate
+				<if test = "mem_pw != null and mem_pw != ''">
+                        ,MEM_PW = #{mem_pw}				
+				</if>	                    
+				   WHERE MEM_UID = #{mem_uid} 		                      
+</update>
+	
+<insert id="memberJoin" parameterType="java.util.Map">
+   <![CDATA[
+	INSERT INTO TB_MEMBER (MEM_UID
+	                      ,MEM_NM
+	                      ,MEM_ID
+	                      ,MEM_PW
+	                      ,MOBILE_NUM
+	                      ,MEM_BIRTH
+	                      ,BIRTH_TYPE
+	                      ,MEM_GENDER
+	                      ,HOME_ADDR1
+	                      ,HOME_ADDR2
+	                      ,COMPANY_PHONE_NUM
+	                      ,COMPANY_NM
+	                      ,COMPANY_ADDR1
+	                      ,COMPANY_ADDR2
+	                      ,MEMORY_DAY
+	                      ,TERMS_AT
+	                      ,RECEIVED_INFO_AT
+	                      ,MEM_RATING
+	                      ,POINT_CODE
+	                      ,INS_ID
+	                      ,INS_DATE
+	                      ,DI_CERTI) 
+	              VALUES (TB_MEMBER_SEQ.NEXTVAL
+	                      ,str_to_row(#{mem_nm})
+	                      ,#{mem_id}
+	                      ,str_to_row(#{mem_pw})
+	                      ,str_to_row(#{mobile_num})
+	                      ,#{mem_birth}
+	                      ,#{birth_type}
+	                      ,#{mem_gender}
+	                      ,str_to_row(#{home_addr1})
+	                      ,str_to_row(#{home_addr2})
+	                      ,str_to_row(#{company_phone_num})
+	                      ,#{company_nm}
+	                      ,str_to_row(#{company_addr1})
+	                      ,str_to_row(#{company_addr2})
+	                      ,#{memory_day}
+	                      ,#{terms_at}
+	                      ,#{received_info_at}
+	                      ,#{mem_rating}
+	                      ,#{point_code}
+	                      ,#{ins_id}
+	                      ,sysdate
+	                      ,#{ci_certi})
+		]]>	 		                      
+</insert>
+
+<delete id="inactMemDel" parameterType="java.util.Map">
+ <![CDATA[
+ 	DELETE TB_MEMBER_INACTIVITY 
+						  WHERE MEM_UID = #{mem_uid}
+ ]]>
+</delete>
+
+</mapper>

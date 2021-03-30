@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.MemberDao">
+	
+	<!-- 회원정보 조회 조건 문자열(회원번호, 회원명, id, 폰번호), 성별, 가입일 -->
+	<sql id="where">
+		<if test = "srch_text != null and srch_text != ''">
+			<choose>
+				<when test="srch_type != null and srch_type.equals('MEM_NUM')">
+					AND TO_CHAR(MEM_NUM)		like '%' || #{srch_text} || '%'
+				</when>
+				<when test="srch_type != null and srch_type.equals('MEM_NM')">
+					AND ROW_TO_STR(MEM_NM)		like '%' || #{srch_text} || '%'
+				</when>
+				<when test="srch_type != null and srch_type.equals('MEM_ID')">
+					AND MEM_ID					like '%' || #{srch_text} || '%'
+				</when>
+				<when test="srch_type != null and srch_type.equals('MOBILE_NUM')">
+					AND ROW_TO_STR(MOBILE_NUM) like '%' || #{srch_text} || '%'
+				</when>
+				<when test="srch_type != null and srch_type.equals('HOME_ADDR1')">
+					AND ROW_TO_STR(HOME_ADDR1) like '%' || #{srch_text} || '%'
+				</when>				
+			</choose>
+	    </if>
+		<if test = "srch_sex != null and srch_sex != ''">
+			AND MEM_GENDER = #{srch_sex}
+		</if>
+		<if test = "srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+		 	AND TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+		</if>
+	</sql>
+	
+	<!-- 휴면계정 조건 문자열(회원정보, 상태, 일자검색), 성별, 가입일 -->
+	<sql id="wheretwo">
+	
+		<if test = "srch_text != null and srch_text != ''">
+	        AND (	ROW_TO_STR(MEM_NM)		like '%' || #{srch_text} || '%' OR
+	       			MEM_ID					like '%' || #{srch_text} || '%' OR
+	       			MEM_NUM 				like '%' || #{srch_text} || '%'    )
+	    </if>
+		<if test = "srch_status != null and srch_status != ''">
+			AND INACTIVITY_AT = #{srch_status}
+		</if>
+		<if test = "srch_reg_type != null and srch_reg_type != '' and srch_reg_type == 'LAST_LOGIN_DATE' and srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+		 	AND TO_DATE(TO_CHAR(LAST_LOGIN_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+		</if>
+		<if test = "srch_reg_type != null and srch_reg_type != '' and srch_reg_type == 'INACTIVITY_DATE' and srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+		 	AND TO_DATE(TO_CHAR(INACTIVITY_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+		</if>  
+	</sql>	
+	
+	<!-- 회원정보 조회 -->
+	<select id="memberList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * 
+			FROM ( 
+					SELECT 
+						ROW_NUMBER() OVER(ORDER BY MEM_UID DESC) RN
+						,MEM_UID
+						,ROW_TO_STR(MEM_NM) as MEM_NM
+						,ROW_TO_STR(MEM_NM) as MASK_MEM_NM
+						,MEM_ID
+						,SUBSTR(MEM_ID,0,INSTR(MEM_ID,'@')) || '*****' AS MASK_MEM_ID
+						,ROW_TO_STR(MOBILE_NUM) as MOBILE_NUM
+						,ROW_TO_STR(HOME_ADDR1) as HOME_ADDR1
+						,MASK_PHONE(ROW_TO_STR(MOBILE_NUM)) as MASK_MOBILE_NUM
+						,MEM_BIRTH
+						,MEM_GENDER
+						,INS_DATE
+						,(SELECT COUNT(1) FROM TB_RESERVATION WHERE TB_RESERVATION.MEM_UID = TB_MEMBER.MEM_UID AND TB_RESERVATION.RESERVE_STATE IN ('ING','USE')) AS RESERVE_CNT
+						,MEM_NUM
+						,LOGIN_ATTEMP								
+					FROM TB_MEMBER
+					WHERE 1=1
+					<include refid="where"/>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+				order by 
+						<if test="order_res != null and order_res != ''">
+							RESERVE_CNT <if test="order_res eq 'A'.toString()">ASC</if><if test="order_res eq 'D'.toString()">DESC</if> , 
+						</if>
+						MEM_UID DESC
+	</select>    
+	
+	<!-- 회원정보 조회 -->
+	<select id="memberList2" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * 
+			FROM ( 
+					SELECT 
+						ROW_NUMBER() OVER(ORDER BY MEM_UID DESC) RN
+						,MEM_UID
+						,ROW_TO_STR(MEM_NM) as MEM_NM
+						,ROW_TO_STR(MEM_NM) as MASK_MEM_NM
+						,MEM_ID
+						,SUBSTR(MEM_ID,0,INSTR(MEM_ID,'@')) || '*****' AS MASK_MEM_ID
+						,ROW_TO_STR(MOBILE_NUM) as MOBILE_NUM
+						,ROW_TO_STR(HOME_ADDR1) as HOME_ADDR1
+						,MASK_PHONE(ROW_TO_STR(MOBILE_NUM)) as MASK_MOBILE_NUM
+						,MEM_BIRTH
+						,MEM_GENDER
+						,INS_DATE
+						,(SELECT COUNT(1) FROM TB_RESERVATION WHERE TB_RESERVATION.MEM_UID = TB_MEMBER.MEM_UID AND TB_RESERVATION.RESERVE_STATE IN ('ING','USE')) AS RESERVE_CNT
+						,MEM_NUM									
+					FROM TB_MEMBER
+					WHERE 1=1 and mem_rating in (select data from sns_list)
+					<include refid="where"/>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+				order by 
+						<if test="order_res != null and order_res != ''">
+							RESERVE_CNT <if test="order_res eq 'A'.toString()">ASC</if><if test="order_res eq 'D'.toString()">DESC</if> , 
+						</if>
+						MEM_UID DESC
+	</select>    	
+	
+	<!-- 회원정보 조회 totCnt-->
+	<select id="memberListCnt" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM TB_MEMBER
+		WHERE 1=1
+		<include refid="where"/>
+	</select>    
+
+	<!-- 회원정보 조회 totCnt-->
+	<select id="memberListCnt2" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM TB_MEMBER
+		WHERE 1=1 and mem_rating in (select data from sns_list)
+		<include refid="where"/>
+	</select>   
+
+	<!-- 회원상세 조회 -->
+	<select id="memberDetail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			MEM_UID
+			,ROW_TO_STR(MEM_NM) as MEM_NM
+			,ROW_TO_STR(MEM_NM) as MASK_MEM_NM
+			,MEM_ID
+			,SUBSTR(MEM_ID,0,INSTR(MEM_ID,'@')) || '*****' AS MASK_MEM_ID
+			,ROW_TO_STR(MOBILE_NUM) as MOBILE_NUM
+			,MASK_PHONE(ROW_TO_STR(MOBILE_NUM)) as MASK_MOBILE_NUM
+			,MEM_BIRTH
+			,BIRTH_TYPE
+			,MEM_GENDER
+			,ROW_TO_STR(HOME_ADDR1) as HOME_ADDR1
+			,ROW_TO_STR(HOME_ADDR2) as HOME_ADDR2
+			,ROW_TO_STR(HOME_PHONE_NUM) as HOME_PHONE_NUM
+			,COMPANY_NM
+			,ROW_TO_STR(COMPANY_ADDR1) as COMPANY_ADDR1
+			,ROW_TO_STR(COMPANY_ADDR2) as COMPANY_ADDR2
+			,ROW_TO_STR(COMPANY_PHONE_NUM) as COMPANY_PHONE_NUM
+			,JOB_NM
+			,MEMORY_DAY
+			,RECEIVED_INFO_AT
+			,INS_DATE
+			,MEM_NUM
+			,EMAIL
+		FROM TB_MEMBER
+		WHERE MEM_UID = #{mem_uid}
+	</select>
+	
+	<!-- 휴면계정 조회 -->
+	<select id="inactMemberList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * 
+			FROM ( 
+					SELECT
+						ROW_NUMBER() OVER(ORDER BY MEM_UID DESC) RN 
+						,INACTIVITY_UID
+						,MEM_UID
+                    			,MEM_NM
+						,MEM_ID
+			  			,SUBSTR(MEM_ID,0,INSTR(MEM_ID,'@')) || '*****' AS MASK_MEM_ID
+                    			,POINT_CODE
+                    			,TO_CHAR(LAST_LOGIN_DATE,'YYYY-MM-DD HH24:MI:SS') AS LAST_LOGIN_DATE
+                    			,TO_CHAR(SEND_MAIL_DATE,'YYYY-MM-DD HH24:MI:SS') AS SEND_MAIL_DATE
+                    			,NVL(TO_CHAR(INACTIVITY_DATE,'YYYY-MM-DD HH24:MI:SS'),'-') AS INACTIVITY_DATE
+                    			,MEM_NUM
+                    			,INACTIVITY_AT									
+					FROM TB_MEMBER_INACTIVITY
+					WHERE 1=1
+					<include refid="wheretwo"/>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>    
+	
+	<!-- 휴면계정 조회 totCnt-->
+	<select id="inactMemberListCnt" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM TB_MEMBER_INACTIVITY
+		WHERE 1=1
+		<include refid="wheretwo"/>
+	</select> 	
+	
+	<!-- 회원정보 수정 -->
+	<update id="memberUpdate" parameterType="java.util.Map">
+		UPDATE TB_MEMBER SET
+		MEM_ID = #{mem_id}
+		,UPD_ID = #{up_id}
+		,UPD_DATE = SYSDATE
+		WHERE MEM_UID = #{mem_uid}
+	</update>
+
+
+</mapper>

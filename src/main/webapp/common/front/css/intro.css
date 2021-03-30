@@ -1,0 +1,28 @@
+@charset "utf-8";
+body { overflow: hidden; }
+#intro_wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; }
+#intro_wrap > .inner { position: relative; width: 100%; height: 100%; display: table; /* background-image: url("../images/intro/intro_hanam.jpg"); background-repeat: no-repeat; background-position: center; background-size: cover; */ }
+/* #intro_wrap > .inner.hanam { background-image: url("../images/intro/intro_hanam.jpg"); }
+#intro_wrap > .inner.goyang { background-image: url("../images/intro/intro_goyang.jpg"); } */
+#intro_wrap .intro_section { display: table-cell; width: 33.33333%; height: 100%; vertical-align: middle; text-align: center; padding: 5%; }
+#intro_wrap .intro_section img { margin: 0 auto; max-width: 100%; }
+#intro_wrap .intro_section.ansung img{margin-top: 40%;}
+#intro_wrap .intro_section .kr { display: none; }
+#intro_wrap .intro_section .en { display: block; }
+#intro_wrap .intro_section:hover .kr { display: block; }
+#intro_wrap .intro_section:hover .en { display: none; }
+
+#intro-slider { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+#intro-slider .slider-item { background-repeat: no-repeat; background-position: center; background-size: cover; }
+#intro-slider .slider-item.hanam { background-image: url("../images/intro/intro_hanam.png"); }
+#intro-slider .slider-item.goyang { background-image: url("../images/intro/intro_goyang.png"); }
+#intro-slider .slider-item.ansung { background-image: url("../images/intro/intro_ansung.png"); }
+@media screen and  (max-width:768px){
+    #intro_wrap .intro_section{width: 100%;padding: 0%; height: 33.33%; display: block; position: relative;}
+    #intro_wrap .intro_section img{width: 40%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+    #intro_wrap .intro_section.ansung img{width: 40%;}
+    #intro_wrap .intro_section.ansung img{margin-top: 0;}
+    #intro-slider .slider-item.hanam { background-image: url("../images/intro/intro_mAll.png"); }
+    #intro-slider .slider-item.goyang { background-image: url("../images/intro/intro_mAll.png"); }
+    #intro-slider .slider-item.ansung { background-image: url("../images/intro/intro_mAll.png"); }
+}

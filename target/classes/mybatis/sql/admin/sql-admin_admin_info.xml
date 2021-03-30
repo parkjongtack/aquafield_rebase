@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminAdminInfoDao">
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+            ADMIN_UID
+           ,MEMBER_VIEW_AT
+           ,ADMIN_NM
+           ,ADMIN_ID
+           ,POINT_CODE
+           ,ADMIN_DEPT
+           ,ADMIN_PHONE
+           ,USE_AT
+           ,LOGIN_CNT
+           ,LOGIN_DATE
+           ,LOGIN_DIGIT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,CERTNUM
+           ,DECODE(MEMBER_VIEW_AT,'Y','on','N','off') as MEMBER_VIEW_AT_TXT
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+           ,TO_CHAR(LOGIN_DATE,'YYYY.MM.DD') as LOGIN_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+    <if test = "nm != null and nm != ''">
+       AND ADMIN_NM LIKE '%'||UTL_RAW.CAST_TO_VARCHAR2(#{nm_HEX})||'%'
+    </if>
+
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (ADMIN_NM LIKE '%'||#{sw}||'%' OR ADMIN_ID LIKE '%'||#{sw}||'%' OR ADMIN_DEPT LIKE '%'||#{sw}||'%')
+       </if>
+       <if test = "col == '1'">
+       AND ADMIN_NM LIKE '%'||#{sw}||'%'
+       </if>
+       <if test = "col == '2'">
+       AND ADMIN_ID LIKE '%'||#{sw}||'%'
+       </if>
+    </if>
+    <if test="startd != null and startd != '' and endd != null and endd != ''">
+   	  AND TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{startd},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{endd},'.',''), 'YYYYMMDD') 
+    </if> 
+  </sql>
+  
+  <!-- MAX(Uid)  -->
+  <select id="adminInfoGetMaxUid" resultType="int">
+    SELECT MAX(ADMIN_UID) FROM TB_ADMIN_INFO
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="adminInfoGetCount" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_ADMIN_INFO
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="adminInfoList" parameterType="java.util.Map" resultType="java.util.HashMap">
+      SELECT (TOTAL_RECORDS +1 - RNUM) DESC_RNUM,DATA.*
+      FROM ( SELECT ROWNUM AS RNUM, COUNT(*) OVER() TOTAL_RECORDS, DATA.*
+      		 FROM (
+      
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_ADMIN_INFO
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY ADMIN_UID DESC
+	  
+      ) DATA ) DATA
+      WHERE RNUM BETWEEN ((#{page}-1) * #{rows} + 1) and (#{page} * #{rows})
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="adminInfoDetail" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_ADMIN_INFO
+     WHERE ADMIN_UID=#{ADMIN_UID}
+  </select>
+  
+	<!-- 사용기록 조회 -->
+	<select id="adminUseLogList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			*
+			FROM ( 
+					SELECT
+						ROW_NUMBER() OVER(ORDER BY A.INS_DATE DESC) RN 
+						,A.CONTENT_LOG_UID
+						,A.POINT_CODE
+						,A.ACCESS_MENU_NM
+						,A.ACTION
+						,A.DATA_NUM										
+						,A.INS_IP
+						,A.INS_ADMIN_ID
+						,A.ADMIN_NM
+						,A.ADMIN_UID
+						,A.ACCESS_MENU_UID
+						,A.ETC
+						,A.DATA_URL
+						,TO_CHAR(A.INS_DATE,'YYYY.MM.DD HH24:MI:SS') AS INS_DATE
+						,B.ADMIN_DEPT
+					FROM TB_ADMIN_CONTENTLOG A, TB_ADMIN_INFO B 
+					WHERE A.ADMIN_UID = B.ADMIN_UID
+					<if test = "srch_text != null and srch_text != ''">
+				      AND (	TO_CHAR(A.ADMIN_UID)	like '%' || #{srch_text} || '%' OR
+				     		A.ADMIN_NM				like '%' || #{srch_text} || '%' OR
+				     		A.INS_ADMIN_ID			like '%' || #{srch_text} || '%')
+				    </if>
+					<if test = "access_menu != null and access_menu != ''">
+					  AND A.ACCESS_MENU_NM LIKE '%' || #{access_menu} || '%'
+					</if>
+					<if test = "action != null and action != ''">
+					  AND A.ACTION = #{action}
+					</if>		
+					<if test = "srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+					  AND TO_DATE(TO_CHAR(A.INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+					</if>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>    
+	
+	<!-- 엑셀용 페이징 없는 목록!! -->
+	<select id="adminUseLogListExel" fetchSize="100" parameterType="java.util.Map" resultType="Map" >
+		SELECT 
+			INS_DATE
+			, ADMIN_NM
+			, INS_IP
+			, ACTION
+			, ETC
+			FROM ( 
+					SELECT
+						ROW_NUMBER() OVER(ORDER BY A.INS_DATE DESC) RN 
+						,A.CONTENT_LOG_UID
+						,A.POINT_CODE
+						,A.ACCESS_MENU_NM
+						,A.ACTION
+						,A.DATA_NUM									
+						,A.INS_IP
+						,A.INS_ADMIN_ID
+						,A.ADMIN_NM
+						,A.ADMIN_UID
+						,A.ACCESS_MENU_UID
+						,A.ETC
+						,A.DATA_URL
+						,TO_CHAR(A.INS_DATE,'YYYY.MM.DD HH24:MI:SS') AS INS_DATE
+						,B.ADMIN_DEPT
+					FROM TB_ADMIN_CONTENTLOG A, TB_ADMIN_INFO B 
+					WHERE A.ADMIN_UID = B.ADMIN_UID
+					<if test = "srch_text != null and srch_text != ''">
+				      AND (	TO_CHAR(A.ADMIN_UID)	like '%' || #{srch_text_HEX} || '%' OR
+				     		A.ADMIN_NM				like '%' || #{srch_text_HEX} || '%' OR
+				     		A.INS_ADMIN_ID			like '%' || #{srch_text_HEX} || '%')
+				    </if>
+					<if test = "access_menu != null and access_menu != ''">
+					  AND A.ACCESS_MENU_NM LIKE '%' || #{access_menu_HEX} || '%'
+					</if>
+					<if test = "action != null and action != ''">
+					  AND A.ACTION = #{action}
+					</if>		
+					<if test = "srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+					  AND TO_DATE(TO_CHAR(A.INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+					</if>
+				)	
+	</select>
+	
+	<!-- 사용기록 조회 totCnt-->
+	<select id="adminUseLogCnt" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM TB_ADMIN_CONTENTLOG
+		WHERE 1=1
+		<if test = "srch_text != null and srch_text != ''">
+	      AND (	TO_CHAR(ADMIN_UID)	    like '%' || #{srch_text} || '%' OR
+	     		ADMIN_NM				like '%' || #{srch_text} || '%' OR
+	     		INS_ADMIN_ID			like '%' || #{srch_text} || '%')
+	    </if>
+		<if test = "access_menu != null and access_menu != ''">
+		   AND ACCESS_MENU_NM LIKE '%' || #{access_menu} || '%'
+		</if>
+		<if test = "action != null and action != ''">
+		  AND ACTION = #{action}
+		</if>		
+		<if test = "srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+		  AND TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+		</if>
+	</select> 
+	
+	<!-- 사용기록 > 1depth Menu List-->
+	<select id="adminOnedepthMenuList" resultType="java.util.Map">
+		SELECT 
+			 MENU_UID
+			,MENU_NM
+			,MENU_CODE
+			,MENU_DEPTH
+		FROM TB_ADMIN_MENU
+		WHERE MENU_DEPTH = 1
+		ORDER BY MENU_CODE
+	</select> 	  
+
+  <!-- 등록 -->
+  <insert id="adminInfoInsert"  parameterType="java.util.Map">
+    INSERT INTO TB_ADMIN_INFO(
+            ADMIN_UID
+           ,MEMBER_VIEW_AT
+           ,ADMIN_NM
+           ,ADMIN_ID
+           ,ADMIN_PW
+           ,POINT_CODE
+           ,ADMIN_DEPT
+           ,ADMIN_PHONE
+           ,USE_AT
+           ,LOGIN_CNT
+           ,LOGIN_DATE
+           ,LOGIN_DIGIT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,CERTNUM
+    ) VALUES (
+            TB_ADMIN_INFO_SEQ.nextval
+           ,#{MEMBER_VIEW_AT}
+           ,UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_NM_HEX})
+           ,#{ADMIN_ID}
+           ,STR_TO_ROW(#{ADMIN_PW})
+           ,#{POINT_CODE}
+           ,UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_DEPT_HEX})
+           ,#{ADMIN_PHONE}
+           ,#{USE_AT}
+           ,0
+           ,SYSDATE
+           ,''
+           ,#{INS_IP}
+           ,#{INS_ADMIN_ID}
+           ,SYSDATE
+           ,#{UPD_IP}
+           ,#{UPD_ADMIN_ID}
+           ,SYSDATE
+           ,'000000'
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="adminInfoUpdate"  parameterType="java.util.Map">
+    UPDATE TB_ADMIN_INFO SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ADMIN_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "MEMBER_VIEW_AT != null">,MEMBER_VIEW_AT=#{MEMBER_VIEW_AT}</if>
+            <if test = "ADMIN_NM != null">,ADMIN_NM=UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_NM_HEX})</if>
+            <if test = "ADMIN_PW != null and ADMIN_PW != '' ">,ADMIN_PW=STR_TO_ROW(#{ADMIN_PW})</if>
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+            <if test = "ADMIN_DEPT != null">,ADMIN_DEPT=UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_DEPT_HEX})</if>
+            <if test = "ADMIN_PHONE != null">,ADMIN_PHONE=#{ADMIN_PHONE}</if>
+            <if test = "USE_AT != null">,USE_AT=#{USE_AT}</if>
+    WHERE ADMIN_UID=#{num}
+  </update>
+  
+  <!-- 암호변경 -->
+  <update id="adminInfoPasswordUpdate"  parameterType="java.util.Map">
+    UPDATE TB_ADMIN_INFO SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ADMIN_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "adminPw != null and adminPw != ''">,ADMIN_PW=STR_TO_ROW(#{adminPw})</if>
+    WHERE ADMIN_ID=#{ADMIN_ID}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="adminInfoDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_ADMIN_INFO WHERE ADMIN_UID=#{num}
+  </delete>
+
+</mapper>

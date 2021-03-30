@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminDeskAdminMenuDao">
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+            MENU_UID
+           ,MENU_NM
+           ,MENU_CODE
+           ,MENU_DEPTH
+           ,MENU_SORT
+           ,MENU_URL
+           ,MENU_INFO
+           ,USE_AT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+    AND USE_AT='Y'
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (MENU_NM LIKE '%'||#{sw}||'%' OR MENU_CODE LIKE '%'||#{sw}||'%'
+       </if>
+       <if test = "col == '1'">
+       AND MENU_NM LIKE '%'||#{sw}||'%'
+       </if>
+       <if test = "col == '2'">
+       AND MENU_CODE LIKE '%'||#{sw}||'%'
+       </if>
+    </if>
+  </sql>
+  
+  <!-- MAX(Uid)  -->
+  <select id="deskAdminMenuGetMaxUid" resultType="int">
+    SELECT MAX(MENU_UID) FROM TB_DESK_ADMIN_MENU
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="deskAdminMenuGuetCount" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_DESK_ADMIN_MENU
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="deskAdminMenuList" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_MENU
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY MENU_UID DESC
+     LIMIT #{pageStartRow}, #{pageListSize}
+  </select>
+
+  <select id="deskAdminMenuListAll" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_MENU
+     WHERE USE_AT='Y'
+     ORDER BY MENU_CODE ASC, MENU_SORT ASC
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="deskAdminMenuDetail" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_MENU
+     WHERE MENU_UID=#{num}
+  </select>
+
+
+  <!-- 등록 -->
+  <insert id="deskAdminMenuInsert"  parameterType="java.util.Map">
+    INSERT INTO TB_DESK_ADMIN_MENU(
+            MENU_NM
+           ,MENU_CODE
+           ,MENU_DEPTH
+           ,MENU_SORT
+           ,MENU_URL
+           ,MENU_INFO
+           ,USE_AT
+           ,POINT_CODE
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+    ) VALUES (
+            #{MENU_NM}
+           ,#{MENU_CODE}
+           ,#{MENU_DEPTH}
+           ,#{MENU_SORT}
+           ,#{MENU_URL}
+           ,#{MENU_INFO}
+           ,#{USE_AT}
+           ,#{POINT_CODE}
+           ,#{INS_IP}
+           ,#{INS_ADMIN_ID}
+           ,SYSDATE
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="deskAdminMenuUpdate"  parameterType="java.util.Map">
+    UPDATE TB_DESK_ADMIN_MENU SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ADMIN_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "MENU_NM != null">,MENU_NM=#{MENU_NM}</if>
+            <if test = "MENU_CODE != null">,MENU_CODE=#{MENU_CODE}</if>
+            <if test = "MENU_DEPTH != null">,MENU_DEPTH=#{MENU_DEPTH}</if>
+            <if test = "MENU_SORT != null">,MENU_SORT=#{MENU_SORT}</if>
+            <if test = "MENU_URL != null">,MENU_URL=#{MENU_URL}</if>
+            <if test = "MENU_INFO != null">,MENU_INFO=#{MENU_INFO}</if>
+            <if test = "USE_AT != null">,USE_AT=#{USE_AT}</if>
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+    WHERE MENU_UID=#{num}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="deskAdminMenuDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_DESK_ADMIN_MENU WHERE MENU_UID=#{num}
+  </delete>
+
+</mapper>

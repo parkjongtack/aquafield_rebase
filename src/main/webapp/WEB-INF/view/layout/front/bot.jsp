@@ -1,0 +1,1 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%></div><!-- //wrap --><script type="text/javascript">	var fullPage = new fullPageFn();	var contentBox = new contentBoxFn();</script><section id="pop_bx_common"></section>

@@ -1,0 +1,1 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%><footer id="footer">	<div class="inner">		<div class="copyright">Developed by OKTOMATO</div>		<div class="logo"><img src="/admaf/images/login/signature_basic_e.gif"></div>	</div></footer>

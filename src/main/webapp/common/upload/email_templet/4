@@ -1,0 +1,64 @@
+
+	
+		<meta charset="utf-8">
+	
+	
+<table cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:0;width:100%;background:#fff;padding:0px 0px;">
+	<tbody>
+		<tr>
+			<td>
+				<table align="center" cellpadding="0" cellspacing="0" style="width:700px;border-collapse:separate;border-spacing:0;background:#fff;margin:0px auto;border:1px solid #999;font-family:arial,'맑은 고딕','Dotum','돋움','gulim','굴림',Helvetica,sans-serif;">
+					<tbody><tr>
+						<td style="padding:0 20px 20px; width:100%">
+							<table align="center" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #7f7f7f; margin:0px auto 20px; width:100%">
+								<tbody><tr>
+									<td align="left"><a href="https://www.aquafield-ssg.co.kr/" target="_blank"><img src="https://www.aquafield-ssg.co.kr/common/front/images/email/logo.png"></a></td>
+									<td align="right" style="font-size: 13px; line-height: 22px; color:#666; vertical-align: bottom;"><img style="vertical-align: middle; margin-bottom: 3px;" src="https://www.aquafield-ssg.co.kr/common/front/images/email/ico_time.png"> 발송: {{#NOW#}}</td>
+								</tr>
+							</tbody></table>
+							<table align="center" cellpadding="0" cellspacing="0" style="border:1px solid #bcbcbc; margin:0px auto 20px; width:100%">
+								<tbody><tr>
+									<td style="padding: 60px 30px;">
+										<table align="center" cellpadding="0" cellspacing="0" style="">
+											<tbody><tr>
+												<td style="text-align: center;">
+													<img style="margin-bottom:20px;" src="https://www.aquafield-ssg.co.kr/common/front/images/email/inactivity_top.jpg">
+													<h2 style="font-size: 26px; line-height: 30px; color: #000;">1년 이상 미접속 회원 <span style="color:#0591d2;">휴면계정 전환</span> 안내</h2>
+													<p style="font-size: 15px; line-height: 22px; color: #555;">
+														안녕하십니까. 아쿠아필드입니다. <br>
+														본 메일은 1년 이상 방문 기록이 없는 회원을 대상으로 드리는 알림 메일입니다. <br>
+														정보통신망이용촉진 및 정보보호 등에 관한 법률 및 시행령 제16조에 따라&nbsp;<br>
+														휴면계정 전환일&nbsp;이후 고객님의 회원정보가 분리 보관될 예정임을 안내 드립니다.
+													</p>
+													<p style="font-size: 13px; line-height: 20px; color: #777;">(법령 시행일 : 2015년 8월 18일)</p>
+													<p style="font-size: 14px; line-height: 25px; color: #555; background:#ebebeb; padding: 20px; border-radius: 5px;">
+														<span style="font-size: 14px; line-height: 25px; color: #333; font-weight:bold;">휴면계정 전환일 :</span> {{#INACTDAY#}}  <br>
+														<span style="font-size: 14px; line-height: 25px; color: #333; font-weight:bold;">계정/사용자 명 :</span> <span style="color:#036bac;text-decoration: underline;">{{#ID#}}</span> / {{#NAME#}}
+													</p>
+													<p style="font-size: 13px; line-height: 18px; color: #555;">
+														휴면계정 전환 이후에는 아쿠아필드가 제공하는 모든 이벤트 정보와  <br>
+														새로운 소식들을 전달 받을 수 없습니다.  
+													</p>
+												</td>
+											</tr>
+										</tbody></table>
+									</td>
+								</tr>
+							</tbody></table>
+							<table align="center" cellpadding="0" cellspacing="0" style="border:1px solid #bcbcbc; margin:0px auto; width:100%">
+								<tbody><tr>
+									<td align="center" style="padding: 20px;">
+										<p style="font-size: 13px; line-height: 20px; color: #606060;margin: 0 0 5px;">고객 문의 : aquafield@shinsegae.com | <img src="https://www.aquafield-ssg.co.kr/common/front/images/email/ico_tel.png" style="vertical-align: middle; margin-bottom: 3px;"> 031-8072-8800</p>
+										<p style="font-size: 12px; line-height: 20px; color: #999;margin: 0;">ⓒ 2016 SHINSEGAE E&amp;C All Rights Reserved.</p>
+									</td>
+								</tr>
+							</tbody></table>
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+	
+

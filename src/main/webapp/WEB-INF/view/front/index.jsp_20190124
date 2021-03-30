@@ -1,0 +1,13 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ include file="../common/taglibs.jsp" %>
+<div class="contentArea">
+
+</div>
+<div class="contentArea">
+
+</div>
+
+<div id="content_change_btns" class="hide">
+    <button class="btn_prev"><span>이전</span></button>
+    <button class="btn_next"><span>다음</span></button>
+</div>

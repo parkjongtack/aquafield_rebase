@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontNewsDao">
+
+	<resultMap type="java.util.HashMap" id="result">
+		<result property="CONTENTS" column="CONTENTS" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	</resultMap>
+
+	<sql id="commonWhere">
+		AND POINT_CODE = #{pointCode}
+		<if test = "sw != null and sw != ''">
+			<if test = "col == null or col == ''">
+				AND (TITLE LIKE '%' || #{sw} || '%')
+			</if>
+		</if>
+		<if test = "adm == null or adm == ''">
+			AND VIEW_START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd')
+			AND (VIEW_END_DATE is null OR TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[<=]]> VIEW_END_DATE)
+		</if>
+	</sql>
+	
+	<!-- MAX UID -->
+	<select id="newsMaxUid" resultType="int">
+	  SELECT nvl(MAX(NEWS_UID),0) FROM TB_NEWS
+	</select>
+	
+	<!-- 게시물 총 갯수 -->
+	<select id="newsCount" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*) FROM TB_NEWS
+	  WHERE 1=1
+	        <include refid="commonWhere"/>
+	        
+	        <if test = "cate != 0 and cate != 4 and cate != 2"> 
+	        	AND KIND=#{cate}
+	        </if>
+	        <if test = "cate != 0 and cate == 2 and cate != 4 ">
+	        	AND KIND='2'
+	        	AND VIEW_START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd')
+	        	AND (END_DATE is null or END_DATE <![CDATA[>=]]> TO_CHAR(sysdate,'yyyy.mm.dd')  )
+			</if>
+	        <if test = "cate != 0 and cate == 4 ">
+	        	AND KIND='2'
+	        	AND VIEW_START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd')
+				AND TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[>=]]> END_DATE  
+	        </if>
+	        
+	</select>
+	
+	<!-- 게시물목록 -->
+	<select id="newsList" parameterType="java.util.Map" resultMap="result">
+      SELECT (TOTAL_RECORDS +1 - RNUM) DESC_RNUM,DATA.*
+      FROM ( SELECT ROWNUM AS RNUM, COUNT(*) OVER() TOTAL_RECORDS, DATA.*
+                  , DECODE(KIND,'1','notice','2','event','3','media') AS KIND_CODE
+                  , DECODE(KIND,'1','공지사항','2','이벤트','3','미디어') AS KIND_NAME
+                  , CASE WHEN START_DATE <![CDATA[>]]> TO_CHAR(sysdate,'yyyy.mm.dd') THEN
+                         'M'
+                    WHEN START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd') AND (END_DATE IS NULL OR TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[<=]]> END_DATE) THEN
+                         'Y'
+                    ELSE
+                         'N'
+                    END AS DATE_STAT
+      		 FROM (
+      
+	  SELECT
+             NEWS_UID
+           , POINT_CODE
+           , KIND
+           , HIT
+           , VIEW_START_DATE
+           , VIEW_END_DATE
+           , START_DATE
+           , END_DATE
+           , WRITE_TYPE
+           , TITLE
+           , FILE_LIST
+           , FILE_LIST_FULL
+           , FILE_CONTENT
+           , FILE_CONTENT_FULL
+           , CONTENTS
+           , INST_IP
+           , INST_ID
+           , INST_DATE
+           , UPDT_IP
+           , UPDT_ID
+           , UPDT_DATE
+           , CASE WHEN START_DATE IS NULL AND END_DATE IS NULL THEN
+                 '1'
+             WHEN START_DATE  <![CDATA[>]]>  TO_CHAR(sysdate,'yyyy.mm.dd') THEN
+                 '1'
+             WHEN START_DATE  <![CDATA[<=]]>  TO_CHAR(sysdate,'yyyy.mm.dd') AND (END_DATE IS NULL OR TO_CHAR(sysdate,'yyyy.mm.dd')  <![CDATA[<=]]>  END_DATE) THEN
+                 '1'
+             ELSE
+                 '2'
+             END AS VIEW_SORT
+	  FROM TB_NEWS
+	  WHERE 1=1
+	        <include refid="commonWhere"/>
+	        
+			<if test = "cate != 0 and cate != 4 and cate != 1">
+	        	AND KIND=#{cate}
+	        	AND VIEW_START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd')
+				AND (END_DATE is null OR TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[<=]]> END_DATE)
+	        </if>
+	        <if test = "cate != 0 and cate == 4"> 
+	        	AND KIND= '2' 
+	        	AND VIEW_START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd')
+				AND TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[>=]]> END_DATE  
+	        </if>
+
+	  ORDER BY VIEW_SORT ASC, NEWS_UID DESC
+	  
+      ) DATA ) DATA
+      WHERE RNUM BETWEEN ((#{page}-1) * #{rows} + 1) and (#{page} * #{rows})
+	  
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="newsDetail" parameterType="java.util.Map" resultMap="result">
+	  SELECT 
+             NEWS_UID
+           , POINT_CODE
+           , KIND
+           , HIT
+           , VIEW_START_DATE
+           , VIEW_END_DATE
+           , START_DATE
+           , END_DATE
+           , WRITE_TYPE
+           , TITLE
+           , FILE_LIST
+           , FILE_LIST_FULL
+           , FILE_CONTENT
+           , FILE_CONTENT_FULL
+           , CONTENTS
+           , INST_IP
+           , INST_ID
+           , INST_DATE
+           , UPDT_IP
+           , UPDT_ID
+           , UPDT_DATE            
+           , TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+           , DECODE(KIND,'1','notice','event') AS KIND_CODE
+           , DECODE(KIND,'1','공지사항','이벤트') AS KIND_NAME
+           , CASE WHEN START_DATE <![CDATA[>]]> TO_CHAR(sysdate,'yyyy.mm.dd') THEN
+                  'M'
+             WHEN START_DATE <![CDATA[<=]]> TO_CHAR(sysdate,'yyyy.mm.dd') AND (END_DATE IS NULL OR TO_CHAR(sysdate,'yyyy.mm.dd') <![CDATA[<=]]> END_DATE) THEN
+                  'Y'
+             ELSE
+                  'N'
+             END AS DATE_STAT
+	  FROM TB_NEWS
+	  WHERE NEWS_UID=${num}
+	        <include refid="commonWhere"/>
+	</select>
+	
+	<!-- 이전글 -->
+	<select id="newsPrev" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT * FROM (
+	  SELECT
+	  		  NEWS_UID
+	  		, KIND
+	  		, TITLE
+	  		, INST_ID
+	  		, INST_DATE
+	  		, TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+	  FROM TB_NEWS
+	  WHERE NEWS_UID > #{num}
+	        <include refid="commonWhere"/>
+	        <if test = "cate != 0"> and KIND=#{cate}</if>
+      ORDER BY NEWS_UID ASC
+      )DATA
+      WHERE ROWNUM=1
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="newsNext" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT * FROM (
+	  SELECT
+	  		  NEWS_UID
+	  		, KIND
+	  		, TITLE
+	  		, INST_ID
+	  		, INST_DATE
+	  		, TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+	  FROM TB_NEWS
+	  WHERE NEWS_UID &lt; #{num}
+	        <include refid="commonWhere"/>
+	        <if test = "cate != 0"> and KIND=#{cate}</if>
+      ORDER BY NEWS_UID DESC
+      )DATA
+      WHERE ROWNUM=1
+	</select>
+
+	<!-- 등록 -->
+	<insert id="newsInsert"  parameterType="java.util.Map">
+	 	INSERT INTO TB_NEWS(
+             NEWS_UID
+           , POINT_CODE
+           , KIND
+           , HIT
+           , VIEW_START_DATE
+           , VIEW_END_DATE
+           , START_DATE
+           , END_DATE
+           , WRITE_TYPE
+           , TITLE
+           , FILE_LIST
+           , FILE_LIST_FULL
+           , FILE_CONTENT
+           , FILE_CONTENT_FULL
+           , CONTENTS
+           , INST_IP
+           , INST_ID
+           , INST_DATE
+	 	) VALUES (
+             #{NEWS_UID}
+           , #{POINT_CODE}
+           , #{KIND}
+           , 0
+           , #{VIEW_START_DATE}
+           , #{VIEW_END_DATE}
+           , #{START_DATE}
+           , #{END_DATE}
+           , #{WRITE_TYPE}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{TITLE_HEX})
+           , UTL_RAW.CAST_TO_VARCHAR2(#{FILE_LIST_HEX})
+           , #{FILE_LIST_FULL}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{FILE_CONTENT_HEX})
+           , #{FILE_CONTENT_FULL}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{CONTENTS_HEX})
+           , #{INST_IP}
+           , #{INST_ID}
+           , SYSDATE
+	 	)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="newsUpdate"  parameterType="java.util.Map">
+		UPDATE TB_NEWS SET
+              UPDT_IP=#{UPDT_IP}
+            , UPDT_ID=#{UPDT_ID}
+            , UPDT_DATE=SYSDATE
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+            <if test = "KIND != null">,KIND=#{KIND}</if>
+            <if test = "VIEW_START_DATE != null">,VIEW_START_DATE=#{VIEW_START_DATE}</if>
+            <if test = "VIEW_END_DATE != null">,VIEW_END_DATE=#{VIEW_END_DATE}</if>
+            <if test = "START_DATE != null">,START_DATE=#{START_DATE}</if>
+            <if test = "END_DATE != null">,END_DATE=#{END_DATE}</if>
+            <if test = "WRITE_TYPE != null">,WRITE_TYPE=#{WRITE_TYPE}</if>
+            <if test = "TITLE != null">,TITLE=UTL_RAW.CAST_TO_VARCHAR2(#{TITLE_HEX})</if>
+            <if test = "FILE_LIST != null and FILE_LIST != ''">,FILE_LIST=UTL_RAW.CAST_TO_VARCHAR2(#{FILE_LIST_HEX}) ,FILE_LIST_FULL=#{FILE_LIST_FULL}</if>
+            <if test = "FILE_CONTENT != null and FILE_CONTENT != ''">,FILE_CONTENT=UTL_RAW.CAST_TO_VARCHAR2(#{FILE_CONTENT_HEX}) ,FILE_CONTENT_FULL=#{FILE_CONTENT_FULL}</if>
+            <if test = "CONTENTS != null">,CONTENTS=UTL_RAW.CAST_TO_VARCHAR2(#{CONTENTS_HEX})</if>
+		WHERE NEWS_UID=#{num}
+	</update>
+	<update id="newsHitUpdate"  parameterType="java.util.Map">
+		UPDATE TB_NEWS SET
+              HIT = HIT + 1
+		WHERE NEWS_UID=#{num}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="newsDelete"  parameterType="java.util.Map">
+		DELETE FROM TB_NEWS WHERE NEWS_UID=#{num}
+	</delete>
+
+</mapper>

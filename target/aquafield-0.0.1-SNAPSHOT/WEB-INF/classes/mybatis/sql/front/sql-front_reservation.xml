@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontReservationDao">
+
+<select id="reserveDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT YYYYMMDD
+		  ,NVL(ITEM_NM,'') AS TITLE
+	  FROM TB_ITEM_SETTING 
+	 WHERE TO_DATE(YYYYMMDD) >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,6) || '01')
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+	 GROUP BY YYYYMMDD, ITEM_NM
+	 ORDER BY YYYYMMDD ASC
+ ]]>	
+</select>
+
+<select id="emptyDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT Z.YYYYMMDD
+	      ,'품절 상품' AS TITLE
+	 FROM (SELECT X.YYYYMMDD
+		  	 FROM   
+				    (SELECT YYYYMMDD, CATE_CODE, MAX(QUANTITY) AS QTY
+					        FROM TB_ITEM_SETTING 
+					       WHERE TO_DATE(YYYYMMDD) >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,8))
+						     AND ITEM_STATUS <> 2
+						     AND CATE_CODE = #{cate_code}
+						     AND POINT_CODE = #{point_code}
+						    GROUP BY YYYYMMDD, CATE_CODE) X 
+		     WHERE X.QTY = 0	 
+		     
+			UNION ALL
+			
+			  SELECT T.YYYYMMDD
+			  FROM
+			      (SELECT YYYYMMDD, CATE_CODE, MAX(QUANTITY) AS QTY
+			        FROM TB_ITEM_SETTING
+			       WHERE TO_DATE(YYYYMMDD) >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,8))
+			         AND CATE_CODE = #{cate_code}
+			         AND POINT_CODE = #{point_code}
+			        GROUP BY YYYYMMDD, CATE_CODE) T
+			  WHERE T.QTY = 0) Z
+	  GROUP BY Z.YYYYMMDD	 
+ ]]>	
+</select>
+
+<select id="seasonDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT YYYYMMDD
+		  ,CASE WHEN SEASON_TYPE = 'NONPEAK' THEN '준성수기'
+            WHEN SEASON_TYPE = 'PEAK' THEN '성수기'
+       END AS TITLE
+	  FROM TB_ITEM_SETTING 
+	 WHERE TO_DATE(YYYYMMDD) >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,6) || '01')
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+     AND SEASON_TYPE <> 'NORMAL'
+	 GROUP BY YYYYMMDD, SEASON_TYPE
+ ]]>	
+</select>
+
+<select id="prodInfoCnt" parameterType="java.util.Map" resultType="int">
+ <![CDATA[
+	SELECT COUNT(*) AS CNT
+	  FROM TB_ITEM_SETTING 
+	 WHERE YYYYMMDD = #{yyyymmdd}
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+     ORDER BY SET_UID	   
+ ]]>	
+</select>
+
+<select id="prodInfolist" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT SET_UID
+	      ,CATE_CODE
+	      ,ITEM_CODE
+	      ,YYYYMMDD
+	      ,ADULTS_PRICE
+	      ,CHILD_PRICE
+	      ,RENTAL_PRICE
+	      ,EVENT_PRICE
+	      ,QUANTITY
+	      ,SEASON_TYPE
+	      ,POINT_CODE
+	      ,ITEM_STATUS
+	      ,ITEM_NM
+	      ,ITEM_URL
+	      ,ITEM_OPTION
+	      ,CHILD_CHEK
+	  FROM TB_ITEM_SETTING 
+	 WHERE YYYYMMDD = #{yyyymmdd}
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+     ORDER BY SET_UID	   
+ ]]>	
+</select>
+
+<select id="getReserveNum" resultType="String">
+ <![CDATA[
+	SELECT LPAD(COUNT(*)+1,3,'0') AS NUM
+	  FROM TB_RESERVATION	   
+ ]]>	
+</select>
+
+<select id="getItemInfo" parameterType="String" resultType="java.util.Map">
+ <![CDATA[
+		SELECT SET_UID
+	        ,CATE_CODE
+	        ,ITEM_CODE
+	        ,YYYYMMDD
+	        ,ADULTS_PRICE
+	        ,CHILD_PRICE
+	        ,EVENT_PRICE
+	        ,RENTAL_PRICE
+	        ,POINT_CODE
+	        ,ITEM_NM
+	        ,ITEM_URL
+	        ,CHILD_CHEK
+	        ,ITEM_OPTION
+	        ,ITEM_STATUS
+		  FROM TB_ITEM_SETTING
+	   WHERE SET_UID = #{set_uid}   
+ ]]>	
+</select>
+
+<select id="getReservelist" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT RESERVE_UID
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_CODE
+	      ,MEM_UID
+	      ,row_to_str(MEM_NM) AS MEM_NM
+	      ,MEM_ID
+	      ,row_to_str(MEM_MOBILE) AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,PANALTY_PRICE
+	      ,REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	  FROM TB_RESERVATION
+	 WHERE MEM_UID = #{mem_uid}
+		<if test = "statdate != null and statdate != ''" >
+		 	AND INS_DATE <![CDATA[ >= ]]> TO_DATE(#{statdate}, 'YY/MM/DD HH24:MI:SS') 
+		</if>   
+	 ORDER BY RESERVE_UID DESC
+</select>
+
+<select id="getReserveInfo" parameterType="int" resultType="java.util.Map">
+	SELECT RESERVE_UID
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_CODE
+	      ,MEM_UID
+	      ,row_to_str(MEM_NM) AS MEM_NM
+	      ,MEM_ID
+	      ,row_to_str(MEM_MOBILE) AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,PANALTY_PRICE
+	      ,REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,SPA_ITEM
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,WATER_ITEM
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,RENTAL1_ITEM
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,RENTAL2_ITEM
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,RENTAL3_ITEM
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,EVENT1_ITEM
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,EVENT2_ITEM
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,EVENT3_ITEM
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	      ,PG_RESULT
+	      ,TO_CHAR(RESERVE_DATE,'YYYYMMDD') AS COMPARE_DAY
+	      ,RESERVE_DATE AS RE_DATE	     	      
+	  FROM TB_RESERVATION
+	 WHERE RESERVE_UID = #{reserve_uid}
+</select>
+
+<select id="itemQtyInfo" parameterType="Int" resultType="Int">
+ <![CDATA[
+	SELECT QUANTITY 
+	  FROM TB_ITEM_SETTING 
+	 WHERE SET_UID = #{set_uid}
+ ]]>	
+</select>
+
+<select id="pgResultInfo" parameterType="String" resultType="java.util.Map">
+ <![CDATA[
+	SELECT PG_UID
+		  ,AUTH_YN
+		  ,TR_NO
+		  ,TR_DDT
+		  ,TR_DTM
+		  ,AMONUT
+		  ,AUTH_NO
+		  ,MSG1
+		  ,MSG2
+		  ,ORD_NO
+		  ,ISS_CD
+		  ,AQU_CD
+		  ,R_TYPE
+		  ,HALBU
+		  ,CBT_NO
+		  ,CBAUTH_NO
+	  FROM TB_PG_RESULT
+	 WHERE PG_UID = #{pg_uid}
+ ]]>	
+</select>
+
+<update id="itemQtyUpd" parameterType="java.util.Map">
+ <![CDATA[
+	UPDATE TB_ITEM_SETTING SET QUANTITY = #{quantity}
+	 			   WHERE SET_UID = #{set_uid}
+ ]]>	
+</update>
+
+<update id="reserveCancelUpd" parameterType="java.util.Map">
+ <![CDATA[
+	UPDATE TB_RESERVATION SET CANCEL_AT = 'Y'
+	                         ,RESERVE_STATE = 'CANCEL'
+	                         ,CANCEL_DATE = sysdate
+	                         ,REFUND = #{ac_amount}
+	 			   WHERE RESERVE_UID = #{reserve_uid}
+ ]]>	
+</update>
+
+<insert id="pgResultIns" parameterType="java.util.Map">
+ <selectKey keyProperty="uid" resultType="Int" order="BEFORE">
+		SELECT TB_PG_RESULT_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+ <![CDATA[
+	INSERT INTO TB_PG_RESULT  (PG_UID
+		                      ,AUTH_YN
+		                      ,TR_NO
+		                      ,TR_DDT
+		                      ,TR_DTM
+		                      ,AMONUT
+		                      ,AUTH_NO
+		                      ,MSG1
+		                      ,MSG2
+		                      ,ORD_NO
+		                      ,ISS_CD
+		                      ,AQU_CD
+		                      ,R_TYPE
+		                      ,HALBU
+		                      ,CBT_NO
+		                      ,CBAUTH_NO
+		                      ,INS_DATE
+		                      ,MEM_UID) 
+		              VALUES (#{uid}
+		                      ,#{auth_yn}  
+		                      ,#{tr_no}
+		                      ,#{tr_ddt}     
+		                      ,#{tr_dtm}   
+		                      ,#{amonut}   
+		                      ,#{auth_no}  
+		                      ,#{msg1}     
+		                      ,#{msg2}     
+		                      ,#{ord_no}   
+		                      ,#{iss_cd}   
+		                      ,#{aqu_cd}   
+		                      ,#{result}   
+		                      ,#{halbu}    
+		                      ,#{cbt_no}   
+		                      ,#{cbauth_no}
+		                      ,sysdate
+		                      ,#{mem_uid})
+ ]]>			                      
+</insert>
+
+<insert id="reserVationIns" parameterType="java.util.Map">
+   <![CDATA[
+	INSERT INTO TB_RESERVATION (RESERVE_UID
+		                      ,POINT_CODE
+		                      ,MEM_UID
+		                      ,MEM_NM
+		                      ,MEM_ID
+		                      ,MEM_MOBILE
+		                      ,ADULT_SUM
+		                      ,CHILD_SUM
+		                      ,RESERVE_DATE
+		                      ,RESERVE_STATE
+		                      ,SELECT_ITEM_PRICE
+		                      ,EVENT_ITEM_PRICE
+		                      ,RENTAL_ITEM_PRICE
+		                      ,PAYMENT_PRICE
+		                      ,PAYMENT_TYPE
+		                      ,PAYMENT_DATE
+		                      ,PAYMENT_NM
+		                      ,INS_ID
+		                      ,INS_DATE
+		                      ,ORDER_NUM
+		                      ,ORDER_NM
+		                      ,SPA_ITEM_NM
+		                      ,WATER_ITEM_NM
+		                      ,SPA_ADULT_MAN
+		                      ,SPA_ADULT_WOMEN
+		                      ,SPA_CHILD_MAN
+		                      ,SPA_CHILD_WOMEN
+		                      ,WATER_ADULT_MAN
+		                      ,WATER_ADULT_WOMEN
+		                      ,WATER_CHILD_MAN
+		                      ,WATER_CHILD_WOMEN
+		                      ,RENTAL1_ITEM_NM
+		                      ,RENTAL2_ITEM_NM
+		                      ,RENTAL3_ITEM_NM
+		                      ,RENTAL1_CNT
+		                      ,RENTAL2_CNT
+		                      ,RENTAL3_CNT
+		                      ,EVENT1_ITEM_NM
+		                      ,EVENT2_ITEM_NM
+		                      ,EVENT3_ITEM_NM
+		                      ,EVENT1_CNT
+		                      ,EVENT2_CNT
+		                      ,EVENT3_CNT
+		                      ,SPA_ITEM
+		                      ,WATER_ITEM
+		                      ,RENTAL1_ITEM
+		                      ,RENTAL2_ITEM
+		                      ,RENTAL3_ITEM
+		                      ,EVENT1_ITEM
+		                      ,EVENT2_ITEM
+		                      ,EVENT3_ITEM
+		                      ,PG_RESULT) 
+		              VALUES (TB_RESERVATION_SEQ.NEXTVAL
+		                      ,#{point_code}
+		                      ,#{mem_uid}
+		                      ,str_to_row(#{mem_nm})
+		                      ,#{mem_id}
+		                      ,str_to_row(#{mem_mobile})
+		                      ,#{adult_sum}
+		                      ,#{child_sum}
+		                      ,#{reserve_date}
+		                      ,#{reserve_state}
+		                      ,#{select_item_price}
+		                      ,#{event_item_price}
+		                      ,#{rental_item_price}
+		                      ,#{payment_price}
+		                      ,#{payment_type}
+		                      ,sysdate
+		                      ,#{payment_nm}
+		                      ,#{ins_id}
+		                      ,sysdate
+		                      ,#{order_num}
+		                      ,#{order_nm}
+		                      ,#{spa_item_nm}
+		                      ,#{water_item_nm}
+		                      ,#{spa_adult_man}
+		                      ,#{spa_adult_women}
+		                      ,#{spa_child_man}
+		                      ,#{spa_child_women}
+		                      ,#{water_adult_man}
+		                      ,#{water_adult_women}
+		                      ,#{water_child_man}
+		                      ,#{water_child_women}
+		                      ,#{rental1_item_nm}
+		                      ,#{rental2_item_nm}
+		                      ,#{rental3_item_nm}
+		                      ,#{rental1_cnt}
+		                      ,#{rental2_cnt}
+		                      ,#{rental3_cnt}
+		                      ,#{event1_item_nm}
+		                      ,#{event2_item_nm}
+		                      ,#{event3_item_nm}
+		                      ,#{event1_cnt}
+		                      ,#{event2_cnt}
+		                      ,#{event3_cnt}
+		                      ,#{spa_item}
+		                      ,#{water_item}
+		                      ,#{rental1_item}
+		                      ,#{rental2_item}
+		                      ,#{rental3_item}
+		                      ,#{event1_item}
+		                      ,#{event2_item}
+		                      ,#{event3_item}
+		                      ,#{pg_result})
+		]]>	 		                      
+</insert>
+
+<insert id="pgCancelIns" parameterType="java.util.Map">
+ <![CDATA[
+	INSERT INTO TB_PG_AC  (PG_CANCEL_UID
+	                      ,APPROVAL_TYPE
+	                      ,AC_TRANSACTIONNO
+	                      ,AC_STATUS
+	                      ,AC_TRADEDATE
+	                      ,AC_TRADETIME
+	                      ,AC_AMOUNT
+	                      ,AC_MESSAGE1
+	                      ,AC_MESSAGE2
+	                      ,INS_DATE) 
+	              VALUES (TB_PG_AC_SEQ.NEXTVAL
+	                      ,#{approval_type}
+	                      ,#{ac_transactionno}
+	                      ,#{ac_status}
+	                      ,#{ac_tradedate}
+	                      ,#{ac_tradetime}
+	                      ,#{ac_amount}
+	                      ,#{ac_message1}
+	                      ,#{ac_message2}
+	                      ,sysdate)
+ ]]>			                      
+</insert>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminStatisticsDao">
+
+  <!-- 구간별 접속통계 -->
+  <select id="listVisitorPeriod" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      iYears, LPAD(iMonths,2,0) AS iMonths, LPAD(iDays,2,0) AS iDays, iWeeks, pageViewCnt, visitorCnt
+    FROM TB_SATATISTICS_VISITOR
+    WHERE 1=1
+      AND (iYears || LPAD(iMonths,2,0) || LPAD(iDays,2,0)) BETWEEN #{sd} AND #{ed}
+    ORDER BY instDate ASC
+  </select>
+  
+  <!-- 시간 접속통계 -->
+  <select id="listVisitorTime" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      iYears, LPAD(iMonths,2,0) AS iMonths, LPAD(iDays,2,0) AS iDays, iWeeks, pageViewCnt, visitorCnt, hour_00, hour_01, hour_02, hour_03, hour_04, hour_05, hour_06, hour_07, hour_08, hour_09, hour_10, hour_11, hour_12, hour_13, hour_14, hour_15, hour_16, hour_17, hour_18, hour_19, hour_20, hour_21, hour_22, hour_23
+    FROM TB_SATATISTICS_VISITOR
+    WHERE iYears = #{yy}
+      AND iMonths = #{mm}
+      AND iDays = #{dd}
+    ORDER BY instDate ASC
+  </select>
+  
+  <!-- 일 접속통계 -->
+  <select id="listVisitorDay" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      iYears, LPAD(iMonths,2,0) AS iMonths, LPAD(iDays,2,0) AS iDays, iWeeks, pageViewCnt, visitorCnt
+    FROM TB_SATATISTICS_VISITOR
+    WHERE iYears = #{yy}
+      AND iMonths = #{mm}
+    ORDER BY instDate ASC
+  </select>
+
+  <!-- 월 접속통계 -->
+  <select id="listVisitorMonth" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      LPAD(iMonths,2,0) AS iMonths, SUM(pcCnt) AS pcCnt, SUM(mobileCnt) AS mobileCnt, SUM(pageViewCnt) AS pageViewCnt, SUM(visitorCnt) AS visitorCnt
+    FROM TB_SATATISTICS_VISITOR
+    WHERE iYears = #{yy}
+     GROUP BY iMonths
+     ORDER BY iMonths ASC
+  </select>
+  
+  <!-- OS 접속통계 -->
+  <select id="listVisitorOs" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      os, cnt
+    FROM TB_SATATISTICS_VISITOR_OS
+    ORDER BY cnt DESC
+  </select>
+  
+  <!-- DEVICE 접속통계 -->
+  <select id="listVisitorDevice" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      device, cnt
+    FROM TB_SATATISTICS_VISITOR_DEVICE
+    ORDER BY cnt DESC
+  </select>
+
+  <!-- BROWSER 접속통계 -->
+  <select id="listVisitorBrowser" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      browser, cnt
+    FROM TB_SATATISTICS_VISITOR_BROWSER
+    ORDER BY cnt DESC
+  </select>
+  
+  <!-- SCREEN 접속통계 -->
+  <select id="listVisitorScreen" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+      (screen_x || 'x' || screen_y) AS screen_xy, cnt
+    FROM TB_SATATISTICS_VISITOR_SCREEN
+    ORDER BY cnt DESC
+  </select>
+
+  
+  <!-- 경로 전체 카운트 -->
+  <select id="getTotalCountReferer" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*)
+	  FROM TB_SATATISTICS_VISITOR_REFERER
+  </select>
+
+  <!-- 경로별 통계 -->
+  <select id="listVisitorReferer" parameterType="java.util.Map" resultType="java.util.HashMap">
+	SELECT
+           REFERER
+         , cnt
+	  FROM TB_SATATISTICS_VISITOR_REFERER
+	 ORDER BY cnt DESC
+	 LIMIT #{pageStartRow}, #{pageListSize}
+  </select>
+  
+  <!-- 매출(상품별)통계 -->
+  <select id="getSaleStatistics" parameterType="java.util.Map" resultType="java.util.HashMap">
+	SELECT ITEM_CODE
+	      ,ITEM_SUBCODE
+	      ,B.ITEM_NM
+	      ,SUM(AD_MAN_CNT) AS AD_MAN_CNT_SUM
+	      ,SUM(AD_WOMEN_CNT) AS AD_WOMEN_CNT_SUM
+	      ,SUM(CH_MAN_CNT) AS CH_MAN_CNT_SUM
+	      ,SUM(CH_WOMEN_CNT) AS CH_WOMEN_CNT_SUM
+	      ,SUM(ITEM_CNT) AS ITEM_CNT_SUM
+	      ,SUM(AD_MAN_SUM) AS AD_MAN_TOTAL
+	      ,SUM(AD_WOMEN_SUM) AS AD_WOMEN_TOTAL
+	      ,SUM(CH_MAN_SUM) AS CH_MAN_TOTAL
+	      ,SUM(CH_WOMEN_SUM) AS CH_WOMEN_TOTAL
+	      ,SUM(ITEM_SUM) AS ITEM_TOTAL  	      
+	      ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(SUM(AD_MAN_SUM))), '([0-9]{3})','\1,')), '^,','') AS AD_MAN_TOTAL_COMMA
+	      ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(SUM(AD_WOMEN_SUM))), '([0-9]{3})','\1,')), '^,','') AS AD_WOMEN_TOTAL_COMMA
+	      ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(SUM(CH_MAN_SUM))), '([0-9]{3})','\1,')), '^,','') AS CH_MAN_TOTAL_COMMA
+	      ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(SUM(CH_WOMEN_SUM))), '([0-9]{3})','\1,')), '^,','') AS CH_WOMEN_TOTAL_COMMA
+	      ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(SUM(ITEM_SUM))), '([0-9]{3})','\1,')), '^,','') AS ITEM_TOTAL_COMMA      
+	  FROM TB_RESERVE_DETAIL A LEFT JOIN (SELECT SET_UID,ITEM_NM FROM TB_ITEM_SETTING) B ON A.ITEM_UID=B.SET_UID
+	 WHERE TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_date_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_date_e},'.',''), 'YYYYMMDD')	  
+	 GROUP BY ITEM_CODE,ITEM_SUBCODE,B.ITEM_NM
+	ORDER BY ITEM_CODE, ITEM_SUBCODE
+  </select> 
+  
+	<!-- 유입경로 통계 totCnt-->
+    <select id="refererStatisticsCnt" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM (	SELECT REFERER
+				  FROM TB_SATATISTICS_VISITOR_REFERER
+				 WHERE TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_date_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_date_e},'.',''), 'YYYYMMDD')
+				 GROUP BY REFERER) 
+	</select>     
+
+ <!-- 유입경로 통계 -->
+   <select id="getRefererStatistics" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT * 
+			FROM ( 
+					SELECT 
+							rownum rn, TB.* 
+					FROM (
+							SELECT *
+							FROM (   
+									SELECT REFERER, SUM(CNT) AS SUMCNT
+									  FROM TB_SATATISTICS_VISITOR_REFERER
+									 WHERE TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_date_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_date_e},'.',''), 'YYYYMMDD')
+									 GROUP BY REFERER
+									 ORDER BY SUMCNT DESC, REFERER ASC )
+						) TB
+			) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}									 
+  </select> 
+</mapper>

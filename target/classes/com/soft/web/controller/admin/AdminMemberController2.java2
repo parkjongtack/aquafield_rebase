@@ -1,0 +1,671 @@
+package com.soft.web.controller.admin;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.soft.web.base.CommonConstant;
+import com.soft.web.base.GenericController;
+import com.soft.web.service.admin.AdminAdminAuthService;
+import com.soft.web.service.admin.CustomerService;
+import com.soft.web.service.admin.MemberService;
+import com.soft.web.service.admin.ReservationService;
+import com.soft.web.service.front.FrontMemberService;
+import com.soft.web.util.PageUtil;
+import com.soft.web.util.Util;
+
+@Controller
+@RequestMapping({"/secu_admaf"})
+public class AdminMemberController extends GenericController {
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	CustomerService customerService;
+	
+	@Autowired
+	ReservationService reservationService;
+	
+	@Autowired
+	AdminAdminAuthService adminAdminAuthService;	
+	
+	@Autowired
+	FrontMemberService frontMemberService;
+	
+	//paging
+	int pageListSize = 10;
+	int blockListSize = 10;
+	
+	protected String[] pageParamList = {"page","srch_type", "srch_text","srch_sex","srch_reg_s","srch_reg_e", "order_res"};
+	
+	 /**
+	 * �쉶�썝�젙蹂�/�쉶�썝�젙蹂� 紐⑸줉 
+	 * @throws UnsupportedEncodingException 
+     */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("/admin/member/index.af")
+	public String index(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 		
+		
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		
+		//�럹�씠吏�
+		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
+		if(page < 1){
+			page = 1;
+			param.put("page",String.valueOf(page));
+		}
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);
+		
+		int totCnt = memberService.memberListCnt(param);
+				
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", pageListSize);
+		param.put("page", String.valueOf(page));
+
+		List<Map> mList = memberService.memberList(param);
+		
+		//肄붾뱶 議고쉶
+		List sexList = super.getCommonCodes("SEX");
+		
+		//�쉶�썝 �닔�젙 寃곌낵
+		String result = (String)param.get("result");
+		if(result != null && !"".equals(result) && "1".equals(result)){
+			model.addAttribute("msg", "수정이 완료되었습니다.");
+		}else if(result != null && !"".equals(result) && "2".equals(result)){
+			model.addAttribute("msg", "鍮꾩젙�긽 �젒洹� �엯�땲�떎.");
+		}
+		
+		// Util.pageParamMap2 �뒗 post 諛⑹떇�슜, Util.pageParamMap �뒗 get 諛⑹떇�슜 (URLEncoder �뱾�뼱媛��엳�쓬)
+		model.addAttribute("resultParam", param);
+		model.addAttribute("totalCount", Util.numberFormat(totCnt));
+		model.addAttribute("pu", paging);
+ 		model.addAttribute("mList", mList);
+ 		model.addAttribute("sexList", sexList);
+ 		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
+		
+ 		
+		return "/admin/member/index";
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("/admin/member/index2.af")
+	public String index2(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 		
+		
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		
+		//�럹�씠吏�
+		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
+		if(page < 1){
+			page = 1;
+			param.put("page",String.valueOf(page));
+		}
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);
+		
+		int totCnt = memberService.memberListCnt2(param);
+				
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", pageListSize);
+		param.put("page", String.valueOf(page));
+
+		List<Map> mList = memberService.memberList2(param);
+		
+		//肄붾뱶 議고쉶
+		List sexList = super.getCommonCodes("SEX");
+		
+		//�쉶�썝 �닔�젙 寃곌낵
+		String result = (String)param.get("result");
+		if(result != null && !"".equals(result) && "1".equals(result)){
+			model.addAttribute("msg", "�닔�젙�씠 �셿猷뚮릺�뿀�뒿�땲�떎.");
+		}else if(result != null && !"".equals(result) && "2".equals(result)){
+			model.addAttribute("msg", "鍮꾩젙�긽 �젒洹� �엯�땲�떎.");
+		}
+		
+		// Util.pageParamMap2 �뒗 post 諛⑹떇�슜, Util.pageParamMap �뒗 get 諛⑹떇�슜 (URLEncoder �뱾�뼱媛��엳�쓬)
+		model.addAttribute("resultParam", param);
+		model.addAttribute("totalCount", Util.numberFormat(totCnt));
+		model.addAttribute("pu", paging);
+ 		model.addAttribute("mList", mList);
+ 		model.addAttribute("sexList", sexList);
+ 		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
+		
+ 		
+		return "/admin/member/index2";
+	}	
+	
+	 /**
+	 * �쉶�썝�젙蹂�/�쉶�썝�젙蹂� �긽�꽭
+     */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("/admin/member/member_info.af")
+	public String member_info(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
+		
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		Map vo = memberService.memberDetail(param);
+		model.addAttribute("resultParam", Util.pageParamMap2(pageParamList, param) );
+		model.addAttribute("vo",vo);
+		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
+		
+		//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+		String etc = vo.get("MEM_NM").toString()+"("+ vo.get("MEM_ID").toString() +") �뿴�엺";;
+		Map logParam = new HashMap();
+		logParam.put("point_code", "POINT01");
+		logParam.put("action", "R");
+		/* 20180315 �닔�젙 */
+		logParam.put("data_num", vo.get("MEM_NM") + "�쉶�썝�떂�쓽 �젙蹂대�� �뿴�엺�븯�뀲�뒿�땲�떎.");
+		logParam.put("data_url", request.getRequestURL().toString()+"?mem_uid="+param.get("mem_uid").toString());
+		logParam.put("ins_ip", request.getRemoteAddr().toString());	
+		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+		logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+		logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+		logParam.put("access_menu_uid", "1201");	
+		logParam.put("etc", etc);			    
+		super.InsContentsLog(logParam);
+		//############################################################			
+		
+		return "/admin/member/member_info";
+	}
+	
+	 /**
+	 * �쉶�썝�젙蹂�/�쉶�썝�젙蹂� �닔�젙
+     */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/member_update.af")
+	public String member_update(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
+		
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+
+		param.put("up_id", admin.get("SESSION_ADMIN_ID"));
+		memberService.memberUpdate(param);
+		
+		//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+		String etc = param.get("mem_uid").toString()+"("+ param.get("mem_id").toString() +") �닔�젙";;
+		Map logParam = new HashMap();
+		logParam.put("point_code", "POINT01");
+		logParam.put("action", "U");
+		
+		/* 20180315 �닔�젙 */
+		/*logParam.put("data_num", param.get("mem_uid"));*/
+		logParam.put("data_num", admin.get("SESSION_ADMIN_NM") + "�쉶�썝�떂�쓽 �젙蹂대�� �닔�젙�븯�뀲�뒿�땲�떎.");
+		logParam.put("data_url", "/secu_admaf/admin/member/member_info.af?mem_uid="+param.get("mem_uid"));
+		logParam.put("ins_ip", request.getRemoteAddr().toString());	
+		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+		logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+		logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+		logParam.put("access_menu_uid", "1201");	
+		logParam.put("etc", etc);			
+		super.InsContentsLog(logParam);
+		//############################################################			
+		
+		return "redirect:/secu_admaf/admin/member/index.af?result=1";
+	}
+	
+	
+	/**
+	 * �쉶�썝�젙蹂�/�쉶�썝�젙蹂� �닔�젙
+     */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/member_del.af")
+	public String member_delete(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println("::::愿�由ъ옄 �쉶�썝�깉�눜 ::::");
+		
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		String mem_name = (String) param.get("mem_name");
+		String mem_uid = (String) param.get("mem_uid");
+		
+		Map vo = memberService.memberDetail(param);
+		model.addAttribute("vo",vo);
+		
+		if(!"".equals(mem_uid) && mem_uid != null) {
+			String result = frontMemberService.memberDel(mem_uid);
+			
+			//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+			String etc = param.get("mem_uid").toString()+"("+ param.get("mem_id").toString() +") �닔�젙";;
+			Map logParam = new HashMap();
+			logParam.put("point_code", "POINT01");
+			logParam.put("action", "D");
+			logParam.put("data_num", vo.get("MEM_NM") + "�쉶�썝�떂�쓽 �젙蹂대�� �궘�젣�븯�뀲�뒿�땲�떎.");
+			logParam.put("data_url", "");
+			logParam.put("ins_ip", request.getRemoteAddr().toString());	
+			logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+			logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+			logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+			logParam.put("access_menu_uid", "1201");	
+			logParam.put("etc", etc);
+			
+			super.InsContentsLog(logParam);
+			
+		}
+		
+		System.out.println("::::愿�由ъ옄 �쉶�썝�깉�눜 �셿猷�::::");
+		return "redirect:/secu_admaf/admin/member/index.af";
+	}
+	
+	//怨좉컼 臾몄쓽 �뙆�씪誘명꽣 紐⑥쓬
+	protected String[] pageParamListCS = {"page","srch_text","srch_point","srch_type","srch_reg_s", "srch_reg_e", "srch_stat", "mem_uid"};
+	/*
+	 * (Tab 怨좉컼臾몄쓽) 紐⑸줉
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/member_cs_list.af")
+	public String member_cs_list(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
+		
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamListCS, param);
+		
+		// 二쇱냼濡� 諛붾줈 �젒洹� �븷 寃쎌슦 �쉶�썝踰덊샇 null �씠�씪 臾몄젣 �깮湲곕땲 泥섎━
+		String check = (String) param.get("mem_uid");
+		if(check == null || "".equals(check)){
+			return "redirect:/secu_admaf/admin/member/index.af?result=2";
+		}
+		
+		//�럹�씠吏�
+		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
+		int totCnt = customerService.customerListCnt(param);
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", pageListSize);
+		param.put("page", String.valueOf(page));
+		
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);
+		//紐⑸줉 議고쉶
+		List<Map> cList = customerService.customerList(param);
+		//肄붾뱶 議고쉶
+		List codeASK_type = super.getCommonCodes("ASK_TYPE");
+		List codeASK_stat = super.getCommonCodes("ASK_STAT");
+		List codePoint_code = super.getCommonCodes("POINT_CODE");
+		//�떟蹂��벑濡� 寃곌낵
+		String result = (String)param.get("result");
+		if(result != null && !"".equals(result) && "1".equals(result)){
+			model.addAttribute("msg", "�떟蹂��벑濡앹씠 �셿猷뚮릺�뿀�뒿�땲�떎.");
+		}
+		
+		// Util.pageParamMap2 �뒗 post 諛⑹떇�슜, Util.pageParamMap �뒗 get 諛⑹떇�슜 (URLEncoder �뱾�뼱媛��엳�쓬)
+		model.addAttribute("resultParam", Util.pageParamMap2(pageParamListCS, param) );
+		model.addAttribute("totalCount", Util.numberFormat(totCnt));
+		model.addAttribute("pu", paging);
+		model.addAttribute("cList", cList);
+		model.addAttribute("codeASK_type", codeASK_type);
+		model.addAttribute("codeASK_stat", codeASK_stat);
+		model.addAttribute("codePoint_code", codePoint_code);
+		
+		return "/admin/member/member_cs_list";
+	}
+	
+	/*
+	 * (Tab 怨좉컼臾몄쓽) �긽�꽭
+	 */
+	@RequestMapping("/admin/member/member_cs_view.af")
+	public String member_cs_view(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 		
+		
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamListCS, param);
+		Map vo = customerService.customerDetail(param);
+		model.addAttribute("resultParam", Util.pageParamMap2(pageParamListCS, param) );
+		model.addAttribute("vo",vo);
+		
+		//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+		String etc = vo.get("INS_ID").toString()+"("+ vo.get("ASK_TITLE").toString() +") �뿴�엺";;
+		Map logParam = new HashMap();
+		logParam.put("point_code", "POINT01");
+		logParam.put("action", "R");
+		/* 20180315 �닔�젙 */
+		logParam.put("data_num", vo.get("WRITER").toString() + "�쉶�썝�떂�쓽 �젙蹂대�� �뿴�엺 �븯�뀲�뒿�땲�떎.");
+		logParam.put("data_url", request.getRequestURL().toString()+"?ask_uid="+param.get("ask_uid").toString());
+		logParam.put("ins_ip", request.getRemoteAddr().toString());	
+		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+		logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+		logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+		logParam.put("access_menu_uid", "1201");	
+		logParam.put("etc", etc);			
+		super.InsContentsLog(logParam);
+		//############################################################			
+		
+		return "/admin/member/member_cs_view";
+	}
+	
+	/*
+	 * (Tab 怨좉컼臾몄쓽) �떟蹂��벑濡�
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/member_cs_update.af")
+	public String member_cs_update(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 		
+		
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		// �닔�젙�옄 ID �굹以묒뿉 愿�由ъ옄 濡쒓렇�씤 �꽭�꽱 異붽��릺硫� �닔�젙�빐�꽌 �꽔�뼱�빞�븿
+		String re_id = "admin";
+		param.put("re_id", re_id);
+		customerService.customerUpdate(param);
+		
+		
+		Map vo = memberService.memberDetail(param); 
+		
+		//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+		String action = "U";
+		int data_num = Integer.parseInt(param.get("ask_uid").toString());
+		String httpName = request.getRequestURL().toString().substring(0, request.getRequestURL().toString().indexOf(request.getServletPath()));
+		String data_url = httpName + "/secu_admaf/admin/member/member_cs_view.af?ask_uid="+data_num;
+		String etcContent = "�닔�젙";
+		String etc = param.get("ask_uid").toString()+"("+ param.get("mem_uid").toString() +") " + etcContent ;
+		
+		Map logParam = new HashMap();
+		logParam.put("point_code", "POINT01");
+		logParam.put("action", action);
+		/* 20180315 �닔�젙
+		  logParam.put("data_num", data_num);*/
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "�쉶�썝�떂�쓽 怨좉컼臾몄쓽�뿉 �떟蹂��쓣 �벑濡� �븯�뀲�뒿�땲�떎.");
+		logParam.put("data_url", data_url);
+		logParam.put("ins_ip", request.getRemoteAddr().toString());	
+		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+		logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+		logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+		logParam.put("access_menu_uid", "1201");	
+		logParam.put("etc", etc);			
+		super.InsContentsLog(logParam);
+		//############################################################			
+			
+		String meme_uid = (String)param.get("mem_uid");
+		return "redirect:/secu_admaf/admin/member/member_cs_list.af?result=1&mem_uid=" +meme_uid;
+	}
+	
+	/*
+	 * �삁�빟�궡�뿭 �뙆�씪誘명꽣 紐⑥쓬
+	 * page : �럹�씠吏�, reserve_uid : �삁�빟踰덊샇, category : 移댄뀒怨좊━, 
+	 * mem_nm : �쉶�썝紐�, mob_no : �쉶�썝�쟾�솕踰덊샇, reserve_state : �삁�빟�긽�깭, 
+	 * srch_reg_s : 諛⑸Ц�씪 �떆�옉, srch_reg_e : 諛⑸Ц�씪 醫낅즺, mem_uid : �쉶�썝怨좎쑀踰덊샇
+	 */
+	protected String[] pageParamListRES = {"page","reserve_uid","category","mem_nm","mob_no", "reserve_state", "srch_reg_s", "srch_reg_e", "mem_uid","noPmtYN","point_code"};
+	
+	/*
+	 * (tab �삁�빟�궡�뿭) �삁�빟紐⑸줉
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/member_res.af")
+	public String member_res(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
+		
+		if(admin.get("SESSION_ADMIN_ID").indexOf("oktomato.net") != -1){
+			param.put("noPmtYN", "Y");
+		}
+		
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamListRES, param);
+		
+		//�럹�씠吏�
+		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
+		int totCnt = reservationService.reservationListCnt(param);
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", pageListSize);
+		param.put("page", String.valueOf(page));
+		
+		//紐⑸줉議고쉶
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);		
+		List<Map> rList = reservationService.reservationList(param);
+		//肄붾뱶 議고쉶
+		List codeRSRVT_TYPE = super.getCommonCodes("RSRVT_TYPE");
+		//吏��젏 議고쉶
+		List codePOINT_CODE = super.getCommonCodes("POINT_CODE");
+		
+		// Util.pageParamMap2 �뒗 post 諛⑹떇�슜, Util.pageParamMap �뒗 get 諛⑹떇�슜 (URLEncoder �뱾�뼱媛��엳�쓬)
+		model.addAttribute("resultParam", Util.pageParamMap2(pageParamListRES, param) );
+		model.addAttribute("totalCount", Util.numberFormat(totCnt));
+		model.addAttribute("pu", paging);
+		model.addAttribute("rList", rList);
+		model.addAttribute("codeRSRVT_TYPE", codeRSRVT_TYPE);
+		model.addAttribute("codePOINT_CODE", codePOINT_CODE);
+
+		return "/admin/member/member_res";
+	}
+	
+	/*
+	 * (tab �삁�빟�궡�뿭) �삁�빟 �긽�꽭 ajax
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/member/ajax_res_view.af")
+	public String ajax_res_view(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamListRES, param);
+		
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		
+		Map vo = reservationService.reservationDetail(param);
+		
+		String r_TYPE = "";
+ 		if(vo.get("PAYMENT_TYPE").toString().trim().equals("NODATA")){
+ 			r_TYPE = "�삁�빟��湲�";
+ 		}else{
+ 			String payMethod = vo.get("PAYMENT_TYPE").toString();
+ 			//int compareVal = Integer.parseInt(vo.get("PAYMENT_TYPE").toString().substring(0,1));		
+			switch (payMethod) {
+			case "credit": r_TYPE = "移대뱶";
+				break;
+			case "bank": r_TYPE = "�떎�떆媛꾧퀎醫뚯씠泥�";
+				break;
+			case "ssg": r_TYPE = "SSG PAY";
+				break;				
+			}
+ 		}
+ 		vo.put("r_TYPE", r_TYPE);
+ 		
+		model.addAttribute("resultParam", Util.pageParamMap2(pageParamListRES, param) );
+		model.addAttribute("vo", vo);
+		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
+		
+		//愿�由ъ옄 �궗�슜湲곕줉 濡쒓렇 #############################################
+		String etc = vo.get("ORDER_NUM").toString()+"("+ vo.get("ORDER_NM").toString() +") �뿴�엺";;
+		Map logParam = new HashMap();
+		logParam.put("point_code", "POINT01");
+		logParam.put("action", "R");
+		/*logParam.put("data_num", param.get("reserve_uid"));*/
+		/* 20180315 �닔�젙 */
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "�쉶�썝�떂�쓽 �삁�빟�젙蹂대�� �뿴�엺�븯�뀲�뒿�땲�떎.");
+		logParam.put("data_url", "javascript: ajaxShowPopCont({ url : '"+request.getRequestURL().toString()+"' ,data : { reserve_uid : "+param.get("reserve_uid").toString()+"} });");
+		logParam.put("ins_ip", request.getRemoteAddr().toString());	
+		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
+		logParam.put("admin_nm", admin.get("SESSION_ADMIN_NM"));	
+		logParam.put("admin_uid", admin.get("SESSION_ADMIN_UID"));	
+		logParam.put("access_menu_uid", "1201");	
+		logParam.put("etc", etc);			
+		super.InsContentsLog(logParam);
+		//############################################################			
+		
+		return "adminPop/member/ajax_res_view";
+	}
+	
+	 /**
+	 * �쑕硫닿퀎�젙�젙蹂� 紐⑸줉 
+	 * @throws UnsupportedEncodingException 
+    */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("/admin/member/inactivity.af")
+	public String inactivity(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
+		//�쇊履� 硫붾돱
+		String sMenuCode = "1201";
+		model.addAttribute("sMenuCode", sMenuCode);
+		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 		
+		
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		
+		//�럹�씠吏�
+		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
+		if(page < 1){
+			page = 1;
+			param.put("page",String.valueOf(page));
+		}
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);
+		
+		int totCnt = memberService.inactMemberListCnt(param);
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", pageListSize);
+		param.put("page", String.valueOf(page));
+		
+		param.put("srch_reg_s", param.get("srch_reg_s"));
+		param.put("srch_reg_e", param.get("srch_reg_e"));
+		
+		List<Map> mList = memberService.inactMemberList(param);
+		
+		// Util.pageParamMap2 �뒗 post 諛⑹떇�슜, Util.pageParamMap �뒗 get 諛⑹떇�슜 (URLEncoder �뱾�뼱媛��엳�쓬)
+		model.addAttribute("resultParam", param);
+		model.addAttribute("totalCount", Util.numberFormat(totCnt));
+		model.addAttribute("pu", paging);
+		model.addAttribute("mList", mList);
+		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
+		
+		return "/admin/member/inactivity_member";
+	}
+	
+	/*
+	 *  Excel Down
+	 */
+	@RequestMapping(value="/excel/member/excelDownload.af")
+	 public String memExcel(@RequestParam Map param, ModelMap model, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		List<Object> header = new ArrayList<Object>();		
+		List<List<Object>> data = new ArrayList<List<Object>>();		
+	
+		int page = 0;
+		//-- xss 泥댄겕
+		param = Util.chkParam(pageParamList, param);
+		
+		//-- 16吏꾩닔 蹂�寃�
+		param = Util.setMapHex(param);
+		
+		int totCnt = memberService.memberListCnt(param);
+		PageUtil paging = new PageUtil(page, totCnt, pageListSize, blockListSize);
+		param.put("pageStartRow", paging.getPageStartRow());
+		param.put("pageListSize", totCnt);
+		param.put("page", String.valueOf("1"));
+
+		List<Map> mList = memberService.memberList(param);
+		
+		try{
+			//-- �젣紐� �꽕�젙
+			header.add("�쉶�썝踰덊샇");
+			header.add("�쉶�썝紐�");
+			header.add("ID");
+			header.add("�쑕���룿踰덊샇");
+			header.add("�꽦蹂�");
+			header.add("�깮�뀈�썡�씪");
+			
+			header.add("�삁�빟�궡�뿭");
+			header.add("媛��엯�씪");
+			
+			String answerStat = "";
+			String[] elapseTime = null;
+			
+			for(Map map : mList){
+				List<Object> obj = new ArrayList<Object>();
+				obj.add(map.get("MEM_NUM") );
+				obj.add(map.get("MEM_NM") );
+				obj.add(map.get("MEM_ID") );
+				obj.add(map.get("MOBILE_NUM"));
+				
+				String gender = "�궓�옄";
+				if(!"M".equals(map.get("MOBILE_NUM").toString())){gender = "�뿬�옄";}
+				
+				obj.add(gender);
+				obj.add(map.get("MEM_BIRTH"));
+				obj.add(map.get("RESERVE_CNT"));
+				obj.add(map.get("INS_DATE"));					
+				
+				data.add(obj);
+			}
+			
+			model.addAttribute("header", header);
+			model.addAttribute("list", data);
+			model.addAttribute("fileName", Util.encodeString("�쉶�썝�젙蹂�") + "_" + Util.getTodayTime() + ".xls");
+		}
+		catch(Exception e){
+			logger.debug(e.toString());
+			Util.htmlPrint("N", response);
+			return null;
+		}
+
+	    return "excelDownloadView";
+	}	
+	
+}

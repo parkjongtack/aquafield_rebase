@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.CustomerDao">
+	
+	<!-- ROW_TO_STR() -> xx1.dec_varchar2_sel() -->
+	
+	<resultMap type="java.util.Map" id="result">
+		<result property="ASK_CONTENT" column="ASK_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+		<result property="ASK_CONTENT2" column="ASK_CONTENT2" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	</resultMap>
+	
+	
+	<sql id="where">
+		<if test = "srch_text != null and srch_text != ''">
+	        AND ( 
+	       		WRITER						like '%' || UTL_RAW.CAST_TO_VARCHAR2(#{srch_text_HEX}) || '%' OR
+	       		TO_CHAR(INS_ID)				like '%' || UTL_RAW.CAST_TO_VARCHAR2(#{srch_text_HEX}) || '%' 
+	       		)
+	    </if>
+		<if test = "srch_point != null and srch_point != ''">
+			AND POINT_CODE = #{srch_point}
+		</if>
+		<if test = "srch_type != null and srch_type != ''">
+			AND ASK_TYPE = #{srch_type}
+		</if>
+		<if test = "srch_stat != null and srch_stat != ''">
+			AND ASK_STAT = #{srch_stat}
+		</if>
+		<if test = "srch_reg_s != null and srch_reg_s != '' and srch_reg_e != null and srch_reg_e != ''" >
+		 	AND TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{srch_reg_s},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{srch_reg_e},'.',''), 'YYYYMMDD')
+		</if>
+		<if test = "mem_uid != null and mem_uid != ''" >
+		 	AND INS_UID	=  TO_NUMBER(#{mem_uid})
+		</if>
+		<if test = "srch_mem != null and srch_mem != ''" >
+		 	AND MEM_TYPE =  #{srch_mem}
+		</if>		
+	</sql>
+
+	<select id="customerListCnt" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(1)
+		FROM TB_ONE_TO_ONE
+		WHERE 1=1
+		<include refid="where"/>
+	</select>
+	
+	<select id="customerList" parameterType="java.util.Map" resultMap="result">
+		SELECT * 
+			FROM ( 
+					SELECT
+						ROW_NUMBER() OVER(ORDER BY ASK_UID DESC) RN
+						,ASK_UID
+						,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND  CODE_ID = POINT_CODE) as POINT
+						,WRITER
+						,WRITER AS MASK_WRITER
+						,ASK_TITLE
+						,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'ASK_TYPE' AND  CODE_ID = ASK_TYPE) as ASK_TYPE_NM
+						,INS_ID
+								,SUBSTR(INS_ID,0,INSTR(INS_ID,'@')) || '*****' AS MASK_INS_ID								
+						,TO_CHAR(INS_DATE,'YYYY-MM-DD HH24:MI:SS') as INS_DATE
+						,ASK_STAT
+						,TO_CHAR(RE_DATE,'YYYY.MM.DD') as RE_DATE
+					FROM TB_ONE_TO_ONE
+					WHERE 1=1
+					<include refid="where"/>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>
+	
+	<select id="customerDetail" parameterType="java.util.Map" resultMap="result">
+		SELECT
+			ASK_UID
+			,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND  CODE_ID = POINT_CODE) as POINT
+			,WRITER
+			,WRITER AS MASK_WRITER			
+			,ASK_TITLE
+			,ASK_CONTENT
+			,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'ASK_TYPE' AND  CODE_ID = ASK_TYPE) as ASK_TYPE_NM
+			,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'MEM_TYPE' AND  CODE_ID = MEM_TYPE) as MEM_TYPE_NM			
+			,TO_CHAR(INS_DATE,'YYYY-MM-DD HH24:MI:SS') as INS_DATE
+			,INS_ID
+  			,SUBSTR(INS_ID,0,INSTR(INS_ID,'@')) || '*****' AS MASK_INS_ID			
+			,ASK_CONTENT2
+			,ASK_STAT
+			,xx1.dec_varchar2_sel(MOBILE_NUM, 10, 'PHONE') AS MOBILE_NUM
+			,MASK_PHONE(xx1.dec_varchar2_sel(MOBILE_NUM, 10, 'PHONE')) AS MASK_MOBILE_NUM			
+			,(SELECT CODE_NM FROM TB_CODE WHERE TB_CODE.GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_ONE_TO_ONE.POINT_CODE ) AS POINT_NM			
+		FROM TB_ONE_TO_ONE
+		WHERE ASK_UID = #{ask_uid}
+	</select>
+	
+	<update id="customerUpdate" parameterType="java.util.Map">
+		UPDATE TB_ONE_TO_ONE SET
+			ASK_CONTENT2 = UTL_RAW.CAST_TO_VARCHAR2(#{ask_content2})
+			,ASK_STAT = '1'
+			,RE_DATE = SYSDATE
+			,RE_ID = #{re_id}
+		WHERE ASK_UID = #{ask_uid}
+	</update>
+	
+
+</mapper>

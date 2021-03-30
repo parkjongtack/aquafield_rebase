@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.common.CommonBatchDao">
+  
+<!-- 예약 1일전 SMS 알림 리스트-->
+<select id="beforeOneDaySmslist" resultType="java.util.Map" >
+ <![CDATA[
+	SELECT 
+		MEM_UID
+		,RESERVE_UID
+		,ROW_TO_STR(MEM_NM) as MEM_NM
+		,ROW_TO_STR(MEM_MOBILE) as MEM_MOBILE
+		,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+		,ORDER_NM
+		,ORDER_NUM
+		,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE'AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_NM  	      
+	FROM TB_RESERVATION
+   WHERE RESERVE_STATE = 'ING'
+	 AND TRUNC(TO_DATE(TO_CHAR(RESERVE_DATE, 'YYYYMMDD'),'YYYYMMDD') - TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'),'YYYYMMDD')) = 1			
+ ]]>
+</select>
+
+<!-- //미사용 10% 위약금 자동취소 예약리스트 가져오기 -->
+<select id="batchCancelList" resultType="java.util.Map" >
+ <![CDATA[
+	SELECT RESERVE_UID
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_CODE
+	      ,MEM_UID
+	      ,row_to_str(MEM_NM) AS MEM_NM
+	      ,MEM_ID
+	      ,row_to_str(MEM_MOBILE) AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,NVL(PANALTY_PRICE,0) AS PANALTY_PRICE
+	      ,NVL(REFUND,0) AS REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,NVL(SPA_ITEM, '-1') AS SPA_ITEM
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,NVL(WATER_ITEM, '-1') AS WATER_ITEM
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,NVL(COMPLEX_ITEM, '-1') AS COMPLEX_ITEM
+	      ,COMPLEX_ITEM_NM
+	      ,COMPLEX_ADULT_MAN
+	      ,COMPLEX_ADULT_WOMEN
+	      ,COMPLEX_CHILD_MAN
+	      ,COMPLEX_CHILD_WOMEN
+	      ,NVL(RENTAL1_ITEM, '-1') AS RENTAL1_ITEM
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,NVL(RENTAL2_ITEM, '-1') AS RENTAL2_ITEM
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(RENTAL3_ITEM, '-1') AS RENTAL3_ITEM
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(EVENT1_ITEM, '-1') AS EVENT1_ITEM
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,NVL(EVENT2_ITEM, '-1') AS EVENT2_ITEM
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,NVL(EVENT3_ITEM, '-1') AS EVENT3_ITEM
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	      ,PG_RESULT
+	      ,TO_CHAR(RESERVE_DATE,'YYYYMMDD') AS COMPARE_DAY
+	      ,RESERVE_DATE AS RE_DATE
+	      ,(CANCEL_SEQ + 1) AS CANCEL_SEQ 	 
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_NM  	      
+	  FROM TB_RESERVATION
+	 WHERE RESERVE_UID IN (SELECT RESERVE_UID 
+		                              FROM TB_RESERVATION
+		                             WHERE TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'),'YYYYMMDD') - TO_DATE(TO_CHAR(RESERVE_DATE, 'YYYYMMDD'),'YYYYMMDD')) > 0
+		                               AND RESERVE_STATE = 'NOUSE')			
+ ]]>
+</select>
+
+<!-- 휴면상태 7일전 메일 알림 리스트-->
+<select id="beforeSevenDayMailList" resultType="java.util.Map" >
+ <![CDATA[
+	SELECT MEM_UID
+		  ,row_to_str(MEM_NM) AS MEM_NM
+		  ,MEM_ID
+		  ,POINT_CODE
+		  ,MEM_NUM
+		  ,TO_CHAR(LAST_LOGIN_DATE, 'YYYYMMDD') AS LAST_LOGIN_DATE		  
+	  FROM TB_MEMBER
+     WHERE TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'),'YYYYMMDD') - TO_DATE(TO_CHAR(LAST_LOGIN_DATE, 'YYYYMMDD'),'YYYYMMDD')) = 358		
+ ]]>
+</select>	
+
+<!-- 휴면전환 UPD-->
+<select id="inactMemUpd" resultType="java.util.Map" >
+ <![CDATA[
+	UPDATE TB_MEMBER_INACTIVITY 
+	   SET INACTIVITY_AT = 'Y'
+          ,INACTIVITY_DATE = SYSDATE
+     WHERE MEM_UID IN ( SELECT MEM_UID	  
+	  					  FROM TB_MEMBER_INACTIVITY
+                         WHERE TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'),'YYYYMMDD') - TO_DATE(TO_CHAR(LAST_LOGIN_DATE, 'YYYYMMDD'),'YYYYMMDD')) = 366)		
+ ]]>
+</select>
+
+<update id="batchNoUseUpd" parameterType="java.util.Map">
+<![CDATA[
+		UPDATE TB_RESERVATION SET RESERVE_STATE = 'NOUSE'
+		       WHERE RESERVE_UID IN (SELECT RESERVE_UID 
+		                              FROM TB_RESERVATION
+		                             WHERE TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'),'YYYYMMDD') - TO_DATE(TO_CHAR(RESERVE_DATE, 'YYYYMMDD'),'YYYYMMDD')) > 0
+		                               AND RESERVE_STATE = 'ING')
+ ]]>	
+</update>    
+
+<insert id="inactMemIns" parameterType="java.util.Map">
+   <![CDATA[
+	INSERT INTO TB_MEMBER_INACTIVITY (INACTIVITY_UID
+									 ,MEM_UID
+	                      			 ,MEM_NM
+	                      			 ,MEM_ID
+	                      			 ,POINT_CODE
+	                      			 ,LAST_LOGIN_DATE
+	                      			 ,SEND_MAIL_DATE
+	                      			 ,MEM_NUM) 
+				              VALUES (TB_MEMBER_INACTIVITY_SEQ.NEXTVAL
+				              		 ,#{mem_uid}
+				                     ,str_to_row(#{mem_nm})
+				                     ,#{mem_id}
+				                     ,#{point_code}
+				                     ,TO_DATE(#{last_login_date},'YYYYMMDD')
+				                     ,SYSDATE
+				                     ,#{mem_num})
+		]]>	 		                      
+</insert>
+
+</mapper>

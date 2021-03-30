@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.ReservationDao">
+	
+	<!-- xx1.dec_varchar2_sel() -> xx1.dec_varchar2_sel() -->
+	
+	<!--  
+		page : 페이지, reserve_uid : 회원번호, order_nm : 카테고리, 
+		mem_nm : 회원명, mob_no : 회원번호, reserve_state : 예약상태, 
+		srch_reg_s : 방문일 시작, srch_reg_e : 방문일 종료
+	 -->
+	<sql id="where">
+		<if test = "reserve_uid != null and reserve_uid != ''">
+	        AND reserve_uid like '%' || #{reserve_uid} || '%'
+	    </if>
+		<if test = "category != null and category != ''">
+			AND ORDER_NM = #{category}
+		</if>
+		<if test = "mem_nm != null and mem_nm != ''">
+			AND xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') like '%' || #{mem_nm} || '%' 
+		</if>
+		<if test = "mob_no != null and mob_no != ''">
+			AND xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE') like '%' || #{mob_no} || '%' 
+		</if>
+		<if test = "srch_reg_s != null and srch_reg_s != ''" >
+		 	AND RESERVE_DATE <![CDATA[ > ]]> TO_DATE(#{srch_reg_s}, 'YY/MM/DD HH24:MI:SS') 
+		</if>
+		<if test = "srch_reg_e != null and srch_reg_e != ''" >
+		 	AND RESERVE_DATE <![CDATA[ < ]]> TO_DATE(#{srch_reg_e}, 'YY/MM/DD HH24:MI:SS') 
+		</if>
+		<if test = "reserve_state != null and reserve_state != ''" >
+		 	AND RESERVE_STATE =  #{reserve_state}
+		</if>
+		<if test = "mem_uid != null and mem_uid != ''" >
+		 	AND MEM_UID =  #{mem_uid}
+		</if>
+	</sql>
+
+	<select id="reservationListCnt" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(1)
+		FROM TB_RESERVATION
+		WHERE 1=1
+		<include refid="where"/>
+	</select>
+	
+	<select id="reservationList" parameterType="java.util.Map" resultType="Map" >
+		SELECT * 
+			FROM ( 
+					SELECT 
+							rownum rn, TB.* 
+					FROM (
+							SELECT 
+								MEM_UID
+								,RESERVE_UID
+								,xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') as MEM_NM
+								,xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE') as MEM_MOBILE
+								,MASK_NAME(xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME')) as MEM_NM_MASK
+								,MASK_PHONE(xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE')) as MEM_MOBILE_MASK
+								,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+								,(SELECT CODE_NM FROM TB_CODE WHERE CODE_ID = RESERVE_STATE) as RESERVE_STATE_NM
+								,RESERVE_STATE
+								,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD') AS PAYMENT_DATE
+								,PAYMENT_PRICE
+								,ORDER_NM
+								,(ADULT_SUM + CHILD_SUM ) as TOTNUM
+								,RENTAL1_ITEM_NM
+								,RENTAL2_ITEM_NM
+								,RENTAL3_ITEM_NM
+								,RENTAL1_CNT
+								,RENTAL2_CNT		 
+								,RENTAL3_CNT
+							FROM TB_RESERVATION
+							WHERE 1=1
+							<include refid="where"/>
+							ORDER BY RESERVE_DATE DESC
+					) TB
+			) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>
+	
+	<select id="reservationDetail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+	        a.MEM_UID
+	        ,a.RESERVE_UID
+	        ,xx1.dec_varchar2_sel(a.MEM_NM, 10, 'NAME') as MEM_NM
+	        ,xx1.dec_varchar2_sel(a.MEM_MOBILE, 10, 'PHONE') as MEM_MOBILE
+	        ,MASK_NAME(xx1.dec_varchar2_sel(a.MEM_NM, 10, 'NAME')) as MEM_NM_MASK
+	        ,MASK_PHONE(xx1.dec_varchar2_sel(a.MEM_MOBILE, 10, 'PHONE')) as MEM_MOBILE_MASK
+	        ,TO_CHAR(a.RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	        ,(SELECT CODE_NM FROM TB_CODE WHERE CODE_ID = a.RESERVE_STATE) as RESERVE_STATE_NM
+	        ,a.RESERVE_STATE
+	        ,TO_CHAR(a.PAYMENT_DATE,'YYYY.MM.DD') AS PAYMENT_DATE
+	        ,a.MEM_ID
+	        ,a.ORDER_NM
+	        ,a.ADULT_SUM
+	        ,a.CHILD_SUM 
+	        ,a.PAYMENT_TYPE
+	        ,a.PAYMENT_PRICE
+	        ,TO_CHAR(a.CANCEL_DATE,'YYYY.MM.DD') AS CANCEL_DATE
+			/* 워터 */
+	        ,a.WATER_ITEM
+	        ,a.WATER_ITEM_NM
+	        ,a.WATER_ADULT_MAN
+	        ,a.WATER_ADULT_WOMEN
+	        ,a.WATER_CHILD_MAN
+	        ,a.WATER_CHILD_WOMEN
+	        ,wt.ADULTS_PRICE as WATER_ADULTS_PRICE
+	        ,wt.CHILD_PRICE as  WATER_CHILD_PRICE
+			/* 스파 */
+	        ,a.SPA_ITEM
+	        ,a.SPA_ITEM_NM
+	        ,a.SPA_ADULT_MAN
+	        ,a.SPA_ADULT_WOMEN
+	        ,a.SPA_CHILD_MAN
+	        ,a.SPA_CHILD_WOMEN
+	        ,spa.ADULTS_PRICE as SPA_ADULTS_PRICE
+	        ,spa.CHILD_PRICE as  SPA_CHILD_PRICE
+	        /* 랜탈 */
+	        ,a.RENTAL1_ITEM
+	        ,a.RENTAL2_ITEM
+	        ,a.RENTAL3_ITEM
+	        ,a.RENTAL1_ITEM_NM
+	        ,a.RENTAL2_ITEM_NM
+	        ,a.RENTAL3_ITEM_NM
+	        ,a.RENTAL1_CNT
+	        ,a.RENTAL2_CNT
+	        ,a.RENTAL3_CNT
+	        ,(select RENTAL_PRICE from TB_ITEM_SETTING where SET_UID = a.RENTAL1_ITEM ) as RENTAL1_PRICE
+	        ,(select RENTAL_PRICE from TB_ITEM_SETTING where SET_UID = a.RENTAL2_ITEM ) as RENTAL2_PRICE
+	        ,(select RENTAL_PRICE from TB_ITEM_SETTING where SET_UID = a.RENTAL3_ITEM ) as RENTAL3_PRICE
+	        /* 이벤트 */
+	        ,a.EVENT1_ITEM
+	        ,a.EVENT2_ITEM
+	        ,a.EVENT3_ITEM
+	        ,a.EVENT1_ITEM_NM
+	        ,a.EVENT2_ITEM_NM
+	        ,a.EVENT3_ITEM_NM
+	        ,a.EVENT1_CNT
+	        ,a.EVENT2_CNT
+	        ,a.EVENT3_CNT
+	        ,(select EVENT_PRICE from TB_ITEM_SETTING where SET_UID = a.EVENT1_ITEM ) as EVENT1_PRICE
+	        ,(select EVENT_PRICE from TB_ITEM_SETTING where SET_UID = a.EVENT2_ITEM ) as EVENT2_PRICE
+	        ,(select EVENT_PRICE from TB_ITEM_SETTING where SET_UID = a.EVENT3_ITEM ) as EVENT3_PRICE
+	        ,a.PG_RESULT
+	        ,a.PAYMENT_NM
+	     
+	    FROM TB_RESERVATION a
+	            ,TB_ITEM_SETTING wt 	/* 워터 */
+	            ,TB_ITEM_SETTING spa 	/* 스파 */
+	    WHERE a.WATER_ITEM = wt.SET_UID(+)
+		    AND a.SPA_ITEM = spa.SET_UID(+)
+		    
+		    AND RESERVE_UID = #{reserve_uid}
+	</select>
+	
+	<!-- 예약정보 바로보기 사용변경버튼 -->
+	<update id="reservationUseChnge" parameterType="java.util.Map"  >
+		UPDATE TB_RESERVATION SET
+		RESERVE_STATE = 'USE'
+		,UPD_ID = #{upd_id}
+		,UPD_DATE = SYSDATE
+		WHERE RESERVE_UID = #{reserve_uid}
+	</update>
+	
+	<!-- 예약내역 수정 저장버튼 -->
+	<update id="reservationUpdate" parameterType="java.util.Map" >
+		UPDATE TB_RESERVATION SET
+		RESERVE_STATE = #{reserve_state}
+		,UPD_ID = #{upd_id}
+		,UPD_DATE = SYSDATE
+		WHERE RESERVE_UID = #{reserve_uid}
+	</update>
+
+<!-- 엑셀다운로드 용 페이지네이션 없는 목록 추출 -->
+	<select id="reservationListAll" parameterType="java.util.Map" resultType="Map" >
+		SELECT 
+			MEM_UID
+			,RESERVE_UID
+			,xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') as MEM_NM
+			,xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE') as MEM_MOBILE
+			,MASK_NAME(xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME')) as MEM_NM_MASK
+			,MASK_PHONE(xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE')) as MEM_MOBILE_MASK
+			,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+			,TO_CHAR(RESERVE_DATE-1,'YYYYMMDD') RESERVE_YESTERDAY  /* 위약금 계산 위한 예약일 하루전 */
+			,(SELECT CODE_NM FROM TB_CODE WHERE CODE_ID = RESERVE_STATE) as RESERVE_STATE_NM
+			,RESERVE_STATE
+			,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD') AS PAYMENT_DATE
+			,ORDER_NM
+			,(ADULT_SUM + CHILD_SUM ) as TOTNUM
+			,RENTAL1_ITEM_NM
+			,RENTAL2_ITEM_NM
+			,RENTAL3_ITEM_NM
+			,RENTAL1_CNT
+			,RENTAL2_CNT		 
+			,RENTAL3_CNT
+		FROM TB_RESERVATION
+		WHERE 1=1
+		<include refid="where"/>
+		ORDER BY RESERVE_DATE DESC
+				
+	</select>
+	
+</mapper>

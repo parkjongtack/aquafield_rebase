@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontNoticeEventDao">
+
+	<resultMap type="java.util.HashMap" id="result">
+		<result property="CONTENTS" column="CONTENTS" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	</resultMap>
+
+	<sql id="commonWhere">
+		<if test = "sw != null and sw != ''">
+			<if test = "col == null or col == ''">
+				AND (TITLE LIKE '%' || #{sw} || '%')
+			</if>
+		</if>
+		<if test = "noadm != null and noadm != ''">
+			/* AND TO_CHAR(sysdate,'yyyy-mm-dd') BETWEEN START_DATE AND END_DATE */
+		</if>
+	</sql>
+	
+	<!-- MAX UID -->
+	<select id="noticeEventMaxUid" resultType="int">
+	  SELECT nvl(MAX(NOTICE_EVENT_UID),0) FROM TB_NOTICE_EVENT
+	</select>
+	
+	<!-- 게시물 총 갯수 -->
+	<select id="noticeEventCount" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*) FROM TB_NOTICE_EVENT
+	  WHERE 1=1
+	        <include refid="commonWhere"/>
+	</select>
+	
+	<!-- 게시물목록 -->
+	<select id="noticeEventList" parameterType="java.util.Map" resultMap="result">
+      SELECT (TOTAL_RECORDS +1 - RNUM) DESC_RNUM,DATA.*
+      FROM ( SELECT ROWNUM AS RNUM, COUNT(*) OVER() TOTAL_RECORDS, DATA.*
+	                  , CASE WHEN PAGE_TYPE='1' THEN 'notice' ELSE 'event' END AS PAGE_TYPE_TXT
+	                  , CASE WHEN KIND='1' THEN 'notice' ELSE 'event' END AS KIND_CODE
+	                  , CASE WHEN KIND='1' THEN '공지사항' ELSE '이벤트' END AS KIND_NAME
+	                  , CASE WHEN KIND='2' THEN
+	                         CASE WHEN TO_CHAR(SYSDATE,'YYYY.MM.DD')  <![CDATA[<=]]> END_DATE THEN
+	                            'Y'
+	                         ELSE
+	                            'N'
+	                         END
+	                    ELSE
+	                        'M'
+	                    END AS DATE_STAT
+      		 FROM (
+      
+	  SELECT
+              NOTICE_EVENT_UID
+            , PAGE_TYPE
+            , KIND
+            , OPEN_YN
+            , HIT
+            , START_DATE
+            , END_DATE
+            , LOCATION_YN
+            , LOCATION
+            , TITLE
+            , FILE_LIST
+            , FILE_LIST_FULL
+            , FILE_CONTENT
+            , FILE_CONTENT_FULL
+            , CONTENTS
+            , PAGE1_YN
+            , PAGE1_LEFT_KIND
+            , PAGE1_LEFT_CONTENT
+            , PAGE1_LEFT_IMG
+            , PAGE1_LEFT_IMG_FULL
+            , PAGE1_RIGHT_KIND
+            , PAGE1_RIGHT_CONTENT
+            , PAGE1_RIGHT_IMG
+            , PAGE1_RIGHT_IMG_FULL
+            , PAGE2_YN
+            , PAGE2_LEFT_KIND
+            , PAGE2_LEFT_CONTENT
+            , PAGE2_LEFT_IMG
+            , PAGE2_LEFT_IMG_FULL
+            , PAGE2_RIGHT_KIND
+            , PAGE2_RIGHT_CONTENT
+            , PAGE2_RIGHT_IMG
+            , PAGE2_RIGHT_IMG_FULL
+            , PAGE3_YN
+            , PAGE3_LEFT_KIND
+            , PAGE3_LEFT_CONTENT
+            , PAGE3_LEFT_IMG
+            , PAGE3_LEFT_IMG_FULL
+            , PAGE3_RIGHT_KIND
+            , PAGE3_RIGHT_CONTENT
+            , PAGE3_RIGHT_IMG
+            , PAGE3_RIGHT_IMG_FULL
+            , DISPLAY_YN
+            , INST_IP
+            , INST_ID
+            , INST_DATE
+            , UPDT_IP
+            , UPDT_ID
+            , UPDT_DATE
+	  FROM TB_NOTICE_EVENT
+	  WHERE 1=1
+	        <include refid="commonWhere"/>
+	  ORDER BY NOTICE_EVENT_UID DESC
+	  
+      ) DATA ) DATA
+      WHERE RNUM BETWEEN ((#{page}-1) * #{rows} + 1) and (#{page} * #{rows})
+	  
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="noticeEventDetail" parameterType="java.util.Map" resultMap="result">
+	  SELECT 
+              NOTICE_EVENT_UID
+            , PAGE_TYPE
+            , KIND
+            , OPEN_YN
+            , HIT
+            , START_DATE
+            , END_DATE
+            , LOCATION_YN
+            , LOCATION
+            , TITLE
+            , FILE_LIST
+            , FILE_LIST_FULL
+            , FILE_CONTENT
+            , FILE_CONTENT_FULL
+            , CONTENTS
+            , PAGE1_YN
+            , PAGE1_LEFT_KIND
+            , PAGE1_LEFT_CONTENT
+            , PAGE1_LEFT_IMG
+            , PAGE1_LEFT_IMG_FULL
+            , PAGE1_RIGHT_KIND
+            , PAGE1_RIGHT_CONTENT
+            , PAGE1_RIGHT_IMG
+            , PAGE1_RIGHT_IMG_FULL
+            , PAGE2_YN
+            , PAGE2_LEFT_KIND
+            , PAGE2_LEFT_CONTENT
+            , PAGE2_LEFT_IMG
+            , PAGE2_LEFT_IMG_FULL
+            , PAGE2_RIGHT_KIND
+            , PAGE2_RIGHT_CONTENT
+            , PAGE2_RIGHT_IMG
+            , PAGE2_RIGHT_IMG_FULL
+            , PAGE3_YN
+            , PAGE3_LEFT_KIND
+            , PAGE3_LEFT_CONTENT
+            , PAGE3_LEFT_IMG
+            , PAGE3_LEFT_IMG_FULL
+            , PAGE3_RIGHT_KIND
+            , PAGE3_RIGHT_CONTENT
+            , PAGE3_RIGHT_IMG
+            , PAGE3_RIGHT_IMG_FULL
+            , DISPLAY_YN
+            , INST_IP
+            , INST_ID
+            , INST_DATE
+            , UPDT_IP
+            , UPDT_ID
+            , UPDT_DATE            
+            , TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+            , CASE WHEN PAGE_TYPE='1' THEN 'notice' ELSE 'event' END AS PAGE_TYPE_TXT
+            , CASE WHEN KIND='1' THEN 'notice' ELSE 'event' END AS KIND_CODE
+            , CASE WHEN KIND='1' THEN '공지사항' ELSE '이벤트' END AS KIND_NAME
+            , CASE WHEN KIND='2' THEN
+                   CASE WHEN TO_CHAR(SYSDATE,'YYYY.MM.DD') BETWEEN START_DATE AND END_DATE THEN
+                       'Y'
+                   ELSE
+                       'N'
+                   END
+                ELSE
+                    'M'
+                END AS DATE_STAT
+	  FROM TB_NOTICE_EVENT
+	  WHERE NOTICE_EVENT_UID=${num}
+	  <if test = "kd != null and kd != ''">
+          AND KIND=#{kd}
+      </if>
+	  <if test = "op != null and op != ''">
+          AND OPEN_YN=#{vs}
+      </if>
+	</select>
+	
+	<!-- 이전글 -->
+	<select id="noticeEventPrev" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT * FROM (
+	  SELECT
+	  		  NOTICE_EVENT_UID
+	  		, PAGE_TYPE
+	  		, KIND
+	  		, TITLE
+	  		, INST_ID
+	  		, INST_DATE
+	  		, TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+	  FROM TB_NOTICE_EVENT
+	  WHERE NOTICE_EVENT_UID > #{num}
+	  <if test = "kd != null and kd != ''">
+          AND KIND=#{kd}
+      </if>
+	  <if test = "op != null and op != ''">
+          AND OPEN_YN=#{vs}
+      </if>
+      ORDER BY NOTICE_EVENT_UID ASC
+      )DATA
+      WHERE ROWNUM=1
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="noticeEventNext" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT * FROM (
+	  SELECT
+	  		  NOTICE_EVENT_UID
+	  		, PAGE_TYPE
+	  		, KIND
+	  		, TITLE
+	  		, INST_ID
+	  		, INST_DATE
+	  		, TO_CHAR(INST_DATE,'yyyy.mm.dd') AS INST_DATE_TXT
+	  FROM TB_NOTICE_EVENT
+	  WHERE NOTICE_EVENT_UID &lt; #{num}
+	  <if test = "kd != null and kd != ''">
+          AND KIND=#{kd}
+      </if>
+	  <if test = "op != null and op != ''">
+          AND OPEN_YN=#{vs}
+      </if>
+      ORDER BY NOTICE_EVENT_UID DESC
+      )DATA
+      WHERE ROWNUM=1
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insertNoticeEvent"  parameterType="java.util.Map">
+	 	INSERT INTO TB_NOTICE_EVENT(
+              NOTICE_EVENT_UID
+            , PAGE_TYPE
+            , KIND
+            , OPEN_YN
+            , HIT
+            , START_DATE
+            , END_DATE
+            , LOCATION_YN
+            , LOCATION
+            , TITLE
+            , FILE_LIST
+            , FILE_LIST_FULL
+            , FILE_CONTENT
+            , FILE_CONTENT_FULL
+            , CONTENTS
+            , PAGE1_YN
+            , PAGE1_LEFT_KIND
+            , PAGE1_LEFT_CONTENT
+            , PAGE1_LEFT_IMG
+            , PAGE1_LEFT_IMG_FULL
+            , PAGE1_RIGHT_KIND
+            , PAGE1_RIGHT_CONTENT
+            , PAGE1_RIGHT_IMG
+            , PAGE1_RIGHT_IMG_FULL
+            , PAGE2_YN
+            , PAGE2_LEFT_KIND
+            , PAGE2_LEFT_CONTENT
+            , PAGE2_LEFT_IMG
+            , PAGE2_LEFT_IMG_FULL
+            , PAGE2_RIGHT_KIND
+            , PAGE2_RIGHT_CONTENT
+            , PAGE2_RIGHT_IMG
+            , PAGE2_RIGHT_IMG_FULL
+            , PAGE3_YN
+            , PAGE3_LEFT_KIND
+            , PAGE3_LEFT_CONTENT
+            , PAGE3_LEFT_IMG
+            , PAGE3_LEFT_IMG_FULL
+            , PAGE3_RIGHT_KIND
+            , PAGE3_RIGHT_CONTENT
+            , PAGE3_RIGHT_IMG
+            , PAGE3_RIGHT_IMG_FULL
+            , DISPLAY_YN
+            , INST_IP
+            , INST_ID
+            , INST_DATE
+	 	) VALUES (
+             #{noticeEventUid}
+           , #{pageType}
+           , #{kind}
+           , #{openYn}
+           , 0
+           , #{startDate}
+           , #{endDate}
+           , #{locationYn}
+           , #{location}
+           , #{title}
+           , #{fileList}
+           , #{fileListFull}
+           , #{fileContent}
+           , #{fileContentFull}
+           , #{contents}
+           , #{page1Yn}
+           , #{page1LeftKind}
+           , #{page1LeftContent}
+           , #{page1LeftImg}
+           , #{page1LeftImgFull}
+           , #{page1RightKind}
+           , #{page1RightContent}
+           , #{page1RightImg}
+           , #{page1RightImgFull}
+           , #{page2Yn}
+           , #{page2LeftKind}
+           , #{page2LeftContent}
+           , #{page2LeftImg}
+           , #{page2LeftImgFull}
+           , #{page2RightKind}
+           , #{page2RightContent}
+           , #{page2RightImg}
+           , #{page2RightImgFull}
+           , #{page3Yn}
+           , #{page3LeftKind}
+           , #{page3LeftContent}
+           , #{page3LeftImg}
+           , #{page3LeftImgFull}
+           , #{page3RightKind}
+           , #{page3RightContent}
+           , #{page3RightImg}
+           , #{page3RightImgFull}
+           , #{displayYn}
+           , #{instIp}
+           , #{instId}
+           , SYSDATE
+	 	)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateNoticeEvent"  parameterType="java.util.Map">
+		UPDATE TB_NOTICE_EVENT SET
+              UPDT_IP=#{updtIp}
+            , UPDT_ID=#{updtId}
+            , UPDT_DATE=SYSDATE
+            <if test = "kind != null">,KIND=#{kind}</if>
+            <if test = "openYn != null">,OPEN_YN=#{openYn}</if>
+            <if test = "startDate != null">,START_DATE=#{startDate}</if>
+            <if test = "endDate != null">,END_DATE=#{endDate}</if>
+            <if test = "locationYn != null">,LOCATION_YN=#{locationYn}</if>
+            <if test = "location != null">,LOCATION=#{location}</if>
+            <if test = "title != null">,TITLE=#{title}</if>
+            <if test = "fileList != null and fileList != ''">
+            	,FILE_LIST=#{fileList}
+            	,FILE_LIST_FULL=#{fileListFull}
+            </if>
+            <if test = "fileContent != null and fileContent != ''">
+            	,FILE_CONTENT=#{fileContent}
+            	,FILE_CONTENT_FULL=#{fileContentFull}
+            </if>
+            <if test = "contents != null">,CONTENTS=#{contents}</if>
+            <if test = "page1Yn != null">,PAGE1_YN=#{page1Yn}</if>
+            <if test = "page1LeftKind != null">,PAGE1_LEFT_KIND=#{page1LeftKind}</if>
+            <if test = "page1LeftContent != null">,PAGE1_LEFT_CONTENT=#{page1LeftContent}</if>
+            <if test = "page1LeftImg != null and page1LeftImg != ''">
+            	,PAGE1_LEFT_IMG=#{page1LeftImg}
+            	,PAGE1_LEFT_IMG_FULL=#{page1LeftImgFull}
+            </if>
+            <if test = "page1RightKind != null">,PAGE1_RIGHT_KIND=#{page1RightKind}</if>
+            <if test = "page1RightContent != null">,PAGE1_RIGHT_CONTENT=#{page1RightContent}</if>
+            <if test = "page1RightImg != null and page1RightImg != ''">
+            	,PAGE1_RIGHT_IMG=#{page1RightImg}
+            	,PAGE1_RIGHT_IMG_FULL=#{page1RightImgFull}
+            </if>
+            <if test = "page2Yn != null">,PAGE2_YN=#{page2Yn}</if>
+            <if test = "page2LeftKind != null">,PAGE2_LEFT_KIND=#{page2LeftKind}</if>
+            <if test = "page2LeftContent != null">,PAGE2_LEFT_CONTENT=#{page2LeftContent}</if>
+            <if test = "page2LeftImg != null and page2LeftImg != ''">
+            	,PAGE2_LEFT_IMG=#{page2LeftImg}
+            	,PAGE2_LEFT_IMG_FULL=#{page2LeftImgFull}
+            </if>
+            <if test = "page2RightKind != null">,PAGE2_RIGHT_KIND=#{page2RightKind}</if>
+            <if test = "page2RightContent != null">,PAGE2_RIGHT_CONTENT=#{page2RightContent}</if>
+            <if test = "page2RightImg != null and page2RightImg != ''">
+            	,PAGE2_RIGHT_IMG=#{page2RightImg}
+            	,PAGE2_RIGHT_IMG_FULL=#{page2RightImgFull}
+            </if>
+            <if test = "page3Yn != null">,PAGE3_YN=#{page3Yn}</if>
+            <if test = "page3LeftKind != null">,PAGE3_LEFT_KIND=#{page3LeftKind}</if>
+            <if test = "page3LeftContent != null">,PAGE3_LEFT_CONTENT=#{page3LeftContent}</if>
+            <if test = "page3LeftImg != null and page3LeftImg != ''">
+            	,PAGE3_LEFT_IMG=#{page3LeftImg}
+            	,PAGE3_LEFT_IMG_FULL=#{page3LeftImgFull}
+            </if>
+            <if test = "page3RightKind != null">,PAGE3_RIGHT_KIND=#{page3RightKind}</if>
+            <if test = "page3RightContent != null">,PAGE3_RIGHT_CONTENT=#{page3RightContent}</if>
+            <if test = "page3RightImg != null and page3LeftImg != ''">
+            	,PAGE3_RIGHT_IMG=#{page3RightImg}
+            	,PAGE3_RIGHT_IMG_FULL=#{page3RightImgFull}
+            </if>
+            <if test = "displayYn != null">,DISPLAY_YN=#{displayYn}</if>
+		WHERE NOTICE_EVENT_UID=#{num}
+	</update>
+	<update id="updateNoticeEventHit"  parameterType="java.util.Map">
+		UPDATE TB_NOTICE_EVENT SET
+              HIT = HIT + 1
+		WHERE NOTICE_EVENT_UID=#{num}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="deleteNoticeEvent"  parameterType="java.util.Map">
+		DELETE FROM TB_NOTICE_EVENT WHERE NOTICE_EVENT_UID=#{num}
+	</delete>
+
+</mapper>

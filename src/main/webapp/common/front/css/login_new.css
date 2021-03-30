@@ -1,0 +1,159 @@
+@charset "utf-8";
+.btn{height:3.125em;font-size:1.125em;text-align:center;color:#fff;min-width: 368px;padding: 0 0.5em;line-height: 3.0em;display: inline-block;}
+.btn:hover{color: aliceblue;}
+.btn.gray{background-color:#373737;min-width: 44%;position:  relative;}
+.btn.blue{background-color:#113a5d;}
+.btn.blue2{background-color:#0095ce;}
+.btn.s_blue{background-color:#113a5d;min-width: 45%;}
+.btn.s_org{background-color:#ff401b;min-width: 45%; position: relative;}
+.btn .btn_img{position: absolute; top: 37%;  left: 14%;}
+.btn .btn_img.img2{left: 81%;}
+.btn_group.btn1{margin-top:1.625em;} 
+.btn_group.btn1.or_btn{margin-top:0;}
+.btn_group.btn1 .orange{background-color:#ff401b;}
+.btn_group.btn2{margin:1.625em 0 1.250em;}
+.btn_group.btn2 .btn{min-width: 369px;}
+
+
+#login_wrap {overflow: hidden;width: 100%;height: 100%;position: relative;/* display: table; */background-color: #f5f5f5;}
+.wrap_line{height: 1000px !important; overflow-y: scroll !important;}
+#login_wrap .login_top{width:100%;height:80px;background-color:#102230;}
+#login_wrap .login_top .logo{max-width: 470px;margin: 0 auto;text-align:  center;padding-top: 9px;}
+#login_wrap > .inner {margin:  0 auto;width: 94%;max-width: 470px;height:  100%;padding: 7em 0;}
+.inner > h2{font-size:1.688em;padding: 1em 0 1.313em;color:#333;text-align:center;}
+.inner .login_box{background-color:#fff;padding: 3.438em 1.875em 2.500em;width: 94%;max-width:  600px;margin:  0 auto;box-sizing: border-box;}
+.inner .login_box.box2{overflow-y: scroll; height:600px;}
+.inner .login_box.box3{ margin-bottom: 12em;}
+
+.form_type1_tit{color: #113a5d; font-size:1.125em; font-weight: bold; border-bottom:0 !important;}
+
+.login_but{width:100%; background-color:#0095ce; color:#fff !important;  text-align:center; margin-bottom:1.250em;}
+input[type=checkbox] {
+    display: none;
+}
+input[type=checkbox] + label{
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    /* margin-right: 15px; */
+    font-size: 15px;
+    color:#888;
+}
+
+input[type=checkbox]+ label:before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 0;
+  border: 1px solid #ACACAC;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background-color: #fff;
+  bottom: -4px;
+}
+input[type=checkbox]:checked + label:before {
+content: "\2713";  /* 체크모양 */
+text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+font-size: 18px;
+font-weight:800;
+color: #fff;
+background:#2f87c1;
+text-align: center;
+line-height: 18px;
+}
+
+.checkbox_st.orange{height:40px; margin-top:5px;}
+.checkbox_st.orange input[type=checkbox]:checked + label:before {
+content: "\2713";  /* 체크모양 */
+text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+font-size: 18px;
+font-weight:800;
+color: #fff;
+background:#ff401b;
+text-align: center;
+line-height: 18px;
+}
+
+.login_box .option {text-align: center;padding-top: 1.250em;margin-top: 1.875em;border-top: 1px solid #d5d5d5;}
+.login_box .option li { display: inline-block; padding: 0 10px; position: relative; }
+.login_box .option li + li:before { content: ''; position: absolute; top: 50%; left: -1px; width: 1px; height: 12px; margin-top: -5px; background-color: #9b9b9b; }
+.login_box .option li a { font-size: 15px; line-height: 1; color: #838383; }
+.login_box .find_pw_btn > button{ background-color: #113a5d; width: 100%; color: #fff; margin-top: 1.875em;}
+
+
+.tab_menu {width: 94%;max-width: 470px;margin: 0 auto;border: 1px solid #c6cbd0;border-bottom: 0;}
+.tab_menu{ overflow: hidden; }
+.tab_menu li { float: left; width: 50%; }
+.tab_menu li a {display: block;background-color: #5d6467;color: #fff;text-align: center;padding: 15px;font-size:  1.250em;}
+.tab_menu.res li a img{vertical-align: bottom;}
+.tab_menu.res li.active a {background-color: #ff401b;}
+.tab_menu li.active a {background-color: #0095ce;color: #fff;}
+.form_type1{display: none;}
+.form_type1-1{display: none;}
+.from_list > li:first-child{margin-bottom: 20px;}
+.from_list .from_list_tit{border-bottom: 0; margin-top:0; color:#888;}
+.login_box .form_tit{margin: 1.563em 0 1.875em;}
+.login_box .form_tit.blue{margin-top:0;}
+.login_box .form_tit.blue > strong{color:#113a5d;font-size:1.125em;line-height: 22px;font-weight:  bold;}
+.login_box .form_tit > p,.login_box .form_tit > span{color:#888;line-height: 24px; line-height: 25px;}
+.login_box .form_tit > strong{color:#333;}
+
+.join_top{padding: 10px 5px 0 0;overflow: hidden;text-align: center;padding: 0 2em 2.500em;background: url(./common/front/images/login/join_top_bor.png) no-repeat top center;background-size: 100%;}
+.join_top > li{float:left;width: 33.333%;}
+.join_top > li > p{ margin-top:5px; color:#c9c9c9; font-size:0.813em;}
+.join_top > li.active > p{color:#113a5d; font-weight: bold;}
+.require_tit{color:#888;text-align:right;}
+.der_tit{color:#555;font-weight:  600; float:left; padding: 15px 7px 0 0; }
+
+.opt_txt{font-weight: bold;}
+.opt_tit{margin-top:0.938em;line-height:20px;color:#888;letter-spacing: -2.2px;}
+.ui-datepicker-trigger{    margin-top: 7px;}
+
+.complex > ul > li > p{display:inline-block;}
+.con_type1{text-align:center;}
+.res_tit_p{font-size:1.375em; color:#333; margin-bottom:2.5em;}
+.res_txt_b{margin-top:2.813em; }
+.res_txt_b .res_txt_st{font-size:1.125em; margin-bottom:1.250em; font-weight: 600; color:#666;}
+.res_txt_b .res_txt_st > span{color:#0095ce;}
+.res_txt_b > p{margin-bottom: 1.875em;}
+
+
+.form_type3_checkbox .checkbox_st{float:left; height:30px; padding:15px 5px 0 0;}
+.form_type3 .inputlabel.der.der2{float:left;}
+
+@media (max-width:1900px){
+.login_box.box2{height:500px !important;}
+}
+@media (max-width:768px){
+.btn.gray{min-width: 42%;}
+.btn.blue{min-width:95%;}
+.inputlabel .ipt.w2602{width:100% !important;}
+.btn_pack.small2{width:100%;margin-bottom:  5px;}
+.der_tit{display:block;}
+.form_type3 .inputlabel.der{width:100%; display:block; margin-top:5px;text-align: left;}
+.form_type3_checkbox
+.btn.blue,.btn.blue2,.btn_group.btn2 .btn, .btn.orange{width:100%;min-width:0;}
+#login_wrap > .inner{padding-top:0;}
+.login_box.box2{height:auto !important;}
+}
+
+@media (max-width:640px){
+.login_box .res_info_list li.date .date_list{ text-align:  center;  padding: 0 !important; overflow-x: auto !important;}
+#datepicker{width:100%;}
+.complex > li > span{display:block;text-align: center;margin-bottom: 1em;}
+.login_box .res_tit{font-size: 14px !important;}
+.form_type3 > ul > li input.datepicker{margin-top:13px;}
+}
+
+@media (max-width:500px){
+.btn.gray{min-width: 40%;}
+.login_box .option li{display:block;margin: 3px;}
+.login_box .option li + li:before{position: static;}
+}
+
+@media (max-width:354px){
+.btn.gray,.btn.s_blue, .btn.s_org{width: 100%; display:block; margin-top:5px;}
+}

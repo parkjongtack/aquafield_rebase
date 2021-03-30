@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.MemberDao">
+	
+	<!-- 회원정보 조회 조건 문자열(회원번호, 회원명, id, 폰번호), 성별, 가입일 -->
+	<sql id="where">
+		<if test = "srch_text != null and srch_text != ''">
+	        AND (	TO_CHAR(MEM_UID)		like '%' || #{srch_text} || '%' OR
+	       			ROW_TO_STR(MEM_NM)		like '%' || #{srch_text} || '%' OR
+	       			MEM_ID					like '%' || #{srch_text} || '%' OR
+	       			ROW_TO_STR(MOBILE_NUM) like '%' || #{srch_text} || '%'    )
+	    </if>
+		<if test = "srch_sex != null and srch_sex != ''">
+			AND MEM_GENDER = #{srch_sex}
+		</if>
+		<if test = "srch_reg_s != null and srch_reg_s != ''" >
+		 	AND INS_DATE <![CDATA[ > ]]> TO_DATE(#{srch_reg_s}, 'YY/MM/DD HH24:MI:SS') 
+		</if>
+		<if test = "srch_reg_e != null and srch_reg_e != ''" >
+		 	AND INS_DATE <![CDATA[ < ]]> TO_DATE(#{srch_reg_e}, 'YY/MM/DD HH24:MI:SS') 
+		</if>
+	</sql>
+	
+	<!-- 회원정보 조회 -->
+	<select id="memberList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * 
+			FROM ( 
+					SELECT 
+							rownum rn, TB.* 
+					FROM (
+							SELECT *
+							FROM (
+								SELECT 
+									MEM_UID
+									,ROW_TO_STR(MEM_NM) as MEM_NM
+									,MEM_ID
+									,ROW_TO_STR(MOBILE_NUM) as MOBILE_NUM
+									,MEM_BIRTH
+									,MEM_GENDER
+									,INS_DATE
+									,(SELECT COUNT(1) FROM TB_RESERVATION WHERE MEM_UID = MEM_UID) AS RESERVE_CNT
+								FROM TB_MEMBER
+								WHERE 1=1
+								<include refid="where"/>
+							)
+							order by 
+									<if test="order_res != null and order_res != ''">
+										RESERVE_CNT <if test="order_res eq 'A'.toString()">ASC</if><if test="order_res eq 'D'.toString()">DESC</if> , 
+									</if>
+									MEM_UID DESC
+						) TB
+			) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>    
+	
+	<!-- 회원정보 조회 totCnt-->
+	<select id="memberListCnt" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM TB_MEMBER
+		WHERE 1=1
+		<include refid="where"/>
+	</select>    
+
+	<!-- 회원상세 조회 -->
+	<select id="memberDetail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			MEM_UID
+			,ROW_TO_STR(MEM_NM) as MEM_NM
+			,MEM_ID
+			,ROW_TO_STR(MOBILE_NUM) as MOBILE_NUM
+			,MEM_BIRTH
+			,BIRTH_TYPE
+			,MEM_GENDER
+			,ROW_TO_STR(HOME_ADDR1) as HOME_ADDR1
+			,ROW_TO_STR(HOME_ADDR2) as HOME_ADDR2
+			,ROW_TO_STR(HOME_PHONE_NUM) as HOME_PHONE_NUM
+			,COMPANY_NM
+			,ROW_TO_STR(COMPANY_ADDR1) as COMPANY_ADDR1
+			,ROW_TO_STR(COMPANY_ADDR2) as COMPANY_ADDR2
+			,ROW_TO_STR(COMPANY_PHONE_NUM) as COMPANY_PHONE_NUM
+			,JOB_NM
+			,MEMORY_DAY
+			,RECEIVED_INFO_AT
+			,INS_DATE
+		FROM TB_MEMBER
+		WHERE MEM_UID = #{mem_uid}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="memberUpdate" parameterType="java.util.Map">
+		UPDATE TB_MEMBER SET
+		MEM_ID = #{mem_id}
+		,UPD_ID = #{up_id}
+		,UPD_DATE = SYSDATE
+		WHERE MEM_UID = #{mem_uid}
+	</update>
+
+
+</mapper>

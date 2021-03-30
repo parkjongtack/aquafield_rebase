@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminDeskAdminInfoDao">
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+            ADMIN_UID
+           ,MEMBER_VIEW_AT
+           ,ADMIN_NM
+           ,ADMIN_ID
+           ,POINT_CODE
+           ,ADMIN_DEPT
+           ,ADMIN_PHONE
+           ,USE_AT
+           ,LOGIN_CNT
+           ,LOGIN_DATE
+           ,LOGIN_DIGIT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,CERTNUM
+           ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND  CODE_ID = POINT_CODE) as POINT_NM
+           ,DECODE(MEMBER_VIEW_AT,'Y','on','N','off') as MEMBER_VIEW_AT_TXT
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+           ,TO_CHAR(LOGIN_DATE,'YYYY.MM.DD') as LOGIN_DATE_TXT
+           ,TO_CHAR(LOGIN_DATE,'HH24:MI:SS') as LOGIN_TIME_TXT
+  </sql>
+  <sql id="commonWhere">
+    <if test = "nm != null and nm != ''">
+       AND ADMIN_NM LIKE '%'||UTL_RAW.CAST_TO_VARCHAR2(#{nm_HEX})||'%'
+    </if>
+    <if test = "pc != null and pc != ''">
+       AND POINT_CODE=#{pc}
+    </if>
+
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (ADMIN_NM LIKE '%'||#{sw}||'%' OR ADMIN_ID LIKE '%'||#{sw}||'%' OR ADMIN_DEPT LIKE '%'||#{sw}||'%')
+       </if>
+       <if test = "col == '1'">
+       AND ADMIN_NM LIKE '%'||#{sw}||'%'
+       </if>
+       <if test = "col == '2'">
+       AND ADMIN_ID LIKE '%'||#{sw}||'%'
+       </if>
+    </if>
+    <if test="startd != null and startd != '' and endd != null and endd != ''">
+   	  AND TO_DATE(TO_CHAR(LOGIN_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{startd},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{endd},'.',''), 'YYYYMMDD') 
+    </if>     
+  </sql>
+  
+  <!-- MAX(Uid)  -->
+  <select id="deskAdminInfoGetMaxUid" resultType="int">
+    SELECT MAX(ADMIN_UID) FROM TB_DESK_ADMIN_INFO
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="deskAdminInfoGetCount" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_DESK_ADMIN_INFO
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="deskAdminInfoList" parameterType="java.util.Map" resultType="java.util.HashMap">
+      SELECT (TOTAL_RECORDS +1 - RNUM) DESC_RNUM,DATA.*
+      FROM ( SELECT ROWNUM AS RNUM, COUNT(*) OVER() TOTAL_RECORDS, DATA.*
+      		 FROM (
+      
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_INFO
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY ADMIN_UID DESC
+	  
+      ) DATA ) DATA
+      WHERE RNUM BETWEEN ((#{page}-1) * #{rows} + 1) and (#{page} * #{rows})
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="deskAdminInfoDetail" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_INFO
+     WHERE ADMIN_UID=#{ADMIN_UID}
+  </select>
+
+  <!-- 등록 -->
+  <insert id="deskAdminInfoInsert"  parameterType="java.util.Map">
+    INSERT INTO TB_DESK_ADMIN_INFO(
+            ADMIN_UID
+           ,MEMBER_VIEW_AT
+           ,ADMIN_NM
+           ,ADMIN_ID
+           ,ADMIN_PW
+           ,POINT_CODE
+           ,ADMIN_DEPT
+           ,ADMIN_PHONE
+           ,USE_AT
+           ,LOGIN_CNT
+           ,LOGIN_DATE
+           ,LOGIN_DIGIT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,CERTNUM
+    ) VALUES (
+            TB_DESK_ADMIN_INFO_SEQ.nextval
+           ,#{MEMBER_VIEW_AT}
+           ,UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_NM_HEX})
+           ,#{ADMIN_ID}
+           ,STR_TO_ROW(#{ADMIN_PW})
+           ,#{POINT_CODE}
+           ,UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_DEPT_HEX})
+           ,#{ADMIN_PHONE}
+           ,#{USE_AT}
+           ,0
+           ,SYSDATE
+           ,''
+           ,#{INS_IP}
+           ,#{INS_ADMIN_ID}
+           ,SYSDATE
+           ,#{UPD_IP}
+           ,#{UPD_ADMIN_ID}
+           ,SYSDATE
+           ,'000000'
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="deskAdminInfoUpdate"  parameterType="java.util.Map">
+    UPDATE TB_DESK_ADMIN_INFO SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ADMIN_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "MEMBER_VIEW_AT != null">,MEMBER_VIEW_AT=#{MEMBER_VIEW_AT}</if>
+            <if test = "ADMIN_NM != null">,ADMIN_NM=UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_NM_HEX})</if>
+            <if test = "ADMIN_PW != null and ADMIN_PW != '' ">,ADMIN_PW=STR_TO_ROW(#{ADMIN_PW})</if>
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+            <if test = "ADMIN_DEPT != null">,ADMIN_DEPT=UTL_RAW.CAST_TO_VARCHAR2(#{ADMIN_DEPT_HEX})</if>
+            <if test = "ADMIN_PHONE != null">,ADMIN_PHONE=#{ADMIN_PHONE}</if>
+            <if test = "USE_AT != null">,USE_AT=#{USE_AT}</if>
+    WHERE ADMIN_UID=#{num}
+  </update>
+  
+  <!-- 암호변경 -->
+  <update id="deskAdminInfoPasswordUpdate"  parameterType="java.util.Map">
+    UPDATE TB_DESK_ADMIN_INFO SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ADMIN_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "adminPw != null and adminPw != ''">,ADMIN_PW=STR_TO_ROW(#{adminPw})</if>
+    WHERE ADMIN_ID=#{ADMIN_ID}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="deskAdminInfoDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_DESK_ADMIN_INFO WHERE ADMIN_UID=#{num}
+  </delete>
+
+</mapper>

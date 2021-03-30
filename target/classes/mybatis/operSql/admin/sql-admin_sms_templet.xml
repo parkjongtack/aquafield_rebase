@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminSmsTempletDao">
+
+	<resultMap type="java.util.HashMap" id="result">
+		<result property="SMS_CONTENT" column="SMS_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	</resultMap>
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+             SMS_UID
+           , POINT_CODE
+           , SMS_TYPE
+           , SMS_CONTENT
+           , USE_AT
+           , INS_IP
+           , INS_ID
+           , INS_DATE
+           , UPD_IP
+           , UPD_ID
+           , UPD_DATE
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (SMS_CONTENT LIKE '%'||#{sw}||'%')
+       </if>
+    </if>
+  </sql>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="adminSmsTempletListCnt" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_SMS
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="adminSmsTempletList" parameterType="java.util.Map" resultMap="result">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_SMS
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY SMS_UID ASC
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="adminSmsTempletDetail" parameterType="java.util.Map" resultMap="result">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_SMS
+     WHERE SMS_UID=#{SMS_UID}
+  </select>
+
+  <!-- 등록 -->
+  <insert id="adminSmsTempletInsert"  parameterType="java.util.Map">
+   <selectKey keyProperty="uid" resultType="Int" order="BEFORE">
+		SELECT TB_SMS_SEQ.nextval FROM DUAL
+   </selectKey>
+    INSERT INTO TB_SMS(
+             SMS_UID
+           , POINT_CODE
+           , SMS_TYPE
+           , SMS_CONTENT
+           , USE_AT
+           , INS_IP
+           , INS_ID
+           , INS_DATE
+    ) VALUES (
+             #{uid}
+           , #{POINT_CODE}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{SMS_TYPE_HEX})
+           , UTL_RAW.CAST_TO_VARCHAR2(#{SMS_CONTENT_HEX})
+           , #{USE_AT}
+           , #{INS_IP}
+           , #{INS_ID}
+           , SYSDATE
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="adminSmsTempletUpdate"  parameterType="java.util.Map">
+    UPDATE TB_SMS SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ID=#{UPD_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+            <if test = "SMS_TYPE != null">,SMS_TYPE=UTL_RAW.CAST_TO_VARCHAR2(#{SMS_TYPE_HEX})</if>
+            <if test = "SMS_CONTENT != null">,SMS_CONTENT=UTL_RAW.CAST_TO_VARCHAR2(#{SMS_CONTENT_HEX})</if>
+            <if test = "USE_AT != null">,USE_AT=#{USE_AT}</if>
+    WHERE SMS_UID=#{num}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="adminSmsTempletDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_SMS WHERE SMS_UID=#{num}
+  </delete>
+
+</mapper>

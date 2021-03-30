@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminEmailTempletDao">
+
+	<resultMap type="java.util.HashMap" id="result">
+		<result property="EMAIL_CONTENT" column="EMAIL_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	</resultMap>
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+             EMAIL_UID
+           , POINT_CODE
+           , EMAIL_TYPE
+           , EMAIL_TITLE
+           , FROM_EMAIL
+           , FORM_EMAIL_NM
+           , INS_IP
+           , INS_ID
+           , INS_DATE
+           , UPD_IP
+           , UPD_ID
+           , UPD_DATE
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (EMAIL_TITLE LIKE '%'||#{sw}||'%' OR EMAIL_CONTENT LIKE '%'||#{sw}||'%')
+       </if>
+    </if>
+  </sql>
+  
+  <!-- MAX(Uid)  -->
+  <select id="adminEmailTempletMaxUid" resultType="int">
+    SELECT MAX(EMAIL_UID) FROM TB_EMAIL
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="adminEmailTempletListCnt" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_EMAIL
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="adminEmailTempletList" parameterType="java.util.Map" resultMap="result">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_EMAIL
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY EMAIL_UID ASC
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="adminEmailTempletDetail" parameterType="java.util.Map" resultMap="result">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_EMAIL
+     WHERE EMAIL_UID=#{email_uid}
+  </select>
+
+  <!-- 등록 -->
+  <insert id="adminEmailTempletInsert"  parameterType="java.util.Map">
+     <selectKey keyProperty="uid" resultType="Int" order="BEFORE">
+		SELECT TB_EMAIL_SEQ.nextval FROM DUAL
+     </selectKey>  
+    INSERT INTO TB_EMAIL(
+             EMAIL_UID
+           , POINT_CODE
+           , EMAIL_TYPE
+           , EMAIL_TITLE
+           , FROM_EMAIL
+           , FORM_EMAIL_NM
+           , INS_IP
+           , INS_ID
+           , INS_DATE
+    ) VALUES (
+             #{uid}
+           , #{POINT_CODE}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{EMAIL_TYPE_HEX})
+           , UTL_RAW.CAST_TO_VARCHAR2(#{EMAIL_TITLE_HEX})
+           , #{FROM_EMAIL}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{FORM_EMAIL_NM_HEX})
+           , #{INS_IP}
+           , #{INS_ID}
+           , SYSDATE
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="adminEmailTempletUpdate"  parameterType="java.util.Map">
+    UPDATE TB_EMAIL SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ID=#{UPD_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "POINT_CODE != null">,POINT_CODE=#{POINT_CODE}</if>
+            <if test = "EMAIL_TYPE != null">,EMAIL_TYPE=UTL_RAW.CAST_TO_VARCHAR2(#{EMAIL_TYPE_HEX})</if>
+            <if test = "EMAIL_TITLE != null">,EMAIL_TITLE=UTL_RAW.CAST_TO_VARCHAR2(#{EMAIL_TITLE_HEX})</if>
+            <if test = "FROM_EMAIL != null">,FROM_EMAIL=#{FROM_EMAIL}</if>
+            <if test = "FORM_EMAIL_NM != null">,FORM_EMAIL_NM=UTL_RAW.CAST_TO_VARCHAR2(#{FORM_EMAIL_NM_HEX})</if>
+    WHERE EMAIL_UID=#{num}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="adminEmailTempletDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_EMAIL WHERE EMAIL_UID=#{num}
+  </delete>
+
+</mapper>

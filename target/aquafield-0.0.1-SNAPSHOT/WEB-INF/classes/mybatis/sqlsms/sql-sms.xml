@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.CustomerDao">
+
+	<!-- SMS 등록 -->
+	<insert id="insertSms"  parameterType="java.util.Map">
+	 	INSERT INTO ASMS.ssg_smt_tran(
+              mt_pr
+              ,mt_refke
+              ,date_client_req
+              ,service_type
+              ,msg_status
+              ,recipient_num
+              ,content
+              ,callback
+	 	) VALUES (
+             ASMS.ssg_smt_tran_seq.nextval
+           , 'AHP'
+           , SYSDATE
+           , '0'
+           , '1'
+           , #{recipient_num}
+           , #{content}
+           , #{callback} 
+	 	)
+	</insert>
+
+	<!-- LMS 등록 -->
+	<insert id="insertLms"  parameterType="java.util.Map">
+	 	INSERT INTO ASMS.ssg_mmt_tran(
+              mt_pr
+              ,mt_refke
+              ,date_client_req
+              ,service_type
+              ,msg_status
+              ,recipient_num
+              ,subject
+              ,content
+              ,callback
+	 	) VALUES (
+             ASMS.ssg_smt_tran_seq.nextval
+           , 'AHP'
+           , SYSDATE
+           , '0'
+           , '1'
+           , #{recipient_num}
+           , #{subject}
+           , #{content}
+           , #{callback} 
+	 	)
+	</insert>
+
+</mapper>

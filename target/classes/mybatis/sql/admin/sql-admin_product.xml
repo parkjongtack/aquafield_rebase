@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.ProductDao">
+
+  <!-- 목록 -->
+  <select id="prodlist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+    SELECT T.*
+      FROM (SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '01' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '01'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '02' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '02'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '03' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '03'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '04' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '04'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '05' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '05'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '06' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '06'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '07' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '07'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '08' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '08'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '09' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '09'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B	
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '10' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '10'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '11' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '11'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B
+			ON A.CATE_CODE = B.CATE_CODE
+			        
+			UNION ALL
+			
+			SELECT NVL(NOWYEAR, #{year} ) AS NOWYEAR
+                 , NVL(NOWMONTH, '12' ) AS NOWMONTH
+			     , A.CATE_CODE
+			     , NVL(ITEM_STATUS, 'EMPTY') AS ITEM_STATUS   
+			 FROM (SELECT CATE_CODE 
+			         FROM TB_PRD_CATE
+			        WHERE USE_AT = 'Y'
+			          AND POINT_CODE =  #{point}) A
+			LEFT OUTER JOIN
+			      (SELECT SUBSTR(YYYYMMDD,1, 4) AS NOWYEAR
+            			, SUBSTR(YYYYMMDD,5, 2) AS NOWMONTH
+			            , CATE_CODE
+			            , CASE 
+			                WHEN MAX(ITEM_STATUS) = 0 THEN 'EMPTY'
+			                WHEN MAX(ITEM_STATUS) = 1 THEN 'CLOSE'
+			                WHEN MAX(ITEM_STATUS) = 2 THEN 'OPEN'
+			              END AS ITEM_STATUS
+			         FROM TB_ITEM_SETTING 
+			        WHERE SUBSTR(YYYYMMDD,1, 6) = #{year} || '12'
+			          AND POINT_CODE =  #{point}
+        			GROUP BY SUBSTR(YYYYMMDD,1, 4), SUBSTR(YYYYMMDD,5, 2), CATE_CODE) B        			        			        		        		        			        			        			        				        			        				        			        
+	        ON A.CATE_CODE = B.CATE_CODE ) T
+	ORDER BY T.NOWMONTH, T.CATE_CODE
+	]]>	
+  </select>
+  
+  <select id="itemModlist" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT SET_UID
+	      ,CATE_CODE
+	      ,ITEM_CODE
+	      ,(SELECT ITEM_NM FROM TB_PRD_ITEM WHERE TB_PRD_ITEM.POINT_CODE = TB_ITEM_SETTING.POINT_CODE 
+	      	AND TB_PRD_ITEM.CATE_CODE = TB_ITEM_SETTING.CATE_CODE AND TB_PRD_ITEM.ITEM_CODE = TB_ITEM_SETTING.ITEM_CODE ) AS ITEM_NAME 
+	      ,YYYYMMDD
+	      ,ADULTS_PRICE
+	      ,CHILD_PRICE
+	      ,EVENT_PRICE
+	      ,RENTAL_PRICE
+	      ,QUANTITY
+	      ,SEASON_TYPE
+	      ,POINT_CODE
+	      , CASE 
+	          WHEN ITEM_STATUS = 0 THEN 'EMPTY'
+	          WHEN ITEM_STATUS = 1 THEN 'CLOSE'
+	          WHEN ITEM_STATUS = 2 THEN 'OPEN'
+	        END AS ITEM_STATUS
+	      ,ITEM_NM
+	      ,ITEM_URL
+	      ,CHILD_CHEK
+	      ,ITEM_OPTION
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE'AND TB_CODE.CODE_ID = TB_ITEM_SETTING.POINT_CODE) AS POINT_NM      
+	  FROM TB_ITEM_SETTING
+	 WHERE CATE_CODE = #{code}
+	   AND POINT_CODE = #{point}
+	   <if test = "subcode != null and subcode != ''">	   
+	   AND ITEM_CODE = #{subcode}
+	   </if>	   
+	   AND YYYYMMDD LIKE '' || #{yearmonth} ||'%'
+	 ORDER BY SET_UID
+  </select>
+   
+  <select id="itemlist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	SELECT CATE_CODE
+	      ,ITEM_CODE
+	      ,ITEM_NM
+	  FROM TB_PRD_ITEM
+	 WHERE CATE_CODE = #{code}
+	   AND USE_AT = 'Y'
+	   AND POINT_CODE = #{point}
+	 ORDER BY ITEM_SORT
+	]]>	
+  </select>
+  
+  <select id="itemsCnt" parameterType="java.util.Map" resultType="int">
+   <![CDATA[
+	SELECT COUNT(*) AS CNT       
+	  FROM TB_ITEM_SETTING
+	 WHERE CATE_CODE = #{code}
+	   AND POINT_CODE = #{point}
+	   AND ITEM_CODE = #{subcode}	   
+	   AND YYYYMMDD LIKE '' || #{yearmonth} ||'%'
+	]]>	
+  </select> 
+  
+  <select id="itemGroupBylist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	   SELECT TIS.CATE_CODE
+		      ,TIS.ITEM_CODE
+		      ,TIS.ITEM_NM
+	       	  ,CASE 
+	              WHEN MAX(TIS.ITEM_STATUS) = 0 THEN 'EMPTY'
+	              WHEN MAX(TIS.ITEM_STATUS) = 1 THEN 'CLOSE'
+	              WHEN MAX(TIS.ITEM_STATUS) = 2 THEN 'OPEN'
+	            END AS ITEM_STATUS
+	         , TPI.ITEM_NM AS CATE_ITEM_NM
+		 FROM TB_ITEM_SETTING TIS LEFT OUTER JOIN TB_PRD_ITEM TPI
+	     ON TIS.POINT_CODE = TPI.POINT_CODE AND TIS.CATE_CODE = TPI.CATE_CODE AND TIS.ITEM_CODE = TPI.ITEM_CODE
+		WHERE TIS.YYYYMMDD LIKE '' || #{yearmonth} ||'%'
+		  AND TIS.CATE_CODE = #{code}
+		  AND TIS.POINT_CODE = #{point}
+		 GROUP BY TIS.CATE_CODE, TIS.ITEM_CODE, TIS.ITEM_NM, TPI.ITEM_NM
+		 ORDER BY TIS.ITEM_CODE
+	]]>	
+  </select>    
+  
+  <insert id="itemIns" parameterType="java.util.Map">
+    <!-- 
+    <![CDATA[ 
+	INSERT INTO TB_ITEM_SETTING (SET_UID,CATE_CODE
+	                            ,ITEM_CODE,YYYYMMDD
+	                            ,ADULTS_PRICE,CHILD_PRICE
+	                            ,EVENT_PRICE,RENTAL_PRICE
+	                            ,QUANTITY,SEASON_TYPE
+	                            ,POINT_CODE,INS_IP
+	                            ,INS_ID,INS_DATE
+                                ,ITEM_STATUS,ITEM_NM
+                                ,ITEM_URL,CHILD_CHEK
+                                ,ITEM_OPTION) 
+	                     VALUES (TB_ITEM_SETTING_SEQ.NEXTVAL, '10000000'
+	                            ,'PRD012', '20170401'
+	                            ,100,200
+	                            ,null,null
+	                            ,20, null
+	                            ,'POINT01', '120.0.0.1'
+	                            ,'test', sysdate
+                                ,1, 'bobo'
+                                ,null,null
+                                ,null)  
+ 	]]>	   -->
+ 	
+ 	
+ <![CDATA[ 
+	INSERT INTO TB_ITEM_SETTING (SET_UID, CATE_CODE
+	                            ,ITEM_CODE, YYYYMMDD
+	                            ,ADULTS_PRICE,CHILD_PRICE
+	                            ,EVENT_PRICE,RENTAL_PRICE
+	                            ,QUANTITY,SEASON_TYPE
+	                            ,POINT_CODE,INS_IP
+	                            ,INS_ID,INS_DATE
+                                ,ITEM_STATUS,ITEM_NM
+                                ,ITEM_URL,CHILD_CHEK
+                                ,ITEM_OPTION) 
+	                     VALUES (TB_ITEM_SETTING_SEQ.NEXTVAL, #{cate_code}
+	                            ,#{item_code}, #{yyyymmdd}
+	                            ,#{adults_price}, #{child_price}
+	                            ,#{event_price}, #{rental_price}
+	                            ,#{quantity}, #{season_type}
+	                            ,#{point_code}, #{ins_ip}
+	                            ,#{ins_id}, sysdate
+                                ,#{item_status},UTL_RAW.CAST_TO_VARCHAR2(#{item_nm})
+                                ,#{item_url}, #{child_chek}
+                                ,#{item_option})  
+ 	]]> 
+  </insert> 
+
+  
+  <update id="itemUpd" parameterType="java.util.Map">
+    <![CDATA[ 
+	UPDATE TB_ITEM_SETTING SET ITEM_CODE = #{item_code}
+	                          ,ADULTS_PRICE = #{adults_price}
+	                          ,CHILD_PRICE = #{child_price}
+	                          ,EVENT_PRICE = #{event_price}
+	                          ,RENTAL_PRICE = #{rental_price}
+	                          ,QUANTITY = #{quantity}
+	                          ,SEASON_TYPE = #{season_type}
+	                          ,UPD_IP = #{upd_ip}
+	                          ,UPD_ID = #{upd_id}
+	                          ,UPD_DATE = sysdate
+                              ,ITEM_STATUS = #{item_status}
+                              ,ITEM_NM = UTL_RAW.CAST_TO_VARCHAR2(#{item_nm})
+                              ,ITEM_URL = #{item_url}
+                              ,CHILD_CHEK = #{child_chek}
+                              ,ITEM_OPTION = #{item_option}
+                        WHERE SET_UID = #{set_uid}
+ 	]]>	 
+  </update>        
+
+  <select id="itemsCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) AS CNT       
+	  FROM TB_ITEM_SETTING
+	 WHERE CATE_CODE = #{code}
+	   AND POINT_CODE = #{point}
+	   AND ITEM_OPTION = #{itemOption}
+	   AND ITEM_CODE != #{subCode}
+	   AND ITEM_STATUS = 2 
+	   AND YYYYMMDD IN 
+	<foreach collection="dateList" item="list" open="(" close=")" separator=",">
+		#{list}
+	</foreach>	
+  </select> 
+</mapper>

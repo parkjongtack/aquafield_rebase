@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminDeskAdminAuthDao">
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+            AUTH_UID
+           ,ADMIN_UID
+           ,MENU_CODE
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_IP
+           ,UPD_DATE
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+    <if test = "ADMIN_UID != null and ADMIN_UID != ''">
+      AND ADMIN_UID=#{ADMIN_UID}
+    </if>  
+    <if test = "sw != null and sw != ''">
+       <if test = "col == null or col == ''">
+       AND (ADMIN_UID LIKE '%'||#{sw}||'%' OR MENU_CODE LIKE '%'||#{sw}||'%')
+       </if>
+       <if test = "col == '1'">
+       AND ADMIN_UID LIKE '%'||#{sw}||'%'
+       </if>
+       <if test = "col == '2'">
+       AND MENU_CODE LIKE '%'||#{sw}||'%'
+       </if>
+    </if>
+  </sql>
+
+
+  <!-- 상단메뉴목록 -->
+  <select id="deskAdminAuthListTopMenu" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT AM.MENU_NM
+          ,AM.MENU_CODE
+          ,DECODE(AM.MENU_CODE,'1100','manager'
+          ,'1200','member'
+          ,'1300','reservation'
+          ,'1400','product'
+          ,'1500','send'
+          ,'1600','customer'
+          ,'1700','homepage'
+          ,'1800','statistics'
+          ) as MENU_CODE_CLASS
+          ,(SELECT MENU_URL FROM TB_DESK_ADMIN_MENU WHERE MENU_CODE=AA.MENU_CODE) AS MENU_URL          
+      FROM (SELECT MIN(MENU_CODE) AS MENU_CODE,PARENT_MENU_CODE FROM(SELECT MENU_CODE AS MENU_CODE, SUBSTR(MENU_CODE,1,2)||'00' AS PARENT_MENU_CODE FROM TB_DESK_ADMIN_AUTH WHERE ADMIN_UID=#{adminNum}) GROUP BY PARENT_MENU_CODE)AA
+      LEFT JOIN TB_DESK_ADMIN_MENU AM ON AA.PARENT_MENU_CODE=AM.MENU_CODE
+     ORDER BY AM.MENU_SORT ASC
+  </select>
+
+  <!-- 왼쪽메뉴목록 -->
+  <select id="deskAdminAuthListLeftMenu" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT AM.*
+      FROM TB_DESK_ADMIN_AUTH AA 
+      LEFT JOIN TB_DESK_ADMIN_MENU AM ON AA.MENU_CODE=AM.MENU_CODE
+     WHERE AA.ADMIN_UID=#{adminNum}
+       AND AA.MENU_CODE LIKE SUBSTR(#{sMenuCode},1,2)||'%'
+       AND AM.USE_AT='Y'
+     ORDER BY AM.MENU_SORT ASC
+  </select>
+
+  <!-- 페이지사용권한 -->
+  <select id="deskAdminAuthGetIsAuthUse" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*)
+      FROM TB_DESK_ADMIN_AUTH AA
+     WHERE AA.ADMIN_UID=#{adminNum}
+       AND AA.MENU_CODE=#{sMenuCode}
+  </select>
+
+  
+  <!-- MAX(Uid)  -->
+  <select id="deskAdminAuthGetMaxUid" resultType="int">
+    SELECT MAX(AUTH_UID) FROM TB_DESK_ADMIN_AUTH
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="deskAdminAuthGetCount" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_DESK_ADMIN_AUTH
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="deskAdminAuthList" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_AUTH
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY AUTH_UID DESC
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="deskAdminAuthDetail" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_DESK_ADMIN_AUTH
+     WHERE AUTH_UID=#{num}
+  </select>
+
+
+  <!-- 등록 -->
+  <insert id="deskAdminAuthInsert"  parameterType="java.util.Map">
+    INSERT INTO TB_DESK_ADMIN_AUTH(
+            AUTH_UID
+           ,ADMIN_UID
+           ,MENU_CODE
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+    ) VALUES (
+            (SELECT NVL(MAX(AUTH_UID),0) + 1 FROM TB_DESK_ADMIN_AUTH)
+           ,#{ADMIN_UID}
+           ,#{MENU_CODE}
+           ,#{INS_IP}
+           ,#{INS_ADMIN_ID}
+           ,SYSDATE
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="deskAdminAuthUpdate"  parameterType="java.util.Map">
+    UPDATE TB_DESK_ADMIN_AUTH SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_IP=#{UPD_IP}
+            ,UPD_DATE=SYSDATE
+            <if test = "ADMIN_UID != null">,ADMIN_UID=#{ADMIN_UID}</if>
+            <if test = "MENU_CODE != null">,MENU_CODE=#{MENU_CODE}</if>
+    WHERE AUTH_UID=#{num}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="deskAdminAuthDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_DESK_ADMIN_AUTH WHERE AUTH_UID=#{num}
+  </delete>
+  <delete id="deskAdminAuthDeleteAll"  parameterType="java.util.Map">
+    DELETE FROM TB_DESK_ADMIN_AUTH
+     WHERE ADMIN_UID=#{num}
+  </delete>
+
+</mapper>

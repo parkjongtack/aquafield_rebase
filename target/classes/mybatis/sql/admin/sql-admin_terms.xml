@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminTermsDao">
+
+  <!-- Alias -->
+  <sql id="commonSelect">
+             TERMS_UID
+           , TERMS_TYPE
+           , TERMS_TITLE
+           , INS_IP
+           , INS_ADMIN_ID
+           , INS_DATE
+           , UPD_IP
+           , UPD_ADMIN_ID
+           , UPD_DATE
+           ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE_TXT
+  </sql>
+  <sql id="commonWhere">
+       AND TERMS_TYPE = #{tt}
+  </sql>
+  
+  <!-- MAX(Uid)  -->
+  <select id="adminTermsMaxUid" resultType="int">
+    SELECT MAX(TERMS_UID) FROM TB_TERMS
+  </select>
+
+  <!-- 게시물 총 갯수 -->
+  <select id="adminTermsListCnt" parameterType="java.util.Map" resultType="int">
+    SELECT COUNT(*) FROM TB_TERMS
+     WHERE 1=1
+           <include refid="commonWhere"/>
+  </select>
+
+  <!-- 게시물목록 -->
+  <select id="adminTermsList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_TERMS
+     WHERE 1=1
+           <include refid="commonWhere"/>
+     ORDER BY TERMS_UID DESC
+  </select>
+
+  <!-- 상세보기 -->
+  <select id="adminTermsDetail" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+           <include refid="commonSelect"/>
+      FROM TB_TERMS
+     WHERE TERMS_UID=#{num}
+  </select>
+
+  <!-- 등록 -->
+  <insert id="adminTermsInsert"  parameterType="java.util.Map">
+    INSERT INTO TB_TERMS(
+             TERMS_UID
+           , TERMS_TYPE
+           , TERMS_TITLE
+           , INS_IP
+           , INS_ADMIN_ID
+           , INS_DATE
+    ) VALUES (
+             TB_TERMS_SEQ.nextval
+           , #{TERMS_TYPE}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{TERMS_TITLE_HEX})
+           , #{INS_IP}
+           , #{INS_ID}
+           , SYSDATE
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="adminTermsUpdate"  parameterType="java.util.Map">
+    UPDATE TB_TERMS SET
+             UPD_IP=#{UPD_IP}
+            ,UPD_ADMIN_ID=#{UPD_ID}
+            ,UPD_DATE=SYSDATE
+            <if test = "TERMS_TYPE != null">,TERMS_TYPE=#{TERMS_TYPE}</if>
+            <if test = "TERMS_TITLE != null">,TERMS_TITLE=#{TERMS_TITLE}</if>
+    WHERE TERMS_UID=#{num}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="adminTermsDelete"  parameterType="java.util.Map">
+    DELETE FROM TB_TERMS WHERE TERMS_UID=#{num}
+  </delete>
+
+</mapper>

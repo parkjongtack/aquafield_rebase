@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontReservationDao">
+
+<select id="reserveDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT YYYYMMDD
+		  ,NVL(ITEM_NM,'') AS TITLE
+	  FROM TB_ITEM_SETTING 
+	 WHERE TO_DATE(YYYYMMDD,'YYYYMMDD') >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,6) || '01','YYYYMMDD')
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+	 GROUP BY YYYYMMDD, ITEM_NM
+	 ORDER BY YYYYMMDD ASC
+ ]]>	
+</select>
+
+<select id="emptyDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT Z.YYYYMMDD
+	      ,'CLOSED' AS TITLE
+	 FROM (SELECT X.YYYYMMDD
+		  	 FROM   
+				    (SELECT YYYYMMDD, CATE_CODE, MAX(QUANTITY) AS QTY
+					        FROM TB_ITEM_SETTING 
+					       WHERE TO_DATE(YYYYMMDD,'YYYYMMDD') >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,8),'YYYYMMDD')
+						     AND ITEM_STATUS <> 2
+						     AND CATE_CODE = #{cate_code}
+						     AND POINT_CODE = #{point_code}
+						    GROUP BY YYYYMMDD, CATE_CODE) X 
+		     WHERE X.QTY = 0
+		     
+			UNION ALL
+			
+			  SELECT T.YYYYMMDD
+			  FROM
+			      (SELECT YYYYMMDD, CATE_CODE, MAX(QUANTITY) AS QTY
+			        FROM TB_ITEM_SETTING
+			       WHERE TO_DATE(YYYYMMDD,'YYYYMMDD') >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,8),'YYYYMMDD')
+			         AND CATE_CODE = #{cate_code}
+			         AND POINT_CODE = #{point_code}
+			        GROUP BY YYYYMMDD, CATE_CODE) T
+			  WHERE T.QTY = 0) Z
+	  GROUP BY Z.YYYYMMDD	 
+ ]]>	
+</select>
+
+<select id="seasonDayList" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT YYYYMMDD
+		  ,CASE WHEN SEASON_TYPE = 'NONPEAK' THEN '준성수기'
+            WHEN SEASON_TYPE = 'PEAK' THEN '성수기'
+       END AS TITLE
+	  FROM TB_ITEM_SETTING 
+	 WHERE TO_DATE(YYYYMMDD,'YYYYMMDD') >= TO_DATE(SUBSTR(to_char(sysdate,'YYYYMMDD'),0,6) || '01','YYYYMMDD')
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+     AND SEASON_TYPE <> 'NORMAL'
+	 GROUP BY YYYYMMDD, SEASON_TYPE
+ ]]>	
+</select>
+
+<select id="prodInfoCnt" parameterType="java.util.Map" resultType="int">
+ <![CDATA[
+	SELECT COUNT(*) AS CNT
+	  FROM TB_ITEM_SETTING 
+	 WHERE YYYYMMDD = #{yyyymmdd}
+	   AND ITEM_STATUS = 2
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+     ORDER BY SET_UID	   
+ ]]>	
+</select>
+
+<select id="prodInfolist" parameterType="java.util.Map" resultType="java.util.Map">
+ <![CDATA[
+	SELECT SET_UID
+	      ,CATE_CODE
+	      ,ITEM_CODE
+	      ,YYYYMMDD
+	      ,ADULTS_PRICE
+	      ,CHILD_PRICE
+	      ,RENTAL_PRICE
+	      ,EVENT_PRICE
+	      ,QUANTITY
+	      ,SEASON_TYPE
+	      ,POINT_CODE
+	      ,ITEM_STATUS
+	      ,ITEM_NM
+	      ,ITEM_URL
+	      ,ITEM_OPTION
+	      ,CHILD_CHEK
+	  FROM TB_ITEM_SETTING 
+	 WHERE YYYYMMDD = #{yyyymmdd}
+	   AND CATE_CODE = #{cate_code}
+	   AND POINT_CODE = #{point_code}
+	   AND ITEM_STATUS = 2
+	   AND QUANTITY > 0
+     ORDER BY SET_UID	   
+ ]]>	
+</select>
+
+<select id="getReserveNumCnt" parameterType="String" resultType="int">
+ <![CDATA[
+	SELECT COUNT(*) AS CNT
+	  FROM TB_RESERVATION 
+	 WHERE ORDER_NUM = #{orderNum} 
+ ]]>	
+</select>
+
+<select id="getReserveNum" parameterType="String" resultType="String">
+ <![CDATA[
+	SELECT  (ROUND(dbms_random.value(0,9),0) || ROUND(dbms_random.value(0,9),0) || ROUND(dbms_random.value(0,9),0) || ROUND(dbms_random.value(0,9),0) || ROUND(dbms_random.value(0,9),0) || ROUND(dbms_random.value(0,9),0) || TO_CHAR(SYSDATE,'YYMM')) as NUM FROM  dual
+ ]]>	
+</select>
+
+<select id="getItemInfo" parameterType="String" resultType="java.util.Map">
+ <![CDATA[
+		SELECT SET_UID
+	        ,CATE_CODE
+	        ,ITEM_CODE
+	        ,YYYYMMDD
+	        ,NVL(ADULTS_PRICE, 0) AS ADULTS_PRICE
+	        ,NVL(CHILD_PRICE, 0) AS CHILD_PRICE
+	        ,NVL(EVENT_PRICE, 0) AS EVENT_PRICE
+	        ,NVL(RENTAL_PRICE, 0) AS RENTAL_PRICE
+	        ,POINT_CODE
+	        ,ITEM_NM
+	        ,ITEM_URL
+	        ,CHILD_CHEK
+	        ,ITEM_OPTION
+	        ,ITEM_STATUS
+		  FROM TB_ITEM_SETTING
+	   WHERE SET_UID = #{set_uid}   
+ ]]>	
+</select>
+
+<select id="getReservelist" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT RESERVE_UID
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_CODE
+	      ,MEM_UID
+	      ,xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') AS MEM_NM
+	      ,MEM_ID
+	      ,xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE') AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,NVL(PANALTY_PRICE,0) AS PANALTY_PRICE
+	      ,NVL(REFUND,0) AS REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,NVL(SPA_ITEM, '-1') AS SPA_ITEM
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,NVL(WATER_ITEM, '-1') AS WATER_ITEM
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,NVL(COMPLEX_ITEM, '-1') AS COMPLEX_ITEM
+	      ,COMPLEX_ITEM_NM
+	      ,COMPLEX_ADULT_MAN
+	      ,COMPLEX_ADULT_WOMEN
+	      ,COMPLEX_CHILD_MAN
+	      ,COMPLEX_CHILD_WOMEN
+	      ,NVL(RENTAL1_ITEM, '-1') AS RENTAL1_ITEM
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,NVL(RENTAL2_ITEM, '-1') AS RENTAL2_ITEM
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(RENTAL3_ITEM, '-1') AS RENTAL3_ITEM
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(EVENT1_ITEM, '-1') AS EVENT1_ITEM
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,NVL(EVENT2_ITEM, '-1') AS EVENT2_ITEM
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,NVL(EVENT3_ITEM, '-1') AS EVENT3_ITEM
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	      ,PG_RESULT
+	      ,TO_CHAR(RESERVE_DATE,'YYYYMMDD') AS COMPARE_DAY
+	      ,RESERVE_DATE AS RE_DATE
+	      ,(CANCEL_SEQ + 1) AS CANCEL_SEQ 
+	  FROM TB_RESERVATION
+	 WHERE MEM_UID = #{mem_uid}
+		<if test = "statdate != null and statdate != ''" >
+		 	AND INS_DATE <![CDATA[ >= ]]> TO_DATE(#{statdate}, 'YY/MM/DD HH24:MI:SS') 
+		</if>   
+			AND RESERVE_STATE != 'NOPMT'
+	 ORDER BY RESERVE_UID DESC
+</select>
+
+<select id="getReservelistCnt" parameterType="int" resultType="int">
+	SELECT COUNT(*) AS CNT
+	  FROM TB_RESERVATION
+	 WHERE MEM_UID = #{mem_uid}
+		   AND RESERVE_STATE ='ING'  
+</select>
+
+<select id="getReserveInfo" parameterType="int" resultType="java.util.Map">
+	SELECT RESERVE_UID
+	      ,POINT_CODE AS POINT_CODE
+	      ,MEM_UID
+	      ,xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') AS MEM_NM
+	      ,MEM_ID
+	      ,xx1.dec_varchar2_sel(MEM_MOBILE, 10, 'PHONE') AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,TO_CHAR(PAYMENT_DATE, 'yyyy-MM-dd HH:mm:ss') AS PAYMENTDATE      
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,NVL(PANALTY_PRICE,0) AS PANALTY_PRICE
+	      ,NVL(REFUND,0) AS REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,NVL(SPA_ITEM, '') AS SPA_ITEM
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,NVL(WATER_ITEM, '') AS WATER_ITEM
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,NVL(COMPLEX_ITEM, '') AS COMPLEX_ITEM
+	      ,COMPLEX_ITEM_NM
+	      ,COMPLEX_ADULT_MAN
+	      ,COMPLEX_ADULT_WOMEN
+	      ,COMPLEX_CHILD_MAN
+	      ,COMPLEX_CHILD_WOMEN		      
+	      ,NVL(RENTAL1_ITEM, '') AS RENTAL1_ITEM
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,NVL(RENTAL2_ITEM, '') AS RENTAL2_ITEM
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(RENTAL3_ITEM, '') AS RENTAL3_ITEM
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(EVENT1_ITEM, '') AS EVENT1_ITEM
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,NVL(EVENT2_ITEM, '') AS EVENT2_ITEM
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,NVL(EVENT3_ITEM, '') AS EVENT3_ITEM
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	      ,PG_RESULT
+	      ,TO_CHAR(RESERVE_DATE,'YYYYMMDD') AS COMPARE_DAY
+	      ,RESERVE_DATE AS RE_DATE
+	      ,CASE WHEN PG_RESULT > 0 THEN
+	            (SELECT count(*) + 1 FROM TB_PG_RESULT a,TB_PG_AC b where a.TR_NO=b.AC_TRANSACTIONNO AND a.PG_UID=TB_RESERVATION.PG_RESULT)
+	       ELSE
+	            1
+	       END AS CANCEL_SEQ
+	      ,ORDER_TP
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_NM 	      	     	      
+	  FROM TB_RESERVATION
+	 WHERE RESERVE_UID = #{reserve_uid}
+</select>
+
+
+<!-- 예약정보가져오기 취약점 -->
+<select id="getReserveInfoNew"  parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT RESERVE_UID
+	      ,POINT_CODE AS POINT_CODE
+	      ,MEM_UID
+	      ,row_to_str(MEM_NM) AS MEM_NM
+	      ,MEM_ID
+	      ,row_to_str(MEM_MOBILE) AS MEM_MOBILE
+	      ,ADULT_SUM
+	      ,CHILD_SUM
+	      ,TO_CHAR(RESERVE_DATE,'YYYY.MM.DD') AS RESERVE_DATE
+	      ,RESERVE_STATE
+	      ,SELECT_ITEM_PRICE
+	      ,EVENT_ITEM_PRICE
+	      ,RENTAL_ITEM_PRICE
+	      ,PAYMENT_PRICE
+	      ,PAYMENT_TYPE
+	      ,TO_CHAR(PAYMENT_DATE,'YYYY.MM.DD HH24:MI:SS') AS PAYMENT_DATE
+	      ,TO_CHAR(PAYMENT_DATE, 'yyyy-MM-dd HH:mm:ss') AS PAYMENTDATE	
+	      ,PAYMENT_NM
+	      ,CANCEL_AT
+	      ,TO_CHAR(CANCEL_DATE,'YYYY.MM.DD HH24:MI:SS') AS CANCEL_DATE
+	      ,NVL(PANALTY_PRICE,0) AS PANALTY_PRICE
+	      ,NVL(REFUND,0) AS REFUND
+	      ,ORDER_NUM
+	      ,ORDER_NM
+	      ,ROUND(SYSDATE - INS_DATE) AS DAYCNT
+	      ,NVL(SPA_ITEM, '') AS SPA_ITEM
+	      ,SPA_ITEM_NM
+	      ,SPA_ADULT_MAN
+	      ,SPA_ADULT_WOMEN
+	      ,SPA_CHILD_MAN
+	      ,SPA_CHILD_WOMEN
+	      ,NVL(WATER_ITEM, '') AS WATER_ITEM
+	      ,WATER_ITEM_NM
+	      ,WATER_ADULT_MAN
+	      ,WATER_ADULT_WOMEN
+	      ,WATER_CHILD_MAN
+	      ,WATER_CHILD_WOMEN
+	      ,NVL(COMPLEX_ITEM, '') AS COMPLEX_ITEM
+	      ,COMPLEX_ITEM_NM
+	      ,COMPLEX_ADULT_MAN
+	      ,COMPLEX_ADULT_WOMEN
+	      ,COMPLEX_CHILD_MAN
+	      ,COMPLEX_CHILD_WOMEN	      
+	      ,NVL(RENTAL1_ITEM, '') AS RENTAL1_ITEM
+	      ,RENTAL1_ITEM_NM
+	      ,RENTAL1_CNT
+	      ,NVL(RENTAL2_ITEM, '') AS RENTAL2_ITEM
+	      ,RENTAL2_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(RENTAL3_ITEM, '') AS RENTAL3_ITEM
+	      ,RENTAL3_ITEM_NM
+	      ,RENTAL3_CNT
+	      ,NVL(EVENT1_ITEM, '') AS EVENT1_ITEM
+	      ,EVENT1_ITEM_NM
+	      ,EVENT1_CNT
+	      ,NVL(EVENT2_ITEM, '') AS EVENT2_ITEM
+	      ,EVENT2_ITEM_NM
+	      ,EVENT2_CNT
+	      ,NVL(EVENT3_ITEM, '') AS EVENT3_ITEM
+	      ,EVENT3_ITEM_NM
+	      ,EVENT3_CNT
+	      ,PG_RESULT
+	      ,TO_CHAR(RESERVE_DATE,'YYYYMMDD') AS COMPARE_DAY
+	      ,RESERVE_DATE AS RE_DATE
+	      ,CASE WHEN PG_RESULT > 0 THEN
+	            (SELECT count(*) + 1 FROM TB_PG_RESULT a,TB_PG_AC b where a.TR_NO=b.AC_TRANSACTIONNO AND a.PG_UID=TB_RESERVATION.PG_RESULT)
+	       ELSE
+	            1
+	       END AS CANCEL_SEQ
+	      ,ORDER_TP
+	      ,(SELECT CODE_NM FROM TB_CODE WHERE GR_CODE_ID = 'POINT_CODE' AND TB_CODE.CODE_ID = TB_RESERVATION.POINT_CODE) AS POINT_NM      	      
+	  FROM TB_RESERVATION
+	 WHERE RESERVE_UID = #{reserve_uid} AND MEM_ID = #{mem_id}
+</select>
+
+<select id="itemQtyInfo" parameterType="Int" resultType="Int">
+ <![CDATA[
+	SELECT QUANTITY 
+	  FROM TB_ITEM_SETTING 
+	 WHERE SET_UID = #{set_uid}
+ ]]>	
+</select>
+
+<select id="pgResultInfo" parameterType="String" resultType="java.util.Map">
+ <![CDATA[
+	SELECT PG_UID
+		  ,AUTH_YN
+		  ,TR_NO
+		  ,TR_DDT
+		  ,TR_DTM
+		  ,AMONUT
+		  ,AUTH_NO
+		  ,MSG1
+		  ,MSG2
+		  ,ORD_NO
+		  ,ISS_CD
+		  ,AQU_CD
+		  ,R_TYPE
+		  ,HALBU
+		  ,CBT_NO
+		  ,CBAUTH_NO
+	  FROM TB_PG_RESULT
+	 WHERE PG_UID = #{pg_uid}
+ ]]>	
+</select>
+
+<update id="itemQtyUpd" parameterType="java.util.Map">
+ <![CDATA[
+	UPDATE TB_ITEM_SETTING SET QUANTITY = #{quantity}
+	 			   WHERE SET_UID = #{set_uid}
+ ]]>	
+</update>
+
+<update id="reserveCancelUpd" parameterType="java.util.Map">
+ 
+	UPDATE TB_RESERVATION SET CANCEL_AT = 'Y'
+	                         <choose>
+	                         <when test="reserve_state != null and reserve_state != ''">,RESERVE_STATE = #{reserve_state}</when>
+	                         <otherwise>,RESERVE_STATE = 'CANCEL'</otherwise>
+	                         </choose>
+	                         ,CANCEL_DATE = sysdate
+	                         ,PANALTY_PRICE = #{penalty_amt}
+	                         ,REFUND = #{ac_amount}
+	                         ,CANCEL_SEQ = CANCEL_SEQ + 1
+	 			   WHERE RESERVE_UID = #{reserve_uid}
+ 	
+</update>
+
+<insert id="pgResultIns" parameterType="java.util.Map">
+ <selectKey keyProperty="uid" resultType="Int" order="BEFORE">
+		SELECT TB_PG_RESULT_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+ <![CDATA[
+	INSERT INTO TB_PG_RESULT  (PG_UID
+		                      ,AUTH_YN
+		                      ,TR_NO
+		                      ,TR_DDT
+		                      ,TR_DTM
+		                      ,AMONUT
+		                      ,AUTH_NO
+		                      ,MSG1
+		                      ,MSG2
+		                      ,ORD_NO
+		                      ,ISS_CD
+		                      ,AQU_CD
+		                      ,R_TYPE
+		                      ,HALBU
+		                      ,CBT_NO
+		                      ,CBAUTH_NO
+		                      ,INS_DATE
+		                      ,MEM_UID) 
+		              VALUES (#{uid}
+		                      ,#{auth_yn}  
+		                      ,#{tr_no}
+		                      ,#{tr_ddt}     
+		                      ,#{tr_dtm}   
+		                      ,#{amonut}   
+		                      ,#{auth_no} 
+		                      ,#{msg1}     
+		                      ,#{msg2}   
+		                      ,#{ord_no}   
+		                      ,#{iss_cd}   
+		                      ,#{aqu_cd}   
+		                      ,#{result}   
+		                      ,#{halbu}    
+		                      ,#{cbt_no}   
+		                      ,#{cbauth_no}
+		                      ,sysdate
+		                      ,#{mem_uid})
+ ]]>			                      
+</insert>
+
+<insert id="reserVationIns" parameterType="java.util.Map">
+ <selectKey keyProperty="reserveuid" resultType="int" order="BEFORE">
+		SELECT TB_RESERVATION_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+	INSERT INTO TB_RESERVATION (RESERVE_UID
+		                      ,POINT_CODE
+		                      ,MEM_UID
+		                      ,MEM_NM
+		                      ,MEM_ID
+		                      ,MEM_MOBILE
+		                      ,ADULT_SUM
+		                      ,CHILD_SUM
+		                      ,RESERVE_DATE
+		                      ,RESERVE_STATE
+		                      ,SELECT_ITEM_PRICE
+		                      ,EVENT_ITEM_PRICE
+		                      ,RENTAL_ITEM_PRICE
+		                      ,PAYMENT_PRICE
+		                      ,PAYMENT_TYPE
+		                      ,PAYMENT_DATE
+		                      ,PAYMENT_NM
+		                      ,INS_ID
+		                      ,INS_DATE
+		                      ,ORDER_NUM
+		                      ,ORDER_NM
+		                      ,SPA_ITEM_NM
+		                      ,WATER_ITEM_NM
+		                      ,COMPLEX_ITEM_NM		                      
+		                      ,SPA_ADULT_MAN
+		                      ,SPA_ADULT_WOMEN
+		                      ,SPA_CHILD_MAN
+		                      ,SPA_CHILD_WOMEN
+		                      ,WATER_ADULT_MAN
+		                      ,WATER_ADULT_WOMEN
+		                      ,WATER_CHILD_MAN
+		                      ,WATER_CHILD_WOMEN
+		                      ,COMPLEX_ADULT_MAN
+		                      ,COMPLEX_ADULT_WOMEN
+		                      ,COMPLEX_CHILD_MAN
+		                      ,COMPLEX_CHILD_WOMEN			                      
+		                      ,RENTAL1_ITEM_NM
+		                      ,RENTAL2_ITEM_NM
+		                      ,RENTAL3_ITEM_NM
+		                      ,RENTAL1_CNT
+		                      ,RENTAL2_CNT
+		                      ,RENTAL3_CNT
+		                      ,EVENT1_ITEM_NM
+		                      ,EVENT2_ITEM_NM
+		                      ,EVENT3_ITEM_NM
+		                      ,EVENT1_CNT
+		                      ,EVENT2_CNT
+		                      ,EVENT3_CNT
+		                      ,SPA_ITEM
+		                      ,WATER_ITEM
+		                      ,COMPLEX_ITEM			                      
+		                      ,RENTAL1_ITEM
+		                      ,RENTAL2_ITEM
+		                      ,RENTAL3_ITEM
+		                      ,EVENT1_ITEM
+		                      ,EVENT2_ITEM
+		                      ,EVENT3_ITEM
+		<if test = "cancel_seq != null and cancel_seq != ''" >		                      
+		                      ,CANCEL_SEQ	
+		</if>                      	                      
+		                      ,PG_RESULT
+		                      ,ORDER_TP
+		                      ,CONNECT_IP
+		                      ,DEVICE
+		                      ,BROWSER) 
+		              VALUES (#{reserveuid}
+		                      ,#{point_code}
+		                      ,#{mem_uid}
+		                      ,xx1.enc_varchar2_ins(UTL_RAW.CAST_TO_VARCHAR2(#{mem_nm}), 10, 'NAME')
+		                      ,#{mem_id}
+		                      ,xx1.enc_varchar2_ins(#{mem_mobile}, 10, 'PHONE')
+		                      ,#{adult_sum}
+		                      ,#{child_sum}
+		                      ,TO_DATE(#{reserve_date},'YYYYMMDD')
+		                      ,#{reserve_state}
+		                      ,#{select_item_price}
+		                      ,#{event_item_price}
+		                      ,#{rental_item_price}
+		                      ,#{payment_price}
+		                      ,#{payment_type}
+		                      ,#{payment_date}
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{payment_nm})
+		                      ,#{ins_id}
+		                      ,sysdate
+		                      ,#{order_num}
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{order_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{spa_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{water_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{complex_item_nm})		                      
+		                      ,#{spa_adult_man}
+		                      ,#{spa_adult_women}
+		                      ,#{spa_child_man}
+		                      ,#{spa_child_women}
+		                      ,#{water_adult_man}
+		                      ,#{water_adult_women}
+		                      ,#{water_child_man}
+		                      ,#{water_child_women}
+		                      ,#{complex_adult_man}
+		                      ,#{complex_adult_women}
+		                      ,#{complex_child_man}
+		                      ,#{complex_child_women}		                      
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{rental1_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{rental2_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{rental3_item_nm})
+		                      ,#{rental1_cnt}
+		                      ,#{rental2_cnt}
+		                      ,#{rental3_cnt}
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{event1_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{event2_item_nm})
+		                      ,UTL_RAW.CAST_TO_VARCHAR2(#{event3_item_nm})
+		                      ,#{event1_cnt}
+		                      ,#{event2_cnt}
+		                      ,#{event3_cnt}
+		                      ,#{spa_item}
+		                      ,#{water_item}
+		                      ,#{complex_item}			                      
+		                      ,#{rental1_item}
+		                      ,#{rental2_item}
+		                      ,#{rental3_item}
+		                      ,#{event1_item}
+		                      ,#{event2_item}
+		                      ,#{event3_item}
+		<if test = "cancel_seq != null and cancel_seq != ''" >		                      
+		                      ,#{cancel_seq}	
+		</if>  		                      
+		                      ,#{pg_result}
+		                      ,#{order_tp}
+		                      ,#{connect_ip}
+		                      ,#{device}
+		                      ,#{browser})		                      
+</insert>
+
+<insert id="reserveDetailIns" parameterType="java.util.Map">
+	INSERT INTO TB_RESERVE_DETAIL (RESERVE_D_UID
+								  ,RESERVE_UID
+								  ,ITEM_UID
+								  ,ITEM_CODE
+								  ,ITEM_SUBCODE
+								  ,ITEM_NM
+								  ,AD_MAN_W
+								  ,AD_WOMEN_W
+								  ,CH_MAN_W
+								  ,CH_WOMEN_W
+								  ,AD_MAN_CNT
+								  ,AD_WOMEN_CNT
+								  ,CH_MAN_CNT
+								  ,CH_WOMEN_CNT
+								  ,ITEM_W
+								  ,ITEM_CNT
+								  ,AD_MAN_SUM
+								  ,AD_WOMEN_SUM
+								  ,CH_MAN_SUM
+								  ,CH_WOMEN_SUM
+								  ,ITEM_SUM
+								  ,INS_DATE)
+						VALUES	 (TB_RESERVE_DETAIL_SEQ.NEXTVAL
+								  ,#{reserveuid}
+								  ,#{item_uid}
+								  ,#{item_code}
+								  ,#{item_subcode}
+								  ,UTL_RAW.CAST_TO_VARCHAR2(#{item_nm})								  
+								  ,#{ad_man_w}
+								  ,#{ad_women_w}
+								  ,#{ch_man_w}
+								  ,#{ch_women_w}
+								  ,#{ad_man_cnt}
+								  ,#{ad_women_cnt}
+								  ,#{ch_man_cnt}
+								  ,#{ch_women_cnt}							  
+								  ,#{item_w}
+								  ,#{item_cnt}
+								  ,#{ad_man_sum}
+								  ,#{ad_women_sum}
+								  ,#{ch_man_sum}
+								  ,#{ch_women_sum}
+								  ,#{item_sum}
+								  ,SYSDATE)							  
+</insert>
+
+<update id="memberExtUpd" parameterType="java.util.Map">
+
+	<choose>
+		<when test="upd_type == 'check1'">
+			UPDATE TB_MEMBER SET MEM_NM = xx1.enc_varchar2_ins(#{member_name}, 10, 'NAME'), EMAIL = #{email_set} WHERE MEM_ID = #{reserve_uid}
+		</when>
+		<when test="upd_type == null">
+			UPDATE TB_MEMBER SET MOBILE_NUM = xx1.enc_varchar2_ins(#{recipient_num}, 10, 'PHONE'), EMAIL = #{email_set} WHERE MEM_ID = #{reserve_uid}
+		</when>
+		<otherwise>
+			UPDATE TB_MEMBER SET MOBILE_NUM = xx1.enc_varchar2_ins(#{recipient_num}, 10, 'PHONE'), MEM_NM = xx1.enc_varchar2_ins(UTL_RAW.CAST_TO_VARCHAR2(#{member_name}), 10, 'NAME'), EMAIL = #{email_set} WHERE MEM_ID = #{reserve_uid}
+		</otherwise>
+	</choose>
+				   
+</update>
+
+<insert id="pgCancelIns" parameterType="java.util.Map">
+ <![CDATA[
+	INSERT INTO TB_PG_AC  (PG_CANCEL_UID
+	                      ,APPROVAL_TYPE
+	                      ,AC_TRANSACTIONNO
+	                      ,AC_STATUS
+	                      ,AC_TRADEDATE
+	                      ,AC_TRADETIME
+	                      ,AC_AMOUNT
+	                      ,AC_MESSAGE1	                      
+	                      ,INS_DATE) 
+	              VALUES (TB_PG_AC_SEQ.NEXTVAL
+	                      ,#{approval_type}
+	                      ,#{ac_transactionno}
+	                      ,#{ac_status}
+	                      ,#{ac_tradedate}
+	                      ,#{ac_tradetime}
+	                      ,#{ac_amount}
+	                      ,UTL_RAW.CAST_TO_VARCHAR2(#{ac_message1})	                      
+	                      ,sysdate)
+ ]]>			                      
+</insert>
+
+<delete id="reserveDetailDel" parameterType="int">
+ <![CDATA[
+ 	DELETE TB_RESERVE_DETAIL WHERE RESERVE_UID = #{reserveuid}
+ ]]>
+</delete>
+
+<update id="reserVationUpd" parameterType="java.util.Map">
+ <![CDATA[
+ 	UPDATE TB_RESERVATION
+ 	SET 
+ 		PAYMENT_TYPE	= #{payment_type}
+ 		,RESERVE_STATE	= #{reserve_state}
+ 		,PAYMENT_DATE	= #{payment_date}
+ 		,PG_RESULT 		= #{pg_result}
+ 	WHERE  
+ 		RESERVE_UID		= #{reserve_uid}
+ ]]>
+</update>
+
+<select id="getMemInfo" parameterType="String" resultType="java.util.Map">
+ <![CDATA[
+	SELECT MEM_UID
+		  ,xx1.dec_varchar2_sel(MEM_NM, 10, 'NAME') AS MEM_NM
+		  ,MEM_ID
+		  ,xx1.dec_varchar2_sel(MOBILE_NUM, 10, 'PHONE') AS MOBILE_NUM
+		  ,MEM_BIRTH
+		  ,BIRTH_TYPE
+		  ,MEM_GENDER
+		  ,xx1.dec_varchar2_sel(HOME_ADDR1, 10, 'ADDRESS') AS HOME_ADDR1
+		  ,xx1.dec_varchar2_sel(HOME_ADDR2, 10, 'ADDRESS') AS HOME_ADDR2
+		  ,COMPANY_NM
+		  ,xx1.dec_varchar2_sel(COMPANY_ADDR1, 10, 'ADDRESS') AS COMPANY_ADDR1
+		  ,xx1.dec_varchar2_sel(COMPANY_ADDR2, 10, 'ADDRESS') AS COMPANY_ADDR2
+		  ,xx1.dec_varchar2_sel(COMPANY_PHONE_NUM, 10, 'PHONE') AS COMPANY_PHONE_NUM
+		  ,JOB_NM
+		  ,MEMORY_DAY
+		  ,POINT_CODE
+		  ,MEM_RATING
+		  ,TERMS_AT
+		  ,RECEIVED_INFO_AT
+		  ,MEM_NUM
+		  ,EMAIL
+	  FROM TB_MEMBER
+	 WHERE MEM_ID = #{mem_id}
+ ]]>	
+</select>
+
+<select id="getPointInfo" parameterType="String" resultType="java.util.Map">
+	SELECT 
+	    GR_CODE_ID
+	    ,CODE_ID
+	    ,CODE_NM
+	    ,CODE_DC
+	FROM TB_CODE 
+	WHERE CODE_ID = #{point_code}
+</select>
+<select id="getQuantityList" parameterType="java.util.Map" resultType="Integer">
+	SELECT
+		QUANTITY - ${itemSum0Cnt}
+	FROM
+		TB_ITEM_SETTING
+	<choose>
+		<when test="spaProdUid != null and spaProdUid != ''">
+			WHERE SET_UID = ${spaProdUid}
+		</when>
+		<otherwise>
+		 	WHERE SET_UID = -1
+		</otherwise>		
+	</choose>
+	UNION ALL
+	SELECT
+		QUANTITY - ${itemSum1Cnt}
+	FROM
+		TB_ITEM_SETTING
+	<choose>
+		<when test="waterProdUid != null and waterProdUid != ''">
+			WHERE SET_UID = ${waterProdUid}
+		</when>
+		<otherwise>
+		 	WHERE SET_UID = -1
+		</otherwise>		
+	</choose>	
+	UNION ALL
+	SELECT
+		QUANTITY - ${itemSum2Cnt}
+	FROM
+		TB_ITEM_SETTING
+	<choose>
+		<when test="complexProdUid != null and complexProdUid != ''">
+			WHERE SET_UID = ${complexProdUid}
+		</when>
+		<otherwise>
+		 	WHERE SET_UID = -1
+		</otherwise>		
+	</choose>		
+</select>
+</mapper>

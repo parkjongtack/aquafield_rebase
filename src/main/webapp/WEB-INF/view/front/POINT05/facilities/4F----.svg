@@ -1,0 +1,365 @@
+<svg id="기타시설" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="643.936" height="423.977" viewBox="0 0 1414 931">
+  <defs>
+    <style>
+      .cls-1, .cls-14, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1, .cls-10, .cls-12, .cls-13, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        stroke: #f5f5f5;
+      }
+
+      .cls-1, .cls-10, .cls-12, .cls-13, .cls-3, .cls-4, .cls-5, .cls-6, .cls-9 {
+        stroke-width: 4px;
+      }
+
+      .cls-1, .cls-12, .cls-14, .cls-5, .cls-7, .cls-9 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        font-size: 20px;
+        fill: #666;
+        text-anchor: middle;
+        font-family: NotoSansCJKkr;
+      }
+
+      .cls-4, .cls-5, .cls-7 {
+        fill: #e3f1fa;
+      }
+
+      .cls-6, .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-7, .cls-8 {
+        stroke-width: 3px;
+      }
+
+      .cls-10, .cls-11, .cls-8 {
+        fill: #f5f5f5;
+      }
+
+      .cls-12, .cls-13 {
+        fill: #f8f8f8;
+      }
+
+      .cls-14 {
+        stroke: #d0d0d0;
+        stroke-width: 8px;
+      }
+    </style>
+  </defs>
+  <image id="그림자" x="16" y="20" width="1398" height="911" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAn0AAAGfCAYAAAAqF2TZAAAQvUlEQVR4nO3dS49jZ17A4dfXKrtcdh27XHZduge+AHsWJOnJrCCZJLBhwTdgiUh3ZpBYoKQ7CIndbJKedLoDHwDBV2APGwQrJBYgzRIBsX2OjV5XDyEzyaTTqYvt//MoUiUVy+U6J638dN5b7S9/8jQ1W+20XFapXq+nZbVM9cbl11q9llarVaqlWkq1/PfLy9cs89dGWlbVl16bVuu/Uu3/v/ZL71dff//y/VJarVKq12tf+37539dS+vLPXr/f89c+/yzX9bPTV77f5WvX7/cLP/uL9/vq65h/j0ajkVbLVWq1W6mqqvU/l2WZms1mqsrL32mVVl/87Px+zUYqZ2WqNWr5dT8uxsd/ePm5nn9IAIBf7T+aLtDmW5bLtFwtTweD4q8PB/3Xckjm8MwRCQDwAk7rrtJmy08BUy39cHw6/cdev/9afhqYnyYKPgDgW/h3T/o2UB66zUO/OfAOj/qPur3D++126zIAAQBegujbQOWiTI1m42530HtcjIY/qJZLwQcAfCeib8PkJ3wprX57NDn5rNVuF4vFIvolAQCugDl9GyKvxJ3PZ+mg33s0Pjv9u2arWZSCDwC4Ip70bYCqLPPWLReDYfGkXxSv5wDM8/kAAK6K6LtlOe6azebvHI1Gn+119o9yANp/DwC4aoZ3b0kOu3Jepvb+/vsn52d/297fO8rDuYIPALgOnvTdtLwdS7meq3dneDL6tNPr3cvHf1R5/p699wCAayL6blg5m6e9/f03D4vB44PD3jhvz/LzI9oAAK6L6LshOexWVZX2Op0/GZ9N/yyfy7uYW50LANwM0XfNLk/XWObh2+L4dPLR4WDwe6vnGzADANwU0XfNZrNZ6hx0f+t4Mn560O//Wt58eZXPzgUAuEGi75qslqtUrsrU7R28Oz6dfthqtZLTNQCA2yL6rsGyqlJVlf3iZPz0aFS8lQNQ8AEAt0n0XbEcd+12+7XpnfO8Hctdw7kAwCYQfVeilpbLar0447Df/+Oj0ejPW3vt5OxcAGBTiL4rUFVlqtVrRX84/Ono5Pjty9M28mbLW/+rAQA7QvR9R2VZplqqvTo5P/t0v9P9Xlk+P0pN8AEAG0T0vYS8914Ou/lslgbD4t3+cPhhey+vzp1v3e8CAMQg+l5CXqzRbDWLYnz8uBgfv5PfoZyXnu4BABtL9H1LVVmmRqPxyvF0+lfd3sFFXqxhOBcA2HSi7wXlsFvM56k36N8fnowfNfNmy3PDuQDAdhB93yDP3ysXVX6SVwwn48eDongnrb9nOxYAYHuIvl9lldJiNk/t/fa9wWj4pNfv312vzq1Wm/uZAQC+guj7Gnk4N2+4vNfdf3Byfvqw2WwazgUAtpbo+0W12vrs3HJRDo9PJx/1BoPfza9YzA3nAgDbS/T9gvns89Q5OHhlODl52uv3v+fsXABgF4i+59ZHp5Vl6h707o/Ppo9a7ZanewDAzhB9tXQ5nFuWg9Fk/GxQFG9ebs8i+ACA3RE++hazRdrb3/v+6fTik07v4G5VlWm1tDoXANgtMaNv/XRvmcqySr1+/91iPPqwvdf2dA8A2Fkho69aVHnT5eGgKD4enozfWa2W6/348spdAIBdFC768mKNWr32yuTi7Nlep3M3n6V7eXau4AMAdleY6Mvz9OazWRoMi3cHw+LD1l7bUWoAQBghoi8/3Wu2mkdHx8dPhifHb62/tyhv/4MBANyQnY++PHzbaDTujaeTZ51e7zwHoM2WAYBodjb68jy9+XyWDgdHD4Ynxw+brZazcwGAsHYv+mq1VC3KVKvVh6PJyePBcPh2Sivz9wCA0HYu+sr5PLXbe/cGx6Mnvf7h3Rx7682WLc4FAALbmejLw7lVVaX9Tue9k/PpB/Vm84vhXMEHAAS3/dFXqz0/O7caHk8nH/cG/XfS+omf4VwAgJ/b+uhbzGZp/6D76nBy9LTX79/NT/uszgUA+LKtjb58dFpZLlPnoHv/5PzsUbPVdHYuAMDX2L7oWw/nLvPmykej6eTZoDh6I8/nE3wAAF+vvm3XJg/n1hu110/v3vmHwbB4o1ou1ws4AAD4etvxpO/50718ukZv0L9fjI8ftff2bLYMAPCCtiL6cuzVVrXR4bD4eDgev50Xagg+AIAXt/HRV5aLVK83Xp3cOftsr9u5yKdt5Dl8AAC8uA2Nvtrl2bmfz9JgOLzfHxWP2u22vfcAAF7SRkZfVS5So9UsiuPRJ8PJ+K38YC8fr5bn9gEA8O1tXPTl+Xv1Rv318XT6pNM7uFifnZurT/ABALy0zYi+2uXZufPZLPWLo/eK8eiDZrNlsQYAwBW59eir1WqpmpepVquPRpOTx4Nh8VaOwLIsb/ujAQDsjFuOvlWaz+ep2WrfG46PP+0NDu8s8nBuZXUuAMBVurXoy8O5ef7efrf7o/HZ9P1Go5nmM8O5AADX4cajbz2cW1b56LTheDr5pDfo/zB/Py/YAADgetx49M0+n6XuQffVw6Ojzw6P+hc5AJfLpdsLAHCNbiz6lqtlStUyB9+Dk/Ozh81mMy1stgwAcCOuPfrycO6yWqZqUQ6PpydP+kXx5nK1SgvDuQAAN+baoy/vvbfX7bw+nV580u317lRVmVZLq3MBAG7SNUVfbT1PL8/X6w36D4qT8cPW+uxcq3MBAG7DtUTfslpvrHw8GBYfFePR23l7FsEHAHB7rjz6ykWZGs36a5Oz82f73c5F3otvfXYuAABbHn212nqeXp6/NxgNHwyK4mFrr23vPQCAzdC7kuirFovUaDWLo+PRp6PJyZv/N5xbq7nPAHC7/i2l9N/uQXg/+87Rlxdr1BuNH4xPpz/tHHTv5OHd9XCu4AOATfD7KaW/dyd4ueirXZ6dux7OHRY/GoyG77daLZstA8DmcewVa986+vJmy+W8TI16YzScjD8+Go3eTnk4tyxdUQDYPHvuCellom8xn6dWq/Xq8GT87KB/eKecL6zOBQDYcC8cfTnsqkWZ9g+6743PTj9oNBppMbP3HgDANvjG6MvDuXmxxnJZFaPp5Olhv//Gar0fn/l7AADb4huib5Xmn89T56D7/X5x9Kw3GJzlzZbzEWsAAOxA9K1Wy7QsU+ocHDw4OT992Gw21/P5AADYPr8UfXk4d1lV+Ti10fF0+uSwGLyR5/MtDOcCAGytX4q+2WyWOt3O66PJ5En3sHdRVeX6iDUAALY9+vLTveUyVVWVev3D90aTkw9abZstAwDsinX05cUZaZVGg+HwcXE8eivP5xN8AAC7o5m3XmnvN+6dXJw/3e92LnIA2mwZAGC3NHtHgz8ajsd/0Wq37b0HALCjmuPT6Z/WUj5Pd76e2wcAwO6pr5ar/8kLOAQfAMDuqq9Wq8r9BQDYbXX3FwBg94k+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQCw237m/pI1N+AzAADX5zdTSq3v+O7/lFKau0fbTfQBwG77+Ap+u19PKf2r/062m+FdAIAARB8A8E1WrtD2E30AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AwDdpuELbrxn9AgBw7ZYppX9+/pXt9Ln7tv1EHwDX7b9SSr+RUipdabg9hncBuAn+fwO3zB9CAG7CnqsMt0v0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABCA6AMACED0AQAEIPoAAAIQfQAAAYg+AIAARB8AQACiDwAgANEHABBAjr6eGw0AsNuaKaU/SCl13Oet8JOU0jD6RQAAvr0cfX/jum2NR6IPAHgZ5vRtl2b0CwAAvBzRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6AAACEH0AAAGIPgCAAEQfAEAAog8AIADRBwAQgOgDAAhA9AEABCD6tssg+gUAttJhSqnm1sHtarr+W+VfUkpn0S8CsHX+M6VUuW1wi1JK/wtvgP8g1H86OAAAAABJRU5ErkJggg=="/>
+  <image id="bg" width="1398" height="911" xlink:href="data:img/png;base64,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"/>
+  <path class="cls-1" d="M526,839V809h4V753h31V720h89v16h84v66H647v39Z"/>
+  <path class="cls-1" d="M738,736h81V720h69V888H738V736Z"/>
+  <text id="기타시설-2" data-name="기타시설" class="cls-2" x="652.999" y="871"><tspan x="652.999">기타시설</tspan></text>
+  <path class="cls-1" d="M813,148V81H732v29H715V222h16"/>
+  <rect class="cls-3" x="813" y="77" width="34" height="117"/>
+  <rect class="cls-3" x="731" y="147" width="86" height="79"/>
+  <text id="푸드코트-2" data-name="푸드코트" class="cls-2" x="775.001" y="65"><tspan x="775.001">푸드코트</tspan></text>
+  <g id="bg-2" data-name="bg">
+    <rect class="cls-4" x="486" y="181" width="38" height="35"/>
+    <rect id="Rectangle_13_copy" data-name="Rectangle 13 copy" class="cls-4" x="575" y="181" width="38" height="35"/>
+    <rect id="Rectangle_18_copy" data-name="Rectangle 18 copy" class="cls-3" x="400" y="181" width="90" height="87"/>
+    <rect id="Rectangle_18_copy_2" data-name="Rectangle 18 copy 2" class="cls-3" x="609" y="150" width="38" height="66"/>
+    <path class="cls-1" d="M110,170l23,27h61v18"/>
+  </g>
+  <g id="시설">
+    <path id="_11._패밀리풀" data-name="11. 패밀리풀" class="cls-5" d="M391,45h41V150H391a10,10,0,0,1-10-10V55A10,10,0,0,1,391,45Zm37,13H582a10,10,0,0,1,10,10v72a10,10,0,0,1-10,10H428V58Z"/>
+    <rect id="_10._미디어_샌드풀" data-name="10. 미디어 샌드풀" class="cls-6" x="520" y="181" width="59" height="35"/>
+    <g id="_9._피쉬풀" data-name="9. 피쉬풀">
+      <rect class="cls-3" x="400" y="265" width="90" height="70"/>
+      <path class="cls-5" d="M400,335V287h66V265h24v70H400Z"/>
+    </g>
+    <g id="_7._키즈존_워터버켓_트윈슬라이드_8._와이드_슬라이드_터널_슬라이드_웻_바운스" data-name="7. 키즈존 워터버켓 트윈슬라이드 8. 와이드 슬라이드 터널 슬라이드 웻 바운스">
+      <path id="Ellipse_4_copy_3" data-name="Ellipse 4 copy 3" class="cls-5" d="M291.5,37A57.5,57.5,0,1,1,234,94.5,57.5,57.5,0,0,1,291.5,37ZM221,68a55,55,0,1,1-55,55A55,55,0,0,1,221,68Zm80,56a48,48,0,1,1-48,48A48,48,0,0,1,301,124Z"/>
+      <circle class="cls-4" cx="337" cy="138" r="17"/>
+    </g>
+    <path id="_6._버블_플레이" data-name="6. 버블 플레이" class="cls-1" d="M29.8,170.442L87.36,127.186A24,24,0,1,1,116.2,165.557L58.64,208.814A24,24,0,1,1,29.8,170.442Z"/>
+    <path id="_5._대여소" data-name="5. 대여소" class="cls-1" d="M202,251h47v24H202V251Zm0-36h24v40H202V215Z"/>
+    <rect id="_4._수유실" data-name="4. 수유실" class="cls-3" x="202" y="271" width="47" height="34"/>
+    <rect id="_3._의무실" data-name="3. 의무실" class="cls-3" x="202" y="301" width="47" height="34"/>
+    <path id="_2._아쿠아_플레이" data-name="2. 아쿠아 플레이" class="cls-7" d="M323,251a29.969,29.969,0,1,1-30.094,29.969A30.032,30.032,0,0,1,323,251Zm0,39.344a46.828,46.828,0,1,1-47,46.828A46.914,46.914,0,0,1,323,290.344Z"/>
+  </g>
+  <text id="실내_워터파크-2" data-name="실내 워터파크" class="cls-2" x="379" y="224"><tspan x="379">실내 워터파크</tspan></text>
+  <g id="bg-3" data-name="bg">
+    <rect id="Rectangle_14_copy_3" data-name="Rectangle 14 copy 3" class="cls-3" x="10" y="395" width="41" height="12"/>
+    <path class="cls-1" d="M10,473H113"/>
+    <path class="cls-1" d="M73,473V406"/>
+    <path class="cls-1" d="M74,402h40v59"/>
+    <path class="cls-1" d="M74,406H68V358H96"/>
+    <path class="cls-1" d="M110,406V358"/>
+    <rect class="cls-3" x="67" y="225" width="44" height="66"/>
+    <path class="cls-1" d="M74,476v41h39"/>
+    <path class="cls-1" d="M132,516h55V441"/>
+    <path class="cls-1" d="M238,362H212v79H136v32h25"/>
+    <path class="cls-1" d="M212,388h26"/>
+    <path id="Shape_32_copy" data-name="Shape 32 copy" class="cls-1" d="M212,418h26"/>
+  </g>
+  <g id="시설-2" data-name="시설">
+    <g id="_8._세신실" data-name="8. 세신실">
+      <path class="cls-1" d="M192,341H138v-6"/>
+      <path id="Shape_12_copy_3" data-name="Shape 12 copy 3" class="cls-1" d="M192,229H138v6"/>
+      <g id="Group_4_copy_2" data-name="Group 4 copy 2">
+        <path id="Shape_13_copy_4" data-name="Shape 13 copy 4" class="cls-1" d="M138,305v17"/>
+        <path class="cls-1" d="M192,315H138"/>
+      </g>
+      <g id="Group_4_copy_6" data-name="Group 4 copy 6">
+        <path id="Shape_13_copy_4-2" data-name="Shape 13 copy 4" class="cls-1" d="M138,274v17"/>
+        <path class="cls-1" d="M192,284H138"/>
+      </g>
+      <g id="Group_4_copy_7" data-name="Group 4 copy 7">
+        <path id="Shape_13_copy_4-3" data-name="Shape 13 copy 4" class="cls-1" d="M138,243v17"/>
+        <path class="cls-1" d="M192,253H138"/>
+      </g>
+    </g>
+    <rect id="_7._건식_사우나" data-name="7. 건식 사우나" class="cls-6" x="144" y="341" width="48" height="76"/>
+    <rect id="_6._열탕" data-name="6. 열탕" class="cls-4" x="10" y="249" width="32" height="40"/>
+    <rect id="_5._온탕" data-name="5. 온탕" class="cls-4" x="10" y="285" width="32" height="74"/>
+    <rect id="_4._냉탕" data-name="4. 냉탕" class="cls-4" x="10" y="355" width="32" height="44"/>
+    <rect id="_3._노천탕" data-name="3. 노천탕" class="cls-4" x="10" y="403" width="32" height="61"/>
+    <g id="_1._락카룸" data-name="1. 락카룸">
+      <rect class="cls-8" x="43" y="476" width="12" height="82"/>
+      <rect id="Rectangle_17_copy_2" data-name="Rectangle 17 copy 2" class="cls-8" x="70" y="520" width="12" height="38"/>
+      <rect id="Rectangle_17_copy_3" data-name="Rectangle 17 copy 3" class="cls-8" x="97" y="520" width="12" height="38"/>
+      <rect id="Rectangle_17_copy_4" data-name="Rectangle 17 copy 4" class="cls-8" x="70" y="580" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_4-2" data-name="Rectangle 17 copy 4" class="cls-8" x="97" y="580" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_5" data-name="Rectangle 17 copy 5" class="cls-8" x="124" y="580" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_6" data-name="Rectangle 17 copy 6" class="cls-8" x="43" y="580" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_7" data-name="Rectangle 17 copy 7" class="cls-8" x="70" y="641" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_7-2" data-name="Rectangle 17 copy 7" class="cls-8" x="97" y="641" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_7-3" data-name="Rectangle 17 copy 7" class="cls-8" x="124" y="641" width="12" height="50"/>
+      <rect id="Rectangle_17_copy_7-4" data-name="Rectangle 17 copy 7" class="cls-8" x="43" y="641" width="12" height="50"/>
+      <rect id="Rectangle_17_copy" data-name="Rectangle 17 copy" class="cls-8" x="19" y="476" width="6" height="82"/>
+      <rect id="Rectangle_17_copy_8" data-name="Rectangle 17 copy 8" class="cls-8" x="19" y="580" width="6" height="50"/>
+      <rect id="Rectangle_17_copy_9" data-name="Rectangle 17 copy 9" class="cls-8" x="19" y="641" width="6" height="50"/>
+    </g>
+  </g>
+  <text id="남자_사우나" data-name="남자 사우나" class="cls-2" x="120" y="466"><tspan x="120">남자 사우나</tspan></text>
+  <g id="bg-4" data-name="bg">
+    <path class="cls-1" d="M606,363H752V468"/>
+    <path class="cls-1" d="M766,363h30"/>
+    <path class="cls-1" d="M790,366v42"/>
+    <path class="cls-1" d="M817,410H752"/>
+    <path class="cls-1" d="M784,276v69h33"/>
+    <rect class="cls-3" x="796" y="276" width="21" height="7"/>
+    <rect id="Rectangle_11_copy" data-name="Rectangle 11 copy" class="cls-3" x="796" y="293" width="21" height="7"/>
+    <rect id="Rectangle_11_copy_2" data-name="Rectangle 11 copy 2" class="cls-3" x="796" y="309" width="21" height="7"/>
+    <rect id="Rectangle_11_copy_3" data-name="Rectangle 11 copy 3" class="cls-3" x="796" y="326" width="21" height="7"/>
+    <path class="cls-1" d="M606,367H567v18H524V343H500V228"/>
+    <path class="cls-9" d="M525,341h28"/>
+  </g>
+  <g id="시설-3" data-name="시설">
+    <g id="_8._세신실-2" data-name="8. 세신실">
+      <g id="Group_5_copy_2" data-name="Group 5 copy 2">
+        <path class="cls-1" d="M617,329h-8v34h8"/>
+        <path id="Shape_12_copy_2" data-name="Shape 12 copy 2" class="cls-1" d="M755,329h8v34H752"/>
+        <g>
+          <path class="cls-1" d="M630,326h17"/>
+          <path id="Shape_13_copy_4-4" data-name="Shape 13 copy 4" class="cls-1" d="M630,363h17"/>
+          <path class="cls-1" d="M640,329v34"/>
+        </g>
+        <g id="Group_4_copy" data-name="Group 4 copy">
+          <path class="cls-1" d="M660,326h17"/>
+          <path id="Shape_13_copy_4-5" data-name="Shape 13 copy 4" class="cls-1" d="M660,363h17"/>
+          <path class="cls-1" d="M670,329v34"/>
+        </g>
+        <g id="Group_4_copy_2-2" data-name="Group 4 copy 2">
+          <path class="cls-1" d="M690,326h17"/>
+          <path id="Shape_13_copy_4-6" data-name="Shape 13 copy 4" class="cls-1" d="M690,363h17"/>
+          <path class="cls-1" d="M700,329v34"/>
+        </g>
+        <g id="Group_4_copy_3" data-name="Group 4 copy 3">
+          <path class="cls-1" d="M720,326h17"/>
+          <path id="Shape_13_copy_4-7" data-name="Shape 13 copy 4" class="cls-1" d="M720,363h17"/>
+          <path class="cls-1" d="M730,329v34"/>
+        </g>
+      </g>
+      <g id="Group_5_copy" data-name="Group 5 copy">
+        <path class="cls-1" d="M617,279h-8v34h8"/>
+        <g>
+          <path class="cls-1" d="M630,276h17"/>
+          <path id="Shape_13_copy_4-8" data-name="Shape 13 copy 4" class="cls-1" d="M630,313h17"/>
+          <path class="cls-1" d="M640,279v34"/>
+        </g>
+        <g id="Group_4_copy-2" data-name="Group 4 copy">
+          <path class="cls-1" d="M660,276h17"/>
+          <path id="Shape_13_copy_4-9" data-name="Shape 13 copy 4" class="cls-1" d="M660,313h17"/>
+          <path class="cls-1" d="M670,279v34"/>
+        </g>
+        <g id="Group_4_copy_2-3" data-name="Group 4 copy 2">
+          <path class="cls-1" d="M690,276h17"/>
+          <path id="Shape_13_copy_4-10" data-name="Shape 13 copy 4" class="cls-1" d="M690,313h17"/>
+          <path class="cls-1" d="M700,279v34"/>
+        </g>
+        <g id="Group_4_copy_3-2" data-name="Group 4 copy 3">
+          <path class="cls-1" d="M720,276h17"/>
+          <path id="Shape_13_copy_4-11" data-name="Shape 13 copy 4" class="cls-1" d="M720,313h17"/>
+          <path class="cls-1" d="M730,279v34"/>
+        </g>
+        <g id="Group_4_copy_4" data-name="Group 4 copy 4">
+          <path class="cls-1" d="M750,276h17"/>
+          <path id="Shape_13_copy_4-12" data-name="Shape 13 copy 4" class="cls-1" d="M750,313h17"/>
+          <path class="cls-1" d="M760,279v34"/>
+        </g>
+      </g>
+      <g id="Group_5_copy_3" data-name="Group 5 copy 3">
+        <path class="cls-1" d="M699,226v34h-8"/>
+        <path id="Shape_12_copy" data-name="Shape 12 copy" class="cls-1" d="M669,226v34h8"/>
+        <g id="Group_4_copy_2-4" data-name="Group 4 copy 2">
+          <path id="Shape_13_copy_4-13" data-name="Shape 13 copy 4" class="cls-1" d="M631,260h17"/>
+          <path class="cls-1" d="M641,226v34"/>
+        </g>
+        <g id="Group_4_copy_5" data-name="Group 4 copy 5">
+          <path id="Shape_13_copy_4-14" data-name="Shape 13 copy 4" class="cls-1" d="M599,260h17"/>
+          <path class="cls-1" d="M609,226v34"/>
+        </g>
+      </g>
+    </g>
+    <rect id="_6._열탕-2" data-name="6. 열탕" class="cls-4" x="549" y="226" width="38" height="38"/>
+    <path id="_5._온탕-2" data-name="5. 온탕" class="cls-5" d="M500,226h53v38H500V226Zm0,35h34v22H500V261Z"/>
+    <g id="_4._냉탕-2" data-name="4. 냉탕">
+      <rect id="Rectangle_10_copy_2" data-name="Rectangle 10 copy 2" class="cls-4" x="500" y="279" width="34" height="35"/>
+      <rect id="Rectangle_10_copy_3" data-name="Rectangle 10 copy 3" class="cls-4" x="500" y="310" width="34" height="35"/>
+    </g>
+    <rect id="_3._노천탕-2" data-name="3. 노천탕" class="cls-4" x="420" y="363" width="80" height="46"/>
+    <g id="_1._락카룸-2" data-name="1. 락카룸">
+      <g id="_1" data-name="1">
+        <rect class="cls-8" x="709" y="472" width="9" height="44"/>
+        <rect id="Rectangle_9_copy_10" data-name="Rectangle 9 copy 10" class="cls-8" x="432" y="472" width="9" height="44"/>
+        <rect id="Rectangle_9_copy" data-name="Rectangle 9 copy" class="cls-8" x="681" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_2" data-name="Rectangle 9 copy 2" class="cls-8" x="653" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_3" data-name="Rectangle 9 copy 3" class="cls-8" x="625" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_4" data-name="Rectangle 9 copy 4" class="cls-8" x="597" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_5" data-name="Rectangle 9 copy 5" class="cls-8" x="569" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_6" data-name="Rectangle 9 copy 6" class="cls-8" x="541" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_7" data-name="Rectangle 9 copy 7" class="cls-8" x="513" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_8" data-name="Rectangle 9 copy 8" class="cls-8" x="485" y="472" width="12" height="44"/>
+        <rect id="Rectangle_9_copy_9" data-name="Rectangle 9 copy 9" class="cls-8" x="457" y="472" width="12" height="44"/>
+      </g>
+      <g id="_2" data-name="2">
+        <rect id="Rectangle_9_copy_11" data-name="Rectangle 9 copy 11" class="cls-8" x="395" y="416" width="6" height="34"/>
+        <rect id="Rectangle_9_copy_22" data-name="Rectangle 9 copy 22" class="cls-8" x="720" y="416" width="6" height="34"/>
+        <rect id="Rectangle_9_copy_12" data-name="Rectangle 9 copy 12" class="cls-8" x="416" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_13" data-name="Rectangle 9 copy 13" class="cls-8" x="444" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_14" data-name="Rectangle 9 copy 14" class="cls-8" x="472" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_15" data-name="Rectangle 9 copy 15" class="cls-8" x="500" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_16" data-name="Rectangle 9 copy 16" class="cls-8" x="528" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_17" data-name="Rectangle 9 copy 17" class="cls-8" x="556" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_18" data-name="Rectangle 9 copy 18" class="cls-8" x="608" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_19" data-name="Rectangle 9 copy 19" class="cls-8" x="636" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_20" data-name="Rectangle 9 copy 20" class="cls-8" x="664" y="416" width="12" height="34"/>
+        <rect id="Rectangle_9_copy_21" data-name="Rectangle 9 copy 21" class="cls-8" x="692" y="416" width="12" height="34"/>
+      </g>
+      <path class="cls-1" d="M379,431l11-18H574"/>
+      <path class="cls-1" d="M606,413H730"/>
+    </g>
+  </g>
+  <text id="여자_사우나" data-name="여자 사우나" class="cls-2" x="604" y="368"><tspan x="604">여자 사우나</tspan></text>
+  <g id="bg-5" data-name="bg">
+    <path class="cls-9" d="M907,578s37.605-11.191,38-49h28v49H907Z"/>
+    <circle id="Ellipse_3_copy" data-name="Ellipse 3 copy" class="cls-3" cx="317" cy="479" r="17"/>
+    <circle class="cls-3" cx="317" cy="479" r="9"/>
+    <circle id="Ellipse_3_copy_2" data-name="Ellipse 3 copy 2" class="cls-3" cx="281" cy="533" r="17"/>
+    <circle id="Ellipse_3_copy_2-2" data-name="Ellipse 3 copy 2" class="cls-3" cx="281" cy="533" r="9"/>
+    <circle id="Ellipse_3_copy_3" data-name="Ellipse 3 copy 3" class="cls-3" cx="329" cy="525" r="13"/>
+    <circle id="Ellipse_3_copy_3-2" data-name="Ellipse 3 copy 3" class="cls-3" cx="329" cy="525" r="6.875"/>
+    <path class="cls-1" d="M162,626h44l51-51"/>
+    <path class="cls-1" d="M411,557H399s-4.421,19.783-25,38v31h34"/>
+    <rect class="cls-3" x="404" y="600" width="74" height="35"/>
+    <rect class="cls-10" x="162" y="642" width="47" height="11"/>
+    <rect id="Rectangle_7_copy" data-name="Rectangle 7 copy" class="cls-10" x="162" y="661" width="47" height="11"/>
+    <rect id="Rectangle_7_copy_2" data-name="Rectangle 7 copy 2" class="cls-10" x="162" y="680" width="47" height="11"/>
+    <rect id="Rectangle_7_copy_3" data-name="Rectangle 7 copy 3" class="cls-10" x="370" y="642" width="71" height="11"/>
+    <rect id="Rectangle_7_copy_3-2" data-name="Rectangle 7 copy 3" class="cls-10" x="370" y="661" width="71" height="11"/>
+    <rect id="Rectangle_7_copy_3-3" data-name="Rectangle 7 copy 3" class="cls-10" x="370" y="680" width="71" height="11"/>
+    <rect class="cls-3" x="235" y="654" width="108" height="37"/>
+    <circle id="Ellipse_3_copy_4" data-name="Ellipse 3 copy 4" class="cls-3" cx="992" cy="479" r="17"/>
+    <circle id="Ellipse_2_copy_2" data-name="Ellipse 2 copy 2" class="cls-11" cx="992" cy="479" r="7"/>
+    <circle id="Ellipse_3_copy_5" data-name="Ellipse 3 copy 5" class="cls-3" cx="812" cy="592" r="17"/>
+    <circle id="Ellipse_2_copy_3" data-name="Ellipse 2 copy 3" class="cls-11" cx="812" cy="592" r="7"/>
+    <circle id="Ellipse_3_copy_6" data-name="Ellipse 3 copy 6" class="cls-3" cx="739" cy="583" r="17"/>
+    <circle id="Ellipse_2_copy_4" data-name="Ellipse 2 copy 4" class="cls-11" cx="739" cy="583" r="7"/>
+    <circle id="Ellipse_3_copy_7" data-name="Ellipse 3 copy 7" class="cls-3" cx="652" cy="592" r="17"/>
+    <circle id="Ellipse_2_copy_5" data-name="Ellipse 2 copy 5" class="cls-11" cx="652" cy="592" r="7"/>
+    <circle id="Ellipse_1_copy_2" data-name="Ellipse 1 copy 2" class="cls-3" cx="1019" cy="367.281" r="55"/>
+    <path class="cls-1" d="M1093.86,278.286l-16.07-3.572-7.15,12.5s45.48,27.955,44.65,80.357c0,0,2.2,69-75,91.072v57.143L1138,516V306h-37V280Z"/>
+  </g>
+  <g id="시설-4" data-name="시설">
+    <g id="_13._릴렉스룸" data-name="13. 릴렉스룸">
+      <rect id="Rectangle_1_copy" data-name="Rectangle 1 copy" class="cls-6" x="1164" y="10" width="224" height="35"/>
+      <rect id="Rectangle_1_copy_2" data-name="Rectangle 1 copy 2" class="cls-6" x="1164" y="41" width="224" height="35"/>
+      <rect id="Rectangle_1_copy_3" data-name="Rectangle 1 copy 3" class="cls-6" x="1164" y="72" width="224" height="35"/>
+      <rect id="Rectangle_1_copy_4" data-name="Rectangle 1 copy 4" class="cls-6" x="1164" y="103" width="224" height="36"/>
+    </g>
+    <rect id="_12._풋스파" data-name="12. 풋스파" class="cls-6" x="908" y="10" width="234" height="34"/>
+    <path id="_11._힐링홀" data-name="11. 힐링홀" class="cls-9" d="M908,160V58h156s2.56,60.469-48,59a51.529,51.529,0,0,1-24-7s-12.6-4.485-25-2c0,0-17.85,1.943-27,31C940,139,933.522,160.266,908,160Z"/>
+    <path id="_10._편백나무방" data-name="10. 편백나무방" class="cls-12" d="M1019,172.969A55.031,55.031,0,1,1,964,228,55.013,55.013,0,0,1,1019,172.969ZM1045,174h29v78h-29V174Z"/>
+    <path id="_9._키즈룸" data-name="9. 키즈룸" class="cls-9" d="M827,223h53s25,4.532,25,35V411H827V223Z"/>
+    <circle id="_8._미디어아트룸" data-name="8. 미디어아트룸" class="cls-13" cx="888.61" cy="434.75" r="49.11"/>
+    <path id="_7._로울리_불가마" data-name="7. 로울리 불가마" class="cls-9" d="M1054,529h84v49h-84V529Zm19-16h65v19h-65V513Z"/>
+    <path id="_6._파동석룸" data-name="6. 파동석룸" class="cls-9" d="M970,541h16v37H970V541Zm13-12h74v49H983V529Z"/>
+    <path id="_5._구름방" data-name="5. 구름방" class="cls-9" d="M759,478h50v19h12v29H759V478Z"/>
+    <path id="_4._황토방" data-name="4. 황토방" class="cls-9" d="M892,597H877V581H847V691h45V597Z"/>
+    <g id="_3._패밀리홀" data-name="3. 패밀리홀">
+      <rect class="cls-3" x="622" y="623" width="202" height="68"/>
+      <g>
+        <rect class="cls-8" x="635" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy" data-name="Rectangle 5 copy" class="cls-8" x="651" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_2" data-name="Rectangle 5 copy 2" class="cls-8" x="667" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_3" data-name="Rectangle 5 copy 3" class="cls-8" x="688" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_4" data-name="Rectangle 5 copy 4" class="cls-8" x="704" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_4-2" data-name="Rectangle 5 copy 4" class="cls-8" x="720" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_4-3" data-name="Rectangle 5 copy 4" class="cls-8" x="736" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_4-4" data-name="Rectangle 5 copy 4" class="cls-8" x="752" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_5" data-name="Rectangle 5 copy 5" class="cls-8" x="773" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_5-2" data-name="Rectangle 5 copy 5" class="cls-8" x="789" y="633" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_5-3" data-name="Rectangle 5 copy 5" class="cls-8" x="805" y="633" width="6" height="20"/>
+      </g>
+      <g>
+        <rect id="Rectangle_5_copy_6" data-name="Rectangle 5 copy 6" class="cls-8" x="635" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-2" data-name="Rectangle 5 copy 6" class="cls-8" x="651" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-3" data-name="Rectangle 5 copy 6" class="cls-8" x="667" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-4" data-name="Rectangle 5 copy 6" class="cls-8" x="688" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-5" data-name="Rectangle 5 copy 6" class="cls-8" x="704" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-6" data-name="Rectangle 5 copy 6" class="cls-8" x="720" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-7" data-name="Rectangle 5 copy 6" class="cls-8" x="736" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-8" data-name="Rectangle 5 copy 6" class="cls-8" x="752" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-9" data-name="Rectangle 5 copy 6" class="cls-8" x="773" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-10" data-name="Rectangle 5 copy 6" class="cls-8" x="789" y="661" width="6" height="20"/>
+        <rect id="Rectangle_5_copy_6-11" data-name="Rectangle 5 copy 6" class="cls-8" x="805" y="661" width="6" height="20"/>
+      </g>
+    </g>
+    <rect id="_2._소금방" data-name="2. 소금방" class="cls-6" x="542" y="581" width="56" height="110"/>
+    <rect id="_1._GX룸" data-name="1. GX룸" class="cls-6" x="475" y="581" width="70" height="110"/>
+  </g>
+  <text id="찜질스파-2" data-name="찜질스파" class="cls-2" x="984" y="368"><tspan x="984">찜질스파</tspan></text>
+  <g id="전체_테두리" data-name="전체 테두리">
+    <g id="찜질스파-3" data-name="찜질스파">
+      <path id="찜질스파_copy_3" data-name="찜질스파 copy 3" class="cls-14" d="M817,468H749v48H411c3.731-33.921-13-61-13-61-43.873-77.439-135-44-135-44l11,22-34,16H206v83H152V701h83V911H354c21.741-80.081,83-73,83-73h51V804H403V741H344V701H902V588h246V296h-37V149h287V0H898V175H847v19H817V468Z"/>
+    </g>
+    <g id="여자_사우나-2" data-name="여자 사우나">
+      <path id="여자_사우나_copy" data-name="여자 사우나 copy" class="cls-14" d="M500,226H703v29H817V468H749v48H411c3.731-33.921-13-61-13-61-9.077-16.021-20.176-27.3-32.072-35.1L398,362V345H500V218"/>
+    </g>
+    <g id="남자사우나-2" data-name="남자사우나">
+      <path id="_01" data-name="01" class="cls-14" d="M0,701V215M152,701H9"/>
+      <path id="_02" data-name="02" class="cls-14" d="M152,701V532h54V449h34l34-16-11-22-24-49V345H192V225H10"/>
+    </g>
+    <g id="실내_워터파크-3" data-name="실내 워터파크">
+      <path id="_01-2" data-name="01" class="cls-14" d="M0,225V180L240,0H618M0,225"/>
+      <path id="_02-2" data-name="02" class="cls-14" d="M365.731,419.768C320.157,390.026,264,411,264,411m10,22"/>
+      <path id="_03" data-name="03" class="cls-14" d="M365.928,419.9L398,362M650,226h61V204h0V100H618V8"/>
+      <path id="_04" data-name="04" class="cls-14" d="M267,420l-4-9-24-49V345H192V225H8"/>
+      <path id="여자_사우나_copy_3" data-name="여자 사우나 copy 3" class="cls-14" d="M500,226H701M365.928,419.9L398,362V345H500V218"/>
+    </g>
+    <g id="푸드코트-3" data-name="푸드코트">
+      <path id="_02-3" data-name="02" class="cls-14" d="M711,226V204h0V100H618V8"/>
+    </g>
+    <g id="전체">
+      <path id="전체테두리" class="cls-14" d="M0,593V180L240,0H1398V149H1111V296h37V588H902V701M354,911H235V701H0V593"/>
+      <path class="cls-14" d="M354,911H902V701"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- <param name="ConversionPattern" value="%-5p: %m  [%c]%n" /> -->
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %m  [%c]%n" />
+        </layout>
+    </appender>
+
+    <logger name="jdbc.audit" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.resultset" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.resultsettable" additivity="false">
+        <level value="info" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.sqltiming" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.connection" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.sql" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+    </logger>
+
+
+	<!-- 쿼리 로그에 출력 -->
+	<logger name="jdbc.sqlonly">
+	   <level value="debug" />
+	</logger>
+
+
+
+
+
+	<!-- 평상시 아래 2개의 로거설정으로 로그를 줄여서 사용하다가, 오류가 잡히지 않을떄 주석으로 막으면 더 많은 로그정보가 표시됨. -->
+<!--   	<logger name="org.apache" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="org.springframework" additivity="false">
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger> -->
+
+
+	<logger name="com.soft.web" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="console"/>
+	</logger>
+
+    <root>
+        <priority value="info" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+</log4j:configuration>

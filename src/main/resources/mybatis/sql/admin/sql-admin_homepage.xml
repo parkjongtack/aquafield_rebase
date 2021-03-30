@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.HomepageDao">
+
+	<!--  
+		page : 페이지, order_nm : 카테고리, reserve_state : 예약상태, 
+		srch_reg_s : 방문일 시작, srch_reg_e : 방문일 종료
+		srch_pay_s : 결제일 시작, srch_pay_e : 결제일 종료
+		srch_point : 지점
+	 -->
+	<sql id="where">
+	</sql>
+  <select id="popupListCnt" parameterType="java.util.Map" resultType="int">
+  		SELECT COUNT(1)
+		FROM TB_POPUP
+		WHERE 1=1
+		<include refid="where"/>
+  </select>
+  
+  <select id="popupList" parameterType="java.util.Map" resultType="Map" >
+		SELECT * 
+			FROM ( 
+					SELECT 
+						ROW_NUMBER() OVER(ORDER BY INS_DATE DESC) RN
+						,TITLE               
+						,CONTENT             
+						,LINK_URL            
+						,CONTENT_TYPE
+						,LEFT_M               
+						,TOP_M                
+						,WIDTH             
+						,HEIGHT            
+						,START_DATE       
+						,END_DATE         
+						,FILE_PATH         
+						,SAVE_FILE_NAME  
+						,ORI_FILE_NAME   
+						,PRINT_ORDER       
+						,USE_YN
+						,INS_ID
+						,TO_CHAR(INS_DATE,'YYYY.MM.DD') AS INS_DATE
+						,UPD_ID                 
+						,TO_CHAR(UPD_DATE,'YYYY.MM.DD') AS UPD_DATE
+					FROM TB_POPUP
+					WHERE 1=1
+					<include refid="where"/>
+				) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+	</select>
+  
+  <insert id="popInst" parameterType="java.util.HashMap">
+  <selectKey keyProperty="popup_seq" resultType="int" order="BEFORE">
+		SELECT TB_POPUP_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+		INSERT INTO 
+			TB_POPUP
+				( POPUP_SEQ
+				,TITLE               
+				,CONTENT             
+				,LINK_URL            
+				,CONTENT_TYPE
+				,LEFT_M               
+				,TOP_M                
+				,WIDTH             
+				,HEIGHT            
+				,START_DATE       
+				,END_DATE         
+				,FILE_PATH         
+				,SAVE_FILE_NAME  
+				,ORI_FILE_NAME   
+				,PRINT_ORDER       
+				,USE_YN
+				,INS_ID
+				,INS_IP
+				,INS_DATE
+			)VALUES(
+				 #{popup_seq}
+				,#{title}               
+				,#{content}             
+				,#{link_url}            
+				,#{content_type}           
+				,#{left_m}               
+				,#{top_m}                
+				,#{width}             
+				,#{height}            
+				,#{start_date}       
+				,#{end_date}         
+				,#{file_path}         
+				,#{save_file_name}  
+				,#{ori_file_name}   
+				,#{print_order}       
+				,#{use_yn}
+				,#{ins_id}
+				,#{ins_ip}
+				,sysdate
+			)
+	</insert>
+</mapper>

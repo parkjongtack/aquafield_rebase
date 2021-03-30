@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.common.CommonDao">
+  
+  <resultMap type="java.util.Map" id="result">
+	<result property="FAQ_CONTENT" column="FAQ_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" />
+	<result property="SMS_CONTENT" column="SMS_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+  </resultMap>
+  
+  <select id="catelist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	SELECT CATE_CODE
+	      ,CATE_NM
+	  FROM TB_PRD_CATE
+	 WHERE USE_AT = 'Y'
+	   AND POINT_CODE = #{point}
+	]]>	
+  </select>
+  
+  <select id="commonlist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	SELECT B.GR_CODE_ID
+	      ,B.CODE_ID
+	      ,B.CODE_NM
+	      ,B.CODE_DC
+	      ,B.CODE_URL
+	FROM TB_GROUP_CODE A, TB_CODE B
+	WHERE A.GR_CODE_ID = B.GR_CODE_ID
+	  AND A.GR_CODE_ID = #{commoncode}
+	  AND A.USE_AT = 'Y'
+	  AND B.USE_AT = 'Y'
+	ORDER BY B.ORDER_BY
+	]]>	
+  </select>
+  
+  <select id="faqlist" parameterType="java.util.Map" resultMap="result">
+   <![CDATA[
+	SELECT FAQ_UID
+	      ,POINT_CODE
+	      ,WRITER
+	      ,USE_AT
+	      ,FAQ_TITLE
+	      ,FAQ_CONTENT
+	      ,FAQ_TYPE
+	      ,INS_IP
+	      ,INS_ID
+	      ,INS_DATE
+	  FROM TB_FAQ
+	 WHERE POINT_CODE = #{point_code}
+	   AND USE_AT = 'Y'
+	   AND FAQ_TYPE = #{faq_type}
+	 ORDER BY FAQ_UID
+	]]>	
+  </select> 
+  
+	<select id="sendSmsCnt" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) AS CNT 
+		  FROM TB_SMS_SEND
+		 WHERE POINT_CODE = #{point_code}
+		   <!-- 20180511 syw : mypage 정보 보기위해 수정
+		    AND row_to_str(CUSTOM_MOBILE2) = #{custom_mobile} 
+		    -->
+		   AND row_to_str(CUSTOM_MOBILE) = #{custom_mobile}
+		   AND BIGO = #{reserve_num}
+		   
+	</select> 
+  
+	<!-- SMS 템플릿 가져오기 -->
+	<select id="getSmsTemplete" parameterType="java.util.Map" resultMap="result">
+		SELECT SMS_UID
+			  ,POINT_CODE
+			  ,SMS_TYPE
+			  ,SMS_CONTENT
+			  ,USE_AT
+		  FROM TB_SMS
+		 WHERE USE_AT = 'Y'
+		 	AND POINT_CODE = #{point_code}
+		   AND SMS_TYPE = #{sms_type} 	
+	</select> 
+	
+	<!-- 관리자 메뉴 가져오기 -->
+	<select id="getAdminMenu" parameterType="String" resultType="java.util.Map">
+		SELECT A.MENU_UID
+		      ,A.MENU_NM AS SUBMENU_NM
+		      ,A.MENU_CODE AS SUBMENU_CODE
+		      ,A.MENU_DEPTH
+		      ,A.MENU_SORT
+		      ,A.MENU_URL
+		      ,A.POINT_CODE
+		      ,B.MENU_CODE
+			  ,B.MENU_NM
+		  FROM TB_ADMIN_MENU A, (SELECT MENU_CODE, MENU_NM 
+		                           FROM TB_ADMIN_MENU 
+		                          WHERE MENU_DEPTH = 1) B
+		 WHERE SUBSTR(A.MENU_CODE,1,2) = SUBSTR(B.MENU_CODE,1,2)
+		   AND A.MENU_DEPTH > 1
+		   AND A.MENU_CODE = #{menu_code}	
+	</select>	 
+  
+	<!-- SMS 발송 이력 등록-->
+	<insert id="insSmsSend" parameterType="java.util.Map">
+		INSERT INTO TB_SMS_SEND(
+			SEND_UID
+		   ,POINT_CODE
+		   ,SMS_UID
+		   ,MEM_ID
+		   ,CUSTOM_NM
+		   ,CUSTOM_MOBILE
+		   ,INS_IP
+		   ,INS_ID
+		   ,INS_DATE
+	    <if test = "send_status != null and send_status != ''">			   
+		   ,SEND_STATUS
+		</if>
+	    <if test = "bigo != null and bigo != ''">			
+		   ,BIGO
+		</if>
+		) VALUES (
+			TB_SMS_SEND_SEQ.NEXTVAL
+		   ,#{point_code}
+		   ,#{sms_uid}
+		   ,#{mem_id}
+		   ,#{custom_nm}
+		   ,str_to_row(#{custom_mobile})
+		   ,#{ins_ip}
+		   ,#{ins_id}
+		   ,SYSDATE
+	    <if test = "send_status != null and send_status != ''">		   
+		   ,#{send_status}
+		</if>
+	    <if test = "bigo != null and bigo != ''">		
+		   ,#{bigo}
+		</if>			
+		)
+	</insert> 
+	
+	<!-- EMAIL 발송 이력 등록-->
+	<insert id="insEmailSend" parameterType="java.util.Map">
+		INSERT INTO TB_EMAIL_SEND(
+			SEND_UID
+		   ,POINT_CODE
+		   ,EMAIL_UID
+		   ,MEM_ID
+		   ,CUSTOM_NM
+		   ,CUSTOM_EMAIL
+		   ,INS_IP
+		   ,INS_ID
+		   ,INS_DATE
+	    <if test = "send_status != null and send_status != ''">			   
+		   ,SEND_STATUS
+		</if>
+		) VALUES (
+			TB_EMAIL_SEND_SEQ.NEXTVAL
+		   ,#{point_code}
+		   ,#{email_uid}
+		   ,#{mem_id}
+		   ,#{custom_nm}
+		   ,str_to_row(#{custom_email})
+		   ,#{ins_ip}
+		   ,#{ins_id}
+		   ,SYSDATE
+	    <if test = "send_status != null and send_status != ''">		   
+		   ,#{send_status}
+		</if>			
+		)
+	</insert>  	       
+
+	<!-- 사용기록 INSERT -->
+	<insert id="insAdminContentLog" parameterType="java.util.Map">
+		INSERT INTO TB_ADMIN_CONTENTLOG(
+			CONTENT_LOG_UID
+		   ,POINT_CODE
+		   ,ACCESS_MENU_NM
+		   ,ACTION
+	    <if test = "data_num != null and data_num != ''">			   
+		   ,DATA_NUM
+		   ,DATA_URL					   
+		</if>
+		   ,INS_IP
+		   ,INS_ADMIN_ID
+		   ,INS_DATE
+		   ,ADMIN_NM
+		   ,ADMIN_UID
+		   ,ACCESS_MENU_UID
+		   ,ETC
+		) VALUES (
+			TB_ADMIN_CONTENTLOG_SEQ.NEXTVAL
+		   ,#{point_code}
+		   ,#{access_menu_nm}
+		   ,#{action}
+	    <if test = "data_num != null and data_num != ''">			   
+		   ,#{data_num}
+		   ,#{data_url}
+		</if>
+		   ,#{ins_ip}
+		   ,#{ins_admin_id}
+		   ,SYSDATE
+		   ,#{admin_nm}
+		   ,#{admin_uid}
+		   ,#{access_menu_uid}
+		   ,#{etc}
+		   )
+	</insert>  
+	
+	
+	
+	
+	
+	<select id="getPointInfo" parameterType="String" resultType="java.util.Map">
+		SELECT 
+			CODE_ID
+			,CODE_URL
+		FROM 
+			TB_CODE
+		WHERE GR_CODE_ID = 'POINT_CODE'
+		  AND CODE_URL LIKE '%'|| #{point} ||'%'
+	</select>
+	
+ 	<select id="payList" resultType="java.util.Map">
+	   <![CDATA[
+		SELECT 
+		    CODE_ID
+		    ,CODE_NM
+		    ,PG_PAY_CD
+		    ,PG_AC_CD
+		    ,PG_AC_TODAY_CD
+		FROM TB_CODE TC, TB_PG_CODE TPC
+		WHERE TC.CODE_ID = TPC.PG_CODE_ID
+		ORDER BY TC.ORDER_BY
+		]]>	
+  </select>
+</mapper>

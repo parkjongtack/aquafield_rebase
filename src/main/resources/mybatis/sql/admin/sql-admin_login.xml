@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.admin.AdminLoginDao">
+	
+  <!-- 로그인 -->
+  <select id="adminLogin" parameterType="java.util.Map" resultType="java.util.HashMap">
+    SELECT
+            ADMIN_UID
+           ,MEMBER_VIEW_AT
+           ,ADMIN_NM
+           ,ADMIN_ID
+           ,POINT_CODE
+           ,ADMIN_DEPT
+           ,ADMIN_PHONE
+           ,USE_AT
+           ,LOGIN_CNT
+           ,LOGIN_DATE
+           ,LOGIN_DIGIT
+           ,INS_IP
+           ,INS_ADMIN_ID
+           ,INS_DATE
+           ,UPD_IP
+           ,UPD_ADMIN_ID
+           ,UPD_DATE
+           ,CERTNUM
+      FROM TB_ADMIN_INFO
+     WHERE ADMIN_ID=#{admin_id}
+       <if test = "admin_pw != null and admin_pw != ''">
+         AND ADMIN_PW=STR_TO_ROW(#{admin_pw})
+       </if>
+       <if test = "hpnum != null and hpnum != ''">
+         AND REPLACE(ADMIN_PHONE,'-','')=REPLACE(#{hpnum},'-','')
+       </if>
+       <if test = "certnum != null and certnum != ''">
+         AND CERTNUM=#{certnum}
+       </if>
+       AND USE_AT='Y'
+  </select>
+
+  <!-- 로그인 관리자 로그인상태 수정 -->
+  <update id="updateAdminCertnum"  parameterType="java.util.Map">
+    UPDATE TB_ADMIN_INFO SET
+             CERTNUM=#{certnum}
+    WHERE ADMIN_ID=#{admin_id}
+  </update>
+
+  <!-- 로그인 관리자 로그인상태 수정 -->
+  <update id="updateAdminLoginDigit"  parameterType="java.util.Map">
+    UPDATE TB_ADMIN_INFO SET
+             LOGIN_CNT=LOGIN_CNT + 1
+            ,LOGIN_DATE=SYSDATE
+            ,LOGIN_DIGIT=#{login_digit}
+    WHERE ADMIN_ID=#{admin_id}
+  </update>
+
+</mapper>

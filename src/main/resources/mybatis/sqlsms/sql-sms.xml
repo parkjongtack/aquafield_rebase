@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.sms.SmsDao">
+
+	<!-- SMS 등록 -->
+	<insert id="insertSms"  parameterType="java.util.Map">
+	 	INSERT INTO ASMS.ssg_smt_tran(
+              mt_pr
+              ,mt_refkey
+              ,date_client_req
+              ,service_type
+              ,msg_status
+              ,recipient_num
+              ,content
+              ,callback
+	 	) VALUES (
+             ASMS.ssg_smt_tran_seq.nextval
+           , 'AHP'
+           , SYSDATE
+           , '0'
+           , '1'
+           , #{recipient_num}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{content})
+           , #{callback} 
+	 	)
+	</insert>
+
+	<!-- LMS 등록 -->
+	<insert id="insertLms"  parameterType="java.util.Map">
+	 	INSERT INTO ASMS.ssg_mmt_tran(
+              mt_pr
+              ,mt_refkey
+              ,date_client_req
+              ,service_type
+              ,msg_status
+              ,recipient_num
+              ,subject
+              ,content
+              ,callback
+	 	) VALUES (
+             ASMS.ssg_smt_tran_seq.nextval
+           , 'AHP'
+           , SYSDATE
+           , '0'
+           , '1'
+           , #{recipient_num}
+           , UTL_RAW.CAST_TO_VARCHAR2(#{subject})
+           , UTL_RAW.CAST_TO_VARCHAR2(#{content})
+           , #{callback} 
+	 	)
+	</insert>
+	
+	<insert id="insSmsSend" parameterType="java.util.Map">
+		INSERT INTO TB_SMS_SEND(
+			SEND_UID
+		   ,POINT_CODE
+		   ,SMS_UID
+		   ,MEM_UID
+		   ,CUSTOM_NM
+		   ,CUSTOM_MOBILE
+		   ,INS_IP
+		   ,INS_ID
+		   ,INS_DATE
+	    <if test = "send_status != null and send_status != ''">			   
+		   ,SEND_STATUS
+		</if>
+	    <if test = "bigo != null and bigo != ''">			
+		   ,BIGO
+		</if>
+		) VALUES (
+			TB_SMS_SEND_SEQ.NEXTVAL
+		   ,#{point_code}
+		   ,#{sms_uid}
+		   ,#{mem_uid}
+		   ,#UTL_RAW.CAST_TO_VARCHAR2(#{custom_nm})
+		   ,#{custom_mobile}
+		   ,#{ins_ip}
+		   ,#{ins_id}
+		   ,#{ins_date}
+	    <if test = "send_status != null and send_status != ''">		   
+		   ,#{send_status}
+		</if>
+	    <if test = "bigo != null and bigo != ''">		
+		   ,#{bigo}
+		</if>			
+		)
+	</insert>
+
+</mapper>

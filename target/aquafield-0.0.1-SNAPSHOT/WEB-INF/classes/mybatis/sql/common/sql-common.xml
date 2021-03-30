@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.common.CommonDao">
+  
+  <resultMap type="java.util.Map" id="result">
+	<result property="FAQ_CONTENT" column="FAQ_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+  </resultMap>
+  
+  <select id="catelist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	SELECT CATE_CODE
+	      ,CATE_NM
+	  FROM TB_PRD_CATE
+	 WHERE USE_AT = 'Y'
+	   AND POINT_CODE = #{point}
+	]]>	
+  </select>
+  
+  <select id="commonlist" parameterType="java.util.Map" resultType="java.util.Map">
+   <![CDATA[
+	SELECT B.GR_CODE_ID
+	      ,B.CODE_ID
+	      ,B.CODE_NM
+	      ,B.CODE_DC
+	FROM TB_GROUP_CODE A, TB_CODE B
+	WHERE A.GR_CODE_ID = B.GR_CODE_ID
+	  AND A.GR_CODE_ID = #{commoncode}
+	  AND A.USE_AT = 'Y'
+	  AND A.USE_AT = 'Y'
+	ORDER BY B.ORDER_BY
+	]]>	
+  </select>
+  
+  <select id="faqlist" parameterType="java.util.Map" resultMap="result">
+   <![CDATA[
+	SELECT FAQ_UID
+	      ,POINT_CODE
+	      ,WRITER
+	      ,USE_AT
+	      ,FAQ_TITLE
+	      ,FAQ_CONTENT
+	      ,FAQ_TYPE
+	      ,INS_IP
+	      ,INS_ID
+	      ,INS_DATE
+	  FROM TB_FAQ
+	 WHERE POINT_CODE = #{point_code}
+	   AND USE_AT = 'Y'
+	   AND FAQ_TYPE = #{faq_type}
+	 ORDER BY FAQ_UID
+	]]>	
+  </select>        
+
+</mapper>

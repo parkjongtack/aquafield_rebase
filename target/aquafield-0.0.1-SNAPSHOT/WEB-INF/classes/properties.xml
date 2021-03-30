@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+
+<properties>
+
+<comment>properties</comment>
+
+<!-- DEV SITE ORACLE -->
+<entry key="oracle.driverClassName">oracle.jdbc.driver.OracleDriver</entry>
+<entry key="oracle.url">jdbc:oracle:thin:@115.94.37.78:1521:xe</entry>
+<entry key="oracle.username">aquafield</entry>
+<entry key="oracle.password">aquafield0719</entry>
+
+<!-- OPER SITE ORACLE -->
+<!-- <entry key="oracle.driverClassName">oracle.jdbc.driver.OracleDriver</entry> -->
+<!-- <entry key="oracle.url">jdbc:oracle:thin:@10.253.41.218:1521:aqua</entry> -->
+<!-- <entry key="oracle.username">ahp</entry> -->
+<!-- <entry key="oracle.password">ahpaqua000</entry> -->
+
+<!-- SITE ORACLE SMS -->
+<entry key="oracle_sms.driverClassName">oracle.jdbc.driver.OracleDriver</entry>
+<entry key="oracle_sms.url">jdbc:oracle:thin:@10.253.41.223:1521:ssgcom</entry>
+<entry key="oracle_sms.username">asms</entry>
+<entry key="oracle_sms.password">asmsaqua000</entry>
+
+<!-- MAIL SMTP -->
+<entry key="smtp.host">127.0.0.1</entry>
+<entry key="smtp.port">25</entry>
+
+
+<!-- SITE SEED VALUE -->
+<entry key="security.aes.seed">asnr189am4vzdAdE</entry>
+
+<!--본인인증 RETURN URL-->
+<entry key="member.checkplus.returnurl">/member/checkplus_ok.af</entry>
+
+<!--I-pin인증 RETURN URL-->
+<entry key="member.ipin.returnurl">/member/ipin_process.af</entry>
+
+<!--I-pin인증 RETURN URL--> <!-- real 상점코드 2001106041 --> <!-- test 상정코드  2999199999-->
+<entry key="pg.store.code">2001106041</entry>
+</properties>

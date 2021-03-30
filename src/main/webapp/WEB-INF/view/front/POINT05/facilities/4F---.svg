@@ -1,0 +1,384 @@
+<svg id="시설" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1414" height="931" viewBox="0 0 1414 931">
+  <defs>
+    <style>
+      .cls_1, .cls_14, .cls_2 {
+        fill: none;
+      }
+
+      .cls_1, .cls_10, .cls_12, .cls_13, .cls_2, .cls_4, .cls_5, .cls_6, .cls_7, .cls_8, .cls_9 {
+        stroke: #f5f5f5;
+      }
+
+      .cls_1, .cls_10, .cls_12, .cls_13, .cls_2, .cls_4, .cls_5, .cls_6, .cls_9 {
+        stroke-width: 4px;
+      }
+
+      .cls_1, .cls_12, .cls_14, .cls_5, .cls_7, .cls_9 {
+        fill-rule: evenodd;
+      }
+
+      .cls_3 {
+        font-size: 20px;
+        fill: #666;
+        text-anchor: middle;
+        font-family: NotoSansCJKkr;
+      }
+
+      .cls_4, .cls_5, .cls_7 {
+        fill: #e3f1fa;
+      }
+
+      .cls_6, .cls_9 {
+        fill: #fff;
+      }
+
+      .cls_7, .cls_8 {
+        stroke-width: 3px;
+      }
+
+      .cls_10, .cls_11, .cls_8 {
+        fill: #f5f5f5;
+      }
+
+      .cls_12, .cls_13 {
+        fill: #f8f8f8;
+      }
+
+      .cls_14 {
+        stroke-width: 8px;
+      }
+    </style>
+  </defs>
+  <image id="bg" width="1414" height="931" xlink:href="data:img/png;base64,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AAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAmB0XDgAA0HZw7bB+BACQ48UwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxOy4cAAAAFaxv7e7cIAAMC1eDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQIwwDAAAAAMQIwwAAAAAAMcIwAAAAAECMMAwAAAAAECMMAwAAAADECMMAAAAAADHCMAAAAABAjDAMAAAAABAjDAMAAAAAxAjDAAAAAAAxwjAAAAAAQIwwDAAAAAAQs+PCAQAAAACmZX9vd6Wf14thAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACI2Tlz5sxilY98cO3wyJcG1m9/b9cpAwAAADAIL4YBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAICYHRcOAAAA8HCvvPIbJwSMyquv/m6lH8eLYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYnZW/bj7e7sLXxrYiCPHDAAAAMAQvBgGAAAAAIgRhgEAAAAA/tuuHRMBCAMBEEyE0WMAlRigR1hQQEXF3K6D/0mam48RhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRnRXLmMAAAD0SURBVBgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBmrrU+TXxetzcD//DtswMAwLtpN9Qd+1ZfAfAzLoYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAAAgRhgGAAAAAIgRhgEAAAAAYoRhAAAAAIAYYRgAAAAAIEYYBgAAAACIEYYBAAAAAGKEYQAAAACAGGEYAAAAACBGGAYAAAAAiBGGAQAAAABihGEAAAAAgBhhGAAAAACgZIzxAEfFRyRwLv7wAAAAAElFTkSuQmCC"/>
+  <g id="푸드코트">
+    <path class="cls_1" d="M813,148V81H732v29H715V222h16"/>
+    <rect class="cls_2" x="813" y="77" width="34" height="117"/>
+    <rect class="cls_2" x="731" y="147" width="86" height="79"/>
+    <text id="푸드코트-2" data-name="푸드코트" class="cls_3" x="775.001" y="65"><tspan x="775.001">F&amp;B</tspan></text>
+  </g>
+  <g id="실내_워터파크" data-name="실내 워터파크">
+    <g id="bg-2" data-name="bg">
+      <rect class="cls-4" x="486" y="181" width="38" height="35"/>
+      <rect id="Rectangle_13_copy" data-name="Rectangle 13 copy" class="cls-4" x="575" y="181" width="38" height="35"/>
+      <rect id="Rectangle_18_copy" data-name="Rectangle 18 copy" class="cls_2" x="400" y="181" width="90" height="87"/>
+      <rect id="Rectangle_18_copy_2" data-name="Rectangle 18 copy 2" class="cls_2" x="609" y="150" width="38" height="66"/>
+      <path class="cls_1" d="M110,170l23,27h61v18"/>
+    </g>
+    <g id="시설-2" data-name="시설">
+      <path id="_11._패밀리풀" data-name="11. 패밀리풀" class="cls_5" d="M391,45h41V150H391a10,10,0,0,1-10-10V55A10,10,0,0,1,391,45Zm37,13H582a10,10,0,0,1,10,10v72a10,10,0,0,1-10,10H428V58Z"/>
+      <rect id="_10._미디어_샌드풀" data-name="10. 미디어 샌드풀" class="cls_6" x="520" y="181" width="59" height="35"/>
+      <g id="_9._피쉬풀" data-name="9. 피쉬풀">
+        <rect class="cls_2" x="400" y="265" width="90" height="70"/>
+        <path class="cls_5" d="M400,335V287h66V265h24v70H400Z"/>
+      </g>
+      <g id="_7._키즈존_워터버켓_트윈슬라이드_8._와이드_슬라이드_터널_슬라이드_웻_바운스" data-name="7. 키즈존 워터버켓 트윈슬라이드 8. 와이드 슬라이드 터널 슬라이드 웻 바운스">
+        <path id="Ellipse_4_copy_3" data-name="Ellipse 4 copy 3" class="cls_5" d="M291.5,37A57.5,57.5,0,1,1,234,94.5,57.5,57.5,0,0,1,291.5,37ZM221,68a55,55,0,1,1-55,55A55,55,0,0,1,221,68Zm80,56a48,48,0,1,1-48,48A48,48,0,0,1,301,124Z"/>
+        <circle class="cls-4" cx="337" cy="138" r="17"/>
+      </g>
+      <path id="_6._버블_플레이" data-name="6. 버블 플레이" class="cls_1" d="M29.8,170.442L87.36,127.186A24,24,0,1,1,116.2,165.557L58.64,208.814A24,24,0,1,1,29.8,170.442Z"/>
+      <path id="_5._대여소" data-name="5. 대여소" class="cls_1" d="M202,251h47v24H202V251Zm0-36h24v40H202V215Z"/>
+      <rect id="_4._수유실" data-name="4. 수유실" class="cls_2" x="202" y="271" width="47" height="34"/>
+      <rect id="_3._의무실" data-name="3. 의무실" class="cls_2" x="202" y="301" width="47" height="34"/>
+      <path id="_2._아쿠아_플레이" data-name="2. 아쿠아 플레이" class="cls_7" d="M323,251a29.969,29.969,0,1,1-30.094,29.969A30.032,30.032,0,0,1,323,251Zm0,39.344a46.828,46.828,0,1,1-47,46.828A46.914,46.914,0,0,1,323,290.344Z"/>
+    </g>
+    <text id="실내_워터파크-2" data-name="실내 워터파크" class="cls_3" x="379" y="224"><tspan x="379">&#xC2E4;&#xB0B4; &#xC6CC;&#xD130;&#xD30C;&#xD06C;</tspan></text>
+  </g>
+  <g id="남자사우나">
+    <g id="bg-3" data-name="bg">
+      <rect id="Rectangle_14_copy_3" data-name="Rectangle 14 copy 3" class="cls_2" x="10" y="395" width="41" height="12"/>
+      <path class="cls_1" d="M10,473H113"/>
+      <path class="cls_1" d="M73,473V406"/>
+      <path class="cls_1" d="M74,402h40v59"/>
+      <path class="cls_1" d="M74,406H68V358H96"/>
+      <path class="cls_1" d="M110,406V358"/>
+      <rect class="cls_2" x="67" y="225" width="44" height="66"/>
+      <path class="cls_1" d="M74,476v41h39"/>
+      <path class="cls_1" d="M132,516h55V441"/>
+      <path class="cls_1" d="M238,362H212v79H136v32h25"/>
+      <path class="cls_1" d="M212,388h26"/>
+      <path id="Shape_32_copy" data-name="Shape 32 copy" class="cls_1" d="M212,418h26"/>
+    </g>
+    <g id="시설-3" data-name="시설">
+      <g id="_8._세신실" data-name="8. 세신실">
+        <path class="cls_1" d="M192,341H138v-6"/>
+        <path id="Shape_12_copy_3" data-name="Shape 12 copy 3" class="cls_1" d="M192,229H138v6"/>
+        <g id="Group_4_copy_2" data-name="Group 4 copy 2">
+          <path id="Shape_13_copy_4" data-name="Shape 13 copy 4" class="cls_1" d="M138,305v17"/>
+          <path class="cls_1" d="M192,315H138"/>
+        </g>
+        <g id="Group_4_copy_6" data-name="Group 4 copy 6">
+          <path id="Shape_13_copy_4-2" data-name="Shape 13 copy 4" class="cls_1" d="M138,274v17"/>
+          <path class="cls_1" d="M192,284H138"/>
+        </g>
+        <g id="Group_4_copy_7" data-name="Group 4 copy 7">
+          <path id="Shape_13_copy_4-3" data-name="Shape 13 copy 4" class="cls_1" d="M138,243v17"/>
+          <path class="cls_1" d="M192,253H138"/>
+        </g>
+      </g>
+      <rect id="_7._건식_사우나" data-name="7. 건식 사우나" class="cls_6" x="144" y="341" width="48" height="76"/>
+      <rect id="_6._열탕" data-name="6. 열탕" class="cls-4" x="10" y="249" width="32" height="40"/>
+      <rect id="_5._온탕" data-name="5. 온탕" class="cls-4" x="10" y="285" width="32" height="74"/>
+      <rect id="_4._냉탕" data-name="4. 냉탕" class="cls-4" x="10" y="355" width="32" height="44"/>
+      <rect id="_3._노천탕" data-name="3. 노천탕" class="cls-4" x="10" y="403" width="32" height="61"/>
+      <g id="_1._락카룸" data-name="1. 락카룸">
+        <rect class="cls_8" x="43" y="476" width="12" height="82"/>
+        <rect id="Rectangle_17_copy_2" data-name="Rectangle 17 copy 2" class="cls_8" x="70" y="520" width="12" height="38"/>
+        <rect id="Rectangle_17_copy_3" data-name="Rectangle 17 copy 3" class="cls_8" x="97" y="520" width="12" height="38"/>
+        <rect id="Rectangle_17_copy_4" data-name="Rectangle 17 copy 4" class="cls_8" x="70" y="580" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_4-2" data-name="Rectangle 17 copy 4" class="cls_8" x="97" y="580" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_5" data-name="Rectangle 17 copy 5" class="cls_8" x="124" y="580" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_6" data-name="Rectangle 17 copy 6" class="cls_8" x="43" y="580" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_7" data-name="Rectangle 17 copy 7" class="cls_8" x="70" y="641" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_7-2" data-name="Rectangle 17 copy 7" class="cls_8" x="97" y="641" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_7-3" data-name="Rectangle 17 copy 7" class="cls_8" x="124" y="641" width="12" height="50"/>
+        <rect id="Rectangle_17_copy_7-4" data-name="Rectangle 17 copy 7" class="cls_8" x="43" y="641" width="12" height="50"/>
+        <rect id="Rectangle_17_copy" data-name="Rectangle 17 copy" class="cls_8" x="19" y="476" width="6" height="82"/>
+        <rect id="Rectangle_17_copy_8" data-name="Rectangle 17 copy 8" class="cls_8" x="19" y="580" width="6" height="50"/>
+        <rect id="Rectangle_17_copy_9" data-name="Rectangle 17 copy 9" class="cls_8" x="19" y="641" width="6" height="50"/>
+      </g>
+    </g>
+    <text id="남자_사우나" data-name="남자 사우나" class="cls_3" x="120" y="466"><tspan x="120">&#xC0AC;&#xC6B0;&#xB098;(&#xB0A8;)</tspan></text>
+  </g>
+  <g id="여자사우나">
+    <g id="bg-4" data-name="bg">
+      <path class="cls_1" d="M606,363H752V468"/>
+      <path class="cls_1" d="M766,363h30"/>
+      <path class="cls_1" d="M790,366v42"/>
+      <path class="cls_1" d="M817,410H752"/>
+      <path class="cls_1" d="M784,276v69h33"/>
+      <rect class="cls_2" x="796" y="276" width="21" height="7"/>
+      <rect id="Rectangle_11_copy" data-name="Rectangle 11 copy" class="cls_2" x="796" y="293" width="21" height="7"/>
+      <rect id="Rectangle_11_copy_2" data-name="Rectangle 11 copy 2" class="cls_2" x="796" y="309" width="21" height="7"/>
+      <rect id="Rectangle_11_copy_3" data-name="Rectangle 11 copy 3" class="cls_2" x="796" y="326" width="21" height="7"/>
+      <path class="cls_1" d="M606,367H567v18H524V343H500V228"/>
+      <path class="cls_9" d="M525,341h28"/>
+    </g>
+    <g id="시설-4" data-name="시설">
+      <g id="_8._세신실-2" data-name="8. 세신실">
+        <g id="Group_5_copy_2" data-name="Group 5 copy 2">
+          <path class="cls_1" d="M617,329h-8v34h8"/>
+          <path id="Shape_12_copy_2" data-name="Shape 12 copy 2" class="cls_1" d="M755,329h8v34H752"/>
+          <g>
+            <path class="cls_1" d="M630,326h17"/>
+            <path id="Shape_13_copy_4-4" data-name="Shape 13 copy 4" class="cls_1" d="M630,363h17"/>
+            <path class="cls_1" d="M640,329v34"/>
+          </g>
+          <g id="Group_4_copy" data-name="Group 4 copy">
+            <path class="cls_1" d="M660,326h17"/>
+            <path id="Shape_13_copy_4-5" data-name="Shape 13 copy 4" class="cls_1" d="M660,363h17"/>
+            <path class="cls_1" d="M670,329v34"/>
+          </g>
+          <g id="Group_4_copy_2-2" data-name="Group 4 copy 2">
+            <path class="cls_1" d="M690,326h17"/>
+            <path id="Shape_13_copy_4-6" data-name="Shape 13 copy 4" class="cls_1" d="M690,363h17"/>
+            <path class="cls_1" d="M700,329v34"/>
+          </g>
+          <g id="Group_4_copy_3" data-name="Group 4 copy 3">
+            <path class="cls_1" d="M720,326h17"/>
+            <path id="Shape_13_copy_4-7" data-name="Shape 13 copy 4" class="cls_1" d="M720,363h17"/>
+            <path class="cls_1" d="M730,329v34"/>
+          </g>
+        </g>
+        <g id="Group_5_copy" data-name="Group 5 copy">
+          <path class="cls_1" d="M617,279h-8v34h8"/>
+          <g>
+            <path class="cls_1" d="M630,276h17"/>
+            <path id="Shape_13_copy_4-8" data-name="Shape 13 copy 4" class="cls_1" d="M630,313h17"/>
+            <path class="cls_1" d="M640,279v34"/>
+          </g>
+          <g id="Group_4_copy-2" data-name="Group 4 copy">
+            <path class="cls_1" d="M660,276h17"/>
+            <path id="Shape_13_copy_4-9" data-name="Shape 13 copy 4" class="cls_1" d="M660,313h17"/>
+            <path class="cls_1" d="M670,279v34"/>
+          </g>
+          <g id="Group_4_copy_2-3" data-name="Group 4 copy 2">
+            <path class="cls_1" d="M690,276h17"/>
+            <path id="Shape_13_copy_4-10" data-name="Shape 13 copy 4" class="cls_1" d="M690,313h17"/>
+            <path class="cls_1" d="M700,279v34"/>
+          </g>
+          <g id="Group_4_copy_3-2" data-name="Group 4 copy 3">
+            <path class="cls_1" d="M720,276h17"/>
+            <path id="Shape_13_copy_4-11" data-name="Shape 13 copy 4" class="cls_1" d="M720,313h17"/>
+            <path class="cls_1" d="M730,279v34"/>
+          </g>
+          <g id="Group_4_copy_4" data-name="Group 4 copy 4">
+            <path class="cls_1" d="M750,276h17"/>
+            <path id="Shape_13_copy_4-12" data-name="Shape 13 copy 4" class="cls_1" d="M750,313h17"/>
+            <path class="cls_1" d="M760,279v34"/>
+          </g>
+        </g>
+        <g id="Group_5_copy_3" data-name="Group 5 copy 3">
+          <path class="cls_1" d="M699,226v34h-8"/>
+          <path id="Shape_12_copy" data-name="Shape 12 copy" class="cls_1" d="M669,226v34h8"/>
+          <g id="Group_4_copy_2-4" data-name="Group 4 copy 2">
+            <path id="Shape_13_copy_4-13" data-name="Shape 13 copy 4" class="cls_1" d="M631,260h17"/>
+            <path class="cls_1" d="M641,226v34"/>
+          </g>
+          <g id="Group_4_copy_5" data-name="Group 4 copy 5">
+            <path id="Shape_13_copy_4-14" data-name="Shape 13 copy 4" class="cls_1" d="M599,260h17"/>
+            <path class="cls_1" d="M609,226v34"/>
+          </g>
+        </g>
+      </g>
+      <rect id="_6._열탕-2" data-name="6. 열탕" class="cls-4" x="549" y="226" width="38" height="38"/>
+      <path id="_5._온탕-2" data-name="5. 온탕" class="cls_5" d="M500,226h53v38H500V226Zm0,35h34v22H500V261Z"/>
+      <g id="_4._냉탕-2" data-name="4. 냉탕">
+        <rect id="Rectangle_10_copy_2" data-name="Rectangle 10 copy 2" class="cls-4" x="500" y="279" width="34" height="35"/>
+        <rect id="Rectangle_10_copy_3" data-name="Rectangle 10 copy 3" class="cls-4" x="500" y="310" width="34" height="35"/>
+      </g>
+      <rect id="_3._노천탕-2" data-name="3. 노천탕" class="cls-4" x="420" y="363" width="80" height="46"/>
+      <g id="_1._락카룸-2" data-name="1. 락카룸">
+        <g id="_1" data-name="1">
+          <rect class="cls_8" x="709" y="472" width="9" height="44"/>
+          <rect id="Rectangle_9_copy_10" data-name="Rectangle 9 copy 10" class="cls_8" x="432" y="472" width="9" height="44"/>
+          <rect id="Rectangle_9_copy" data-name="Rectangle 9 copy" class="cls_8" x="681" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_2" data-name="Rectangle 9 copy 2" class="cls_8" x="653" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_3" data-name="Rectangle 9 copy 3" class="cls_8" x="625" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_4" data-name="Rectangle 9 copy 4" class="cls_8" x="597" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_5" data-name="Rectangle 9 copy 5" class="cls_8" x="569" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_6" data-name="Rectangle 9 copy 6" class="cls_8" x="541" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_7" data-name="Rectangle 9 copy 7" class="cls_8" x="513" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_8" data-name="Rectangle 9 copy 8" class="cls_8" x="485" y="472" width="12" height="44"/>
+          <rect id="Rectangle_9_copy_9" data-name="Rectangle 9 copy 9" class="cls_8" x="457" y="472" width="12" height="44"/>
+        </g>
+        <g id="_2" data-name="2">
+          <rect id="Rectangle_9_copy_11" data-name="Rectangle 9 copy 11" class="cls_8" x="395" y="416" width="6" height="34"/>
+          <rect id="Rectangle_9_copy_22" data-name="Rectangle 9 copy 22" class="cls_8" x="720" y="416" width="6" height="34"/>
+          <rect id="Rectangle_9_copy_12" data-name="Rectangle 9 copy 12" class="cls_8" x="416" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_13" data-name="Rectangle 9 copy 13" class="cls_8" x="444" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_14" data-name="Rectangle 9 copy 14" class="cls_8" x="472" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_15" data-name="Rectangle 9 copy 15" class="cls_8" x="500" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_16" data-name="Rectangle 9 copy 16" class="cls_8" x="528" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_17" data-name="Rectangle 9 copy 17" class="cls_8" x="556" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_18" data-name="Rectangle 9 copy 18" class="cls_8" x="608" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_19" data-name="Rectangle 9 copy 19" class="cls_8" x="636" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_20" data-name="Rectangle 9 copy 20" class="cls_8" x="664" y="416" width="12" height="34"/>
+          <rect id="Rectangle_9_copy_21" data-name="Rectangle 9 copy 21" class="cls_8" x="692" y="416" width="12" height="34"/>
+        </g>
+        <path class="cls_1" d="M379,431l11-18H574"/>
+        <path class="cls_1" d="M606,413H730"/>
+      </g>
+    </g>
+    <text id="여자_사우나" data-name="여자 사우나" class="cls_3" x="604" y="368"><tspan x="604">&#xC0AC;&#xC6B0;&#xB098;(&#xC5EC;)</tspan></text>
+  </g>
+  <g id="찜질스파">
+    <g id="bg-5" data-name="bg">
+      <path class="cls_9" d="M907,578s37.605-11.191,38-49h28v49H907Z"/>
+      <circle id="Ellipse_3_copy" data-name="Ellipse 3 copy" class="cls_2" cx="317" cy="479" r="17"/>
+      <circle class="cls_2" cx="317" cy="479" r="9"/>
+      <circle id="Ellipse_3_copy_2" data-name="Ellipse 3 copy 2" class="cls_2" cx="281" cy="533" r="17"/>
+      <circle id="Ellipse_3_copy_2-2" data-name="Ellipse 3 copy 2" class="cls_2" cx="281" cy="533" r="9"/>
+      <circle id="Ellipse_3_copy_3" data-name="Ellipse 3 copy 3" class="cls_2" cx="329" cy="525" r="13"/>
+      <circle id="Ellipse_3_copy_3-2" data-name="Ellipse 3 copy 3" class="cls_2" cx="329" cy="525" r="6.875"/>
+      <path class="cls_1" d="M162,626h44l51-51"/>
+      <path class="cls_1" d="M411,557H399s-4.421,19.783-25,38v31h34"/>
+      <rect class="cls_2" x="404" y="600" width="74" height="35"/>
+      <rect class="cls_10" x="162" y="642" width="47" height="11"/>
+      <rect id="Rectangle_7_copy" data-name="Rectangle 7 copy" class="cls_10" x="162" y="661" width="47" height="11"/>
+      <rect id="Rectangle_7_copy_2" data-name="Rectangle 7 copy 2" class="cls_10" x="162" y="680" width="47" height="11"/>
+      <rect id="Rectangle_7_copy_3" data-name="Rectangle 7 copy 3" class="cls_10" x="370" y="642" width="71" height="11"/>
+      <rect id="Rectangle_7_copy_3-2" data-name="Rectangle 7 copy 3" class="cls_10" x="370" y="661" width="71" height="11"/>
+      <rect id="Rectangle_7_copy_3-3" data-name="Rectangle 7 copy 3" class="cls_10" x="370" y="680" width="71" height="11"/>
+      <rect class="cls_2" x="235" y="654" width="108" height="37"/>
+      <circle id="Ellipse_3_copy_4" data-name="Ellipse 3 copy 4" class="cls_2" cx="992" cy="479" r="17"/>
+      <circle id="Ellipse_2_copy_2" data-name="Ellipse 2 copy 2" class="cls_11" cx="992" cy="479" r="7"/>
+      <circle id="Ellipse_3_copy_5" data-name="Ellipse 3 copy 5" class="cls_2" cx="812" cy="592" r="17"/>
+      <circle id="Ellipse_2_copy_3" data-name="Ellipse 2 copy 3" class="cls_11" cx="812" cy="592" r="7"/>
+      <circle id="Ellipse_3_copy_6" data-name="Ellipse 3 copy 6" class="cls_2" cx="739" cy="583" r="17"/>
+      <circle id="Ellipse_2_copy_4" data-name="Ellipse 2 copy 4" class="cls_11" cx="739" cy="583" r="7"/>
+      <circle id="Ellipse_3_copy_7" data-name="Ellipse 3 copy 7" class="cls_2" cx="652" cy="592" r="17"/>
+      <circle id="Ellipse_2_copy_5" data-name="Ellipse 2 copy 5" class="cls_11" cx="652" cy="592" r="7"/>
+      <circle id="Ellipse_1_copy_2" data-name="Ellipse 1 copy 2" class="cls_2" cx="1019" cy="367.281" r="55"/>
+      <path class="cls_1" d="M1093.86,278.286l-16.07-3.572-7.15,12.5s45.48,27.955,44.65,80.357c0,0,2.2,69-75,91.072v57.143L1138,516V306h-37V280Z"/>
+    </g>
+    <g id="시설-5" data-name="시설">
+      <g id="_13._릴렉스룸" data-name="13. 릴렉스룸">
+        <rect id="Rectangle_1_copy" data-name="Rectangle 1 copy" class="cls_6" x="1164" y="10" width="224" height="35"/>
+        <rect id="Rectangle_1_copy_2" data-name="Rectangle 1 copy 2" class="cls_6" x="1164" y="41" width="224" height="35"/>
+        <rect id="Rectangle_1_copy_3" data-name="Rectangle 1 copy 3" class="cls_6" x="1164" y="72" width="224" height="35"/>
+        <rect id="Rectangle_1_copy_4" data-name="Rectangle 1 copy 4" class="cls_6" x="1164" y="103" width="224" height="36"/>
+      </g>
+      <rect id="_12._풋스파" data-name="12. 풋스파" class="cls_6" x="908" y="10" width="234" height="34"/>
+      <path id="_11._힐링홀" data-name="11. 힐링홀" class="cls_9" d="M908,160V58h156s2.56,60.469-48,59a51.529,51.529,0,0,1-24-7s-12.6-4.485-25-2c0,0-17.85,1.943-27,31C940,139,933.522,160.266,908,160Z"/>
+      <path id="_10._편백나무방" data-name="10. 편백나무방" class="cls_12" d="M1019,172.969A55.031,55.031,0,1,1,964,228,55.013,55.013,0,0,1,1019,172.969ZM1045,174h29v78h-29V174Z"/>
+      <path id="_9._키즈룸" data-name="9. 키즈룸" class="cls_9" d="M827,223h53s25,4.532,25,35V411H827V223Z"/>
+      <circle id="_8._미디어아트룸" data-name="8. 미디어아트룸" class="cls_13" cx="888.61" cy="434.75" r="49.11"/>
+      <path id="_7._로울리_불가마" data-name="7. 로울리 불가마" class="cls_9" d="M1054,529h84v49h-84V529Zm19-16h65v19h-65V513Z"/>
+      <path id="_6._파동석룸" data-name="6. 파동석룸" class="cls_9" d="M970,541h16v37H970V541Zm13-12h74v49H983V529Z"/>
+      <path id="_5._구름방" data-name="5. 구름방" class="cls_9" d="M759,478h50v19h12v29H759V478Z"/>
+      <path id="_4._황토방" data-name="4. 황토방" class="cls_9" d="M892,597H877V581H847V691h45V597Z"/>
+      <g id="_3._패밀리홀" data-name="3. 패밀리홀">
+        <rect class="cls_2" x="622" y="623" width="202" height="68"/>
+        <g>
+          <rect class="cls_8" x="635" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy" data-name="Rectangle 5 copy" class="cls_8" x="651" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_2" data-name="Rectangle 5 copy 2" class="cls_8" x="667" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_3" data-name="Rectangle 5 copy 3" class="cls_8" x="688" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_4" data-name="Rectangle 5 copy 4" class="cls_8" x="704" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_4-2" data-name="Rectangle 5 copy 4" class="cls_8" x="720" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_4-3" data-name="Rectangle 5 copy 4" class="cls_8" x="736" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_4-4" data-name="Rectangle 5 copy 4" class="cls_8" x="752" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_5" data-name="Rectangle 5 copy 5" class="cls_8" x="773" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_5-2" data-name="Rectangle 5 copy 5" class="cls_8" x="789" y="633" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_5-3" data-name="Rectangle 5 copy 5" class="cls_8" x="805" y="633" width="6" height="20"/>
+        </g>
+        <g>
+          <rect id="Rectangle_5_copy_6" data-name="Rectangle 5 copy 6" class="cls_8" x="635" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-2" data-name="Rectangle 5 copy 6" class="cls_8" x="651" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-3" data-name="Rectangle 5 copy 6" class="cls_8" x="667" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-4" data-name="Rectangle 5 copy 6" class="cls_8" x="688" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-5" data-name="Rectangle 5 copy 6" class="cls_8" x="704" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-6" data-name="Rectangle 5 copy 6" class="cls_8" x="720" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-7" data-name="Rectangle 5 copy 6" class="cls_8" x="736" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-8" data-name="Rectangle 5 copy 6" class="cls_8" x="752" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-9" data-name="Rectangle 5 copy 6" class="cls_8" x="773" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-10" data-name="Rectangle 5 copy 6" class="cls_8" x="789" y="661" width="6" height="20"/>
+          <rect id="Rectangle_5_copy_6-11" data-name="Rectangle 5 copy 6" class="cls_8" x="805" y="661" width="6" height="20"/>
+        </g>
+      </g>
+      <rect id="_2._소금방" data-name="2. 소금방" class="cls_6" x="542" y="581" width="56" height="110"/>
+      <rect id="_1._GX룸" data-name="1. GX룸" class="cls_6" x="475" y="581" width="70" height="110"/>
+    </g>
+    <text id="찜질스파-2" data-name="찜질스파" class="cls_3" x="984" y="368"><tspan x="984">&#xCC1C;&#xC9C8;&#xC2A4;&#xD30C;</tspan></text>
+  </g>
+  <g id="기타시설">
+    <path class="cls_1" d="M526,839V809h4V753h31V720h89v16h84v66H647v39Z"/>
+    <path class="cls_1" d="M738,736h81V720h69V888H738V736Z"/>
+    <text id="기타시설-2" data-name="기타시설" class="cls_3" x="652.999" y="871"><tspan x="652.999">&#xAE30;&#xD0C0;&#xC2DC;&#xC124;</tspan></text>
+  </g>
+  <g id="Layer_9" opacity="0.6">
+    <path id="_02" data-name="02" class="cls_14" stroke="#E0E0E0" d="M711,226V204h0V100H618V8"/>
+    <path id="_01" data-name="01" class="cls_14" stroke="#E0E0E0" d="M0,225V180L240,0H618M0,225"/>
+      <path id="_02-2" data-name="02" class="cls_14" stroke="#E0E0E0" d="M365.731,419.768C320.157,390.026,264,411,264,411m10,22"/>
+      <path id="_03" data-name="03" class="cls_14" stroke="#E0E0E0" d="M365.928,419.9L398,362M650,226h61V204h0V100H618V8"/>
+      <path id="_04" data-name="04" class="cls_14" stroke="#E0E0E0" d="M267,420l-4-9-24-49V345H192V225H8"/>
+      <path id="여자_사우나_copy_3" data-name="여자 사우나 copy 3" class="cls_14" stroke="#E0E0E0" d="M500,226H701M365.928,419.9L398,362V345H500V218"/>
+      <path id="찜질스파_copy_3" data-name="찜질스파 copy 3" class="cls_14" stroke="#E0E0E0" d="M817,468H749v48H411c3.731-33.921-13-61-13-61-43.873-77.439-135-44-135-44l11,22-34,16H206v83H152V701h83V911H354c21.741-80.081,83-73,83-73h51V804H403V741H344V701H902V588h246V296h-37V149h287V0H898V175H847v19H817V468Z"/>
+      <path id="여자_사우나_copy" data-name="여자 사우나 copy" class="cls_14" stroke="#E0E0E0" d="M500,226H703v29H817V468H749v48H411c3.731-33.921-13-61-13-61-9.077-16.021-20.176-27.3-32.072-35.1L398,362V345H500V218"/>
+      <path id="_01-2" data-name="01" class="cls_14" stroke="#E0E0E0" d="M0,701V215M152,701H9"/>
+      <path id="_02-3" data-name="02" class="cls_14" stroke="#E0E0E0" d="M152,701V532h54V449h34l34-16-11-22-24-49V345H192V225H10"/>
+  </g>
+  <g id="layer_2">
+    <g id="floor_4f_1">
+      <path id="_02" data-name="02" class="cls_14" stroke="#6D6D7C" d="M711,226V204h0V100H618V8"/>
+    </g>
+    <g id="floor_4f_2">
+      <path id="_01" data-name="01" class="cls_14" stroke="#6D6D7C" d="M0,225V180L240,0H618M0,225"/>
+      <path id="_02-2" data-name="02" class="cls_14" stroke="#6D6D7C" d="M365.731,419.768C320.157,390.026,264,411,264,411m10,22"/>
+      <path id="_03" data-name="03" class="cls_14" stroke="#6D6D7C" d="M365.928,419.9L398,362M650,226h61V204h0V100H618V8"/>
+      <path id="_04" data-name="04" class="cls_14" stroke="#6D6D7C" d="M267,420l-4-9-24-49V345H192V225H8"/>
+      <path id="여자_사우나_copy_3" data-name="여자 사우나 copy 3" class="cls_14" stroke="#6D6D7C" d="M500,226H701M365.928,419.9L398,362V345H500V218"/>
+    </g>
+    <g id="floor_4f_3">
+      <path id="찜질스파_copy_3" data-name="찜질스파 copy 3" class="cls_14" stroke="#6D6D7C" d="M817,468H749v48H411c3.731-33.921-13-61-13-61-43.873-77.439-135-44-135-44l11,22-34,16H206v83H152V701h83V911H354c21.741-80.081,83-73,83-73h51V804H403V741H344V701H902V588h246V296h-37V149h287V0H898V175H847v19H817V468Z"/>
+    </g>
+    <g id="floor_4f_4">
+      <image id="레이어_1" data-name="레이어 1" x="335" y="693" width="567" height="218" xlink:href="data:img/png;base64,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"/>
+    </g>
+    <g id="floor_4f_5">
+      <path id="여자_사우나_copy" data-name="여자 사우나 copy" class="cls_14" stroke="#6D6D7C" d="M500,226H703v29H817V468H749v48H411c3.731-33.921-13-61-13-61-9.077-16.021-20.176-27.3-32.072-35.1L398,362V345H500V218"/>
+      <path id="_01-2" data-name="01" class="cls_14" stroke="#6D6D7C" d="M0,701V215M152,701H9"/>
+      <path id="_02-3" data-name="02" class="cls_14" stroke="#6D6D7C" d="M152,701V532h54V449h34l34-16-11-22-24-49V345H192V225H10"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,2 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%><%@ include file="../../../../common/taglibs.jsp" %>
+<section id="video_popup" class="pop_type2">    <div class="inner">        <div id="bx_multi_content">            <button class="btn_close" onclick="videoPop.closePop();">닫기</button>            <div class="content"></div>        </div>        <aside id="bx_multi_aside"></aside>    </div></section>

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.StatisticsVisitorDao">
+	<!-- 일별 방문자 등록 카운트 -->
+	<select id="getCountVisitor" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR
+	   WHERE iYears=#{YEARS} AND iMonths=#{MONTHS} AND iDays=#{DAYS}
+	</select>
+	<!-- 디바이스 등록 카운트 -->
+	<select id="getCountDevice" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_DEVICE
+	   WHERE device=#{DEVICE}
+	</select>
+	<!-- 브라우저 등록 카운트 -->
+	<select id="getCountBrowser" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_BROWSER
+	   WHERE browser=#{BROWSER}
+	</select>
+	<!-- 운영체제 등록 카운트 -->
+	<select id="getCountOs" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_OS
+	   WHERE os=#{OS}
+	</select>
+	<!-- 경로 등록 카운트 -->
+	<select id="getCountReferer" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_REFERER
+	   WHERE referer=#{REFERER}
+	     AND TO_CHAR(INS_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	<!-- 경로 전체 카운트 -->
+	<select id="getTotalCountReferer" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_REFERER
+	</select>
+	<!-- 스크린 등록 카운트 -->
+	<select id="getCountScreen" parameterType="java.util.Map" resultType="int">
+	  SELECT COUNT(*)
+	    FROM TB_SATATISTICS_VISITOR_SCREEN
+	   WHERE screen_x=#{SCREEN_X} AND screen_y=#{SCREEN_Y}
+	</select>
+	
+	<!-- 시간별 통계 -->
+	<select id="listVisitorTime" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             hour_00
+           , hour_01
+           , hour_02
+           , hour_03
+           , hour_04
+           , hour_05
+           , hour_06
+           , hour_07
+           , hour_08
+           , hour_09
+           , hour_10
+           , hour_11
+           , hour_12
+           , hour_13
+           , hour_14
+           , hour_15
+           , hour_16
+           , hour_17
+           , hour_18
+           , hour_19
+           , hour_20
+           , hour_21
+           , hour_22
+           , hour_23
+	    FROM TB_SATATISTICS_VISITOR
+	   WHERE iYears=#{YEARS} AND iMonths=#{MONTHS} AND iDays=#{DAYS}
+	</select>
+	
+	<!-- 일별 통계 -->
+	<select id="listVisitorDay" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             iDays
+           , visitorCnt             
+	    FROM TB_SATATISTICS_VISITOR
+	   WHERE iYears=#{YEARS} AND iMonths=#{MONTHS}
+	   ORDER BY iDays ASC
+	</select>
+	
+	<!-- 월별 통계 -->
+	<select id="listVisitorMonth" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             iMonths,SUM(iMonths) as monthsTotal
+	    FROM TB_SATATISTICS_VISITOR
+	   WHERE iYears=#{YEARS}
+	   GROUP BY iMonths
+	   ORDER BY iMonths ASC
+	</select>
+
+	<!-- 브라우저별 통계 -->
+	<select id="listVisitorBrowser" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             browser
+           , cnt
+	    FROM TB_SATATISTICS_VISITOR_BROWSER
+	   ORDER BY cnt DESC
+	</select>
+	
+	<!-- OS별 통계 -->
+	<select id="listVisitorOs" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             OS
+           , cnt
+	    FROM TB_SATATISTICS_VISITOR_OS
+	   ORDER BY cnt DESC
+	</select>
+
+	<!-- 경로별 통계 -->
+	<select id="listVisitorReferer" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             REFERER
+           , cnt
+	    FROM TB_SATATISTICS_VISITOR_REFERER
+	   ORDER BY cnt DESC
+	   LIMIT #{pageStartRow}, #{pageListSize}
+	</select>
+	
+	<!-- 스크린별별 통계 -->
+	<select id="listVisitorScreen" parameterType="java.util.Map" resultType="java.util.HashMap">
+	  SELECT
+             screen_x
+           , screen_y
+           , concat(screen_x, 'x', screen_y) AS SCREEN_XY
+           , cnt
+	    FROM TB_SATATISTICS_VISITOR_SCREEN
+	   ORDER BY cnt DESC
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insertVisitor"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR(
+            iYears
+           ,iMonths
+           ,iDays
+           ,iWeeks
+           ,pcCnt
+           ,mobileCnt
+           ,pageViewCnt
+           ,visitorCnt
+           ,hour_00
+           ,hour_01
+           ,hour_02
+           ,hour_03
+           ,hour_04
+           ,hour_05
+           ,hour_06
+           ,hour_07
+           ,hour_08
+           ,hour_09
+           ,hour_10
+           ,hour_11
+           ,hour_12
+           ,hour_13
+           ,hour_14
+           ,hour_15
+           ,hour_16
+           ,hour_17
+           ,hour_18
+           ,hour_19
+           ,hour_20
+           ,hour_21
+           ,hour_22
+           ,hour_23
+           ,instDate
+      ) VALUES (
+             #{YEARS}
+           , #{MONTHS}
+           , #{DAYS}
+           , #{WEEKS}
+           , #{PC_CNT}
+           , #{MOBILE_CNT}
+           , #{PAGE_VIEW_CNT}
+           , #{VISITOR_CNT}
+           , #{HOUR_00}
+           , #{HOUR_01}
+           , #{HOUR_02}
+           , #{HOUR_03}
+           , #{HOUR_04}
+           , #{HOUR_05}
+           , #{HOUR_06}
+           , #{HOUR_07}
+           , #{HOUR_08}
+           , #{HOUR_09}
+           , #{HOUR_10}
+           , #{HOUR_11}
+           , #{HOUR_12}
+           , #{HOUR_13}
+           , #{HOUR_14}
+           , #{HOUR_15}
+           , #{HOUR_16}
+           , #{HOUR_17}
+           , #{HOUR_18}
+           , #{HOUR_19}
+           , #{HOUR_20}
+           , #{HOUR_21}
+           , #{HOUR_22}
+           , #{HOUR_23}
+           , SYSDATE
+      )
+	</insert>
+	<insert id="insertDevice"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR_DEVICE(
+             device
+           , cnt
+      ) VALUES (
+             #{DEVICE}
+           , 1
+      )
+	</insert>
+	<insert id="insertBrowser"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR_BROWSER(
+             browser
+           , cnt
+      ) VALUES (
+             #{BROWSER}
+           , 1
+      )
+	</insert>
+	<insert id="insertOs"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR_OS(
+             os
+           , cnt
+      ) VALUES (
+             #{OS}
+           , 1
+      )
+	</insert>
+	<insert id="insertReferer"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR_REFERER(
+             REFERER
+           , cnt
+           , INS_DATE
+      ) VALUES (
+             #{REFERER}
+           , 1
+           , SYSDATE
+      )
+	</insert>
+	<insert id="insertScreen"  parameterType="java.util.Map">
+      INSERT INTO TB_SATATISTICS_VISITOR_SCREEN(
+             screen_x
+           , screen_y
+           , cnt
+      ) VALUES (
+             #{SCREEN_X}
+           , #{SCREEN_Y}
+           , 1
+      )
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateVisitor"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR SET
+             visitorCnt=visitorCnt+1
+           <if test = "PC_CNT != null and PC_CNT != '' and PC_CNT != '0'.toString()">
+           , pcCnt=pcCnt+1
+           </if>
+           <if test = "MOBILE_CNT != null and MOBILE_CNT != '' and MOBILE_CNT != '0'.toString()">
+           , mobileCnt=mobileCnt+1
+           </if>
+           <if test = "HOUR != null and HOUR == '00'">
+           , hour_00=hour_00+1
+           </if>
+           <if test = "HOUR != null and HOUR == '01'">
+           , hour_01=hour_01+1
+           </if>
+           <if test = "HOUR != null and HOUR == '02'">
+           , hour_02=hour_02+1
+           </if>
+           <if test = "HOUR != null and HOUR == '03'">
+           , hour_03=hour_03+1
+           </if>
+           <if test = "HOUR != null and HOUR == '04'">
+           , hour_04=hour_04+1
+           </if>
+           <if test = "HOUR != null and HOUR == '05'">
+           , hour_05=hour_05+1
+           </if>
+           <if test = "HOUR != null and HOUR == '06'">
+           , hour_06=hour_06+1
+           </if>
+           <if test = "HOUR != null and HOUR == '07'">
+           , hour_07=hour_07+1
+           </if>
+           <if test = "HOUR != null and HOUR == '08'">
+           , hour_08=hour_08+1
+           </if>
+           <if test = "HOUR != null and HOUR == '09'">
+           , hour_09=hour_09+1
+           </if>
+           <if test = "HOUR != null and HOUR == '10'">
+           , hour_10=hour_10+1
+           </if>
+           <if test = "HOUR != null and HOUR == '11'">
+           , hour_11=hour_11+1
+           </if>
+           <if test = "HOUR != null and HOUR == '12'">
+           , hour_12=hour_12+1
+           </if>
+           <if test = "HOUR != null and HOUR == '13'">
+           , hour_13=hour_13+1
+           </if>
+           <if test = "HOUR != null and HOUR == '14'">
+           , hour_14=hour_14+1
+           </if>
+           <if test = "HOUR != null and HOUR == '15'">
+           , hour_15=hour_15+1
+           </if>
+           <if test = "HOUR != null and HOUR == '16'">
+           , hour_16=hour_16+1
+           </if>
+           <if test = "HOUR != null and HOUR == '17'">
+           , hour_17=hour_17+1
+           </if>
+           <if test = "HOUR != null and HOUR == '18'">
+           , hour_18=hour_18+1
+           </if>
+           <if test = "HOUR != null and HOUR == '19'">
+           , hour_19=hour_19+1
+           </if>
+           <if test = "HOUR != null and HOUR == '20'">
+           , hour_20=hour_20+1
+           </if>
+           <if test = "HOUR != null and HOUR == '21'">
+           , hour_21=hour_21+1
+           </if>
+           <if test = "HOUR != null and HOUR == '22'">
+           , hour_22=hour_22+1
+           </if>
+           <if test = "HOUR != null and HOUR == '23'">
+           , hour_23=hour_23+1
+           </if>
+       WHERE iYears=#{YEARS} AND iMonths=#{MONTHS} AND iDays=#{DAYS}
+	</update>
+	<update id="updateDevice"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR_DEVICE SET
+             cnt=cnt+1
+       WHERE device=#{DEVICE}
+	</update>
+	<update id="updateBrowser"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR_BROWSER SET
+             cnt=cnt+1
+       WHERE browser=#{BROWSER}
+	</update>
+	<update id="updateOs"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR_OS SET
+             cnt=cnt+1
+       WHERE os=#{OS}
+	</update>
+	<update id="updateReferer"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR_REFERER SET
+             cnt=cnt+1
+       WHERE referer=#{REFERER}
+	     AND TO_CHAR(INS_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</update>
+
+	<update id="updateScreen"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR_SCREEN SET
+             cnt=cnt+1
+       WHERE screen_x=#{SCREEN_X} AND screen_y=#{SCREEN_Y}
+	</update>
+
+	<update id="updatePage"  parameterType="java.util.Map">
+      UPDATE TB_SATATISTICS_VISITOR SET
+             pageViewCnt=pageViewCnt+1
+       WHERE iYears=#{YEARS} AND iMonths=#{MONTHS} AND iDays=#{DAYS}
+	</update>
+</mapper>

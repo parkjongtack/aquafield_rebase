@@ -1,0 +1,1 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%></div><!-- //wrap --><script type="text/javascript"></script><section id="pop_bx_common"></section>

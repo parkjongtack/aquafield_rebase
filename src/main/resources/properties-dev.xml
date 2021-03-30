@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+
+<properties>
+
+<comment>properties</comment>
+
+<!-- DEV SITE ORACLE -->
+<entry key="oracle.driverClassName">oracle.jdbc.driver.OracleDriver</entry>
+<entry key="oracle.url">jdbc:oracle:thin:@124.51.251.71:1521:orcl</entry>
+<entry key="oracle.username">aquafield</entry>
+<entry key="oracle.password">aquafield0719</entry>
+
+<!-- SITE ORACLE SMS -->
+<entry key="oracle_sms.driverClassName">oracle.jdbc.driver.OracleDriver</entry>
+<entry key="oracle_sms.url">jdbc:oracle:thin:@10.253.41.223:1521:SSGCON</entry>
+<entry key="oracle_sms.username">asms</entry>
+<entry key="oracle_sms.password">asmsaqua000</entry>
+
+<!-- MAIL SMTP -->
+<entry key="smtp.host">202.3.30.188</entry>
+<entry key="smtp.port">25</entry>
+
+
+<!-- SITE SEED VALUE -->
+<entry key="security.aes.seed">asnr189am4vzdAdE</entry>
+
+<!--본인인증 RETURN URL-->
+<entry key="member.checkplus.returnurl">:8081/member/checkplus_ok.af</entry>
+
+<!--I-pin인증 RETURN URL-->
+<entry key="member.ipin.returnurl">:8081/member/ipin_process.af</entry>
+
+<!--I-pin인증 RETURN URL--> <!-- real 상점코드 2001106041 --> <!-- test 상정코드  2999199999-->
+<entry key="pg.store.code">2999199999</entry>
+
+<!-- characterSet -->
+<entry key="character.set">EUCKR</entry>
+
+<!-- PG 관련 IP -->
+<entry key="pg.ip">127.0.0.1</entry>
+
+<!-- SMS 대표번호 -->
+<entry key="sms.tel.number">031-8072-8800</entry>
+<entry key="sms.tel.number.POINT01">031-8072-8800</entry>
+<entry key="sms.tel.number.POINT03">031-5173-4500</entry>
+
+<!-- 관리자 허용 IP ,59.15.3.213(ok),112.217.85.107(aqua), -->
+<entry key="admin.access.ip">,127.0.0.1,59.15.3.213,112.217.85.107,10.100.111.230,0:0:0:0:0:0:0:1,192.168.0.58</entry>
+
+<entry key="login.attemp.second">3</entry>
+<entry key="login.wrong.second">300</entry>
+
+</properties>

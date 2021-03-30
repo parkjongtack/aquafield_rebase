@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.soft.web.dao.front.FrontOneToOneDao">
+
+<resultMap type="java.util.Map" id="result">
+	<result property="ASK_CONTENT" column="ASK_CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+	<result property="ASK_CONTENT2" column="ASK_CONTENT2" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" /> 
+</resultMap>
+
+
+<sql id="where">
+	<if test = "searchtext != null and searchtext != ''">
+        AND ASK_TITLE like '%' || #{searchtext} || '%'
+    </if>
+	<if test = "statdate != null and statdate != '' and enddate != null and enddate != ''" >
+	 	AND TO_DATE(TO_CHAR(INS_DATE,'YYYYMMDD'), 'YYYYMMDD') BETWEEN TO_DATE( REPLACE(#{statdate},'.',''), 'YYYYMMDD') AND TO_DATE(REPLACE(#{enddate},'.',''), 'YYYYMMDD') 
+	</if>
+</sql>
+
+<select id="onetoOnelistCnt" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(1)
+	FROM TB_ONE_TO_ONE
+	WHERE INS_UID = #{ins_uid}
+	<include refid="where"/>
+</select>
+
+<select id="onetoOnelist" parameterType="java.util.Map" resultMap="result">
+	SELECT * 
+		FROM ( 
+				SELECT 
+						rownum rn, TB.* 
+				FROM (
+						SELECT ASK_UID
+						      ,POINT_CODE
+						      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.POINT_CODE AND B.GR_CODE_ID ='POINT_CODE') AS POINT_NAME
+						      ,WRITER
+						      ,USE_AT
+						      ,ASK_TITLE
+						      ,ASK_CONTENT
+						      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_TYPE AND B.GR_CODE_ID ='ASK_TYPE') AS ASK_TYPE
+						      ,INS_ID
+						      ,TO_CHAR(INS_DATE,'YYYY.MM.DD') as INS_DATE
+						      ,UPD_ID
+						      ,TO_CHAR(UPD_DATE,'YYYY.MM.DD') as UPD_DATE
+						      ,ASK_CONTENT2
+						      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_STAT AND B.GR_CODE_ID ='ASK_STAT') AS ASK_STAT
+						      ,CASE WHEN ASK_STAT = 1 THEN 'complete'
+						       ELSE '' END AS ASK_STAT_CLASS
+						      ,TO_CHAR(RE_DATE,'YYYY.MM.DD') as RE_DATE
+						      ,RE_ID
+						      ,INS_UID
+						  FROM TB_ONE_TO_ONE A
+						 WHERE INS_UID = #{ins_uid}
+						<include refid="where"/>
+						ORDER BY ASK_UID DESC
+				) TB
+		) WHERE rn BETWEEN #{pageListSize} * (#{page} - 1) + 1 AND #{pageListSize} * #{page}
+</select>
+
+<select id="onetoOneInfo" parameterType="java.util.Map" resultMap="result">
+	SELECT ASK_UID
+	      ,POINT_CODE
+	      ,WRITER
+	      ,USE_AT
+	      ,ASK_TITLE
+	      ,ASK_CONTENT
+	      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_TYPE AND B.GR_CODE_ID ='ASK_TYPE') AS ASK_TYPE
+	      ,INS_ID
+	      ,TO_CHAR(INS_DATE,'YYYY.MM.DD HH24:MI:SS') as INS_DATE
+	      ,UPD_ID
+	      ,TO_CHAR(UPD_DATE,'YYYY.MM.DD HH24:MI:SS') as UPD_DATE
+	      ,ASK_CONTENT2
+	      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_TYPE AND B.GR_CODE_ID ='ASK_STAT') AS ASK_STAT
+	      ,TO_CHAR(RE_DATE,'YYYY.MM.DD HH24:MI:SS') as RE_DATE
+	      ,RE_ID
+	      ,INS_UID
+	  FROM TB_ONE_TO_ONE A
+	 WHERE ASK_UID = #{ask_uid}
+</select>
+
+
+<select id="onetoOneInfoNew" parameterType="java.util.Map" resultMap="result">
+	SELECT ASK_UID
+	      ,POINT_CODE
+	      ,WRITER
+	      ,USE_AT
+	      ,ASK_TITLE
+	      ,ASK_CONTENT
+	      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_TYPE AND B.GR_CODE_ID ='ASK_TYPE') AS ASK_TYPE
+	      ,INS_ID
+	      ,TO_CHAR(INS_DATE,'YYYY.MM.DD HH24:MI:SS') as INS_DATE
+	      ,UPD_ID
+	      ,TO_CHAR(UPD_DATE,'YYYY.MM.DD HH24:MI:SS') as UPD_DATE
+	      ,ASK_CONTENT2
+	      ,(SELECT CODE_NM FROM TB_CODE B WHERE B.CODE_ID = A.ASK_TYPE AND B.GR_CODE_ID ='ASK_STAT') AS ASK_STAT
+	      ,TO_CHAR(RE_DATE,'YYYY.MM.DD HH24:MI:SS') as RE_DATE
+	      ,RE_ID
+	      ,INS_UID
+	  FROM TB_ONE_TO_ONE A
+	 WHERE ASK_UID = #{askUid}
+	 AND INS_UID = #{insUid}
+</select>
+
+<insert id="oneToOneIns" parameterType="java.util.Map">
+   <![CDATA[
+	INSERT INTO TB_ONE_TO_ONE (ASK_UID
+		                      ,POINT_CODE
+		                      ,WRITER
+		                      ,ASK_TITLE
+		                      ,ASK_CONTENT
+		                      ,ASK_TYPE
+		                      ,INS_IP
+		                      ,INS_ID
+		                      ,INS_DATE
+		                      ,INS_UID
+		                      ,MOBILE_NUM
+		                      ,MEM_TYPE) 
+		              VALUES (TB_ONE_TO_ONE_SEQ.NEXTVAL
+		                      ,#{point_code}
+		                      ,#{writer}
+		                      ,#{ask_title}
+		                      ,#{ask_content}
+		                      ,#{ask_type}
+		                      ,#{ins_ip}
+		                      ,#{ins_id}
+		                      ,sysdate
+		                      ,#{ins_uid}
+		                      ,str_to_row(#{mobile_num})
+		                      ,#{mem_type})
+		]]>	 		                      
+</insert>
+
+</mapper>
