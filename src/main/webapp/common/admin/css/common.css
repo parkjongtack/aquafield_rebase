@@ -535,20 +535,12 @@ a.link{color: #5ca7fc;text-decoration: underline;}
 
 /* fakefile 2016-03-23 LYT happaypet 참조*/
 /*input file fake*/
-/* div.fileinputs {position: relative; width: 100%; } */
+div.fileinputs {position: relative; width: 100%; }
 div.fakefile {margin-right:88px;}
 div.fakefile img{position: absolute; right: 0; top: 0;bottom:0;margin:auto;}
 div.fakefile input{ width:100%; } 
 div.fakefile button{width:78px;position: absolute;right: 0;top:0;bottom:0;background-color: #787878;color: #fff;font-size: 13px;}
-/* input.file { position: absolute; left: 0; top: 0; bottom:0; cursor: pointer; width: 100%; text-align: right; -moz-opacity:0 ; filter:alpha(opacity: 0); opacity: 0; z-index: 2; } */
- input.file { position: absolute; left: 0; top: 0; bottom:0; cursor: pointer; width: 100%; height: 100% !important; text-align: right; -moz-opacity:0 ; filter:alpha(opacity: 0); opacity: 0; z-index: 2; }
-
-div.imginputs {position: relative; max-width: 150px; width: 100%; }
-div.fakeimg .imgArea{ border: 1px solid #e2e7eb; width: 100%; min-height: 120px; height: 100%; margin-right: 5px; text-align: center; background-color: #f7f7f7; }
-div.fakeimg img.img { width: 100%; }
-div.fakeimg button{width:122px; height: 38px !important; position: absolute;right: 0;bottom:0;background-color: #A1A1A1;color: #fff;font-size: 15px;border: 1px solid #C7C7C7;}
-div.imginputs.pics { max-width: 800px; width: 100%; }
-div.imginputs.pics .fakeimg .imgArea { min-height: 250px; }
+input.file { position: absolute; left: 0; top: 0; bottom:0; cursor: pointer; width: 100%; text-align: right; -moz-opacity:0 ; filter:alpha(opacity: 0); opacity: 0; z-index: 2; }
 
 .pop_st1{width:800px;}
 .pop_st1 > .inner{padding:60px 30px;background-color: #fff;}

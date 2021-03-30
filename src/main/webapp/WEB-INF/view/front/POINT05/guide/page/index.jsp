@@ -29,7 +29,7 @@
 								<li class="cate_useinfo">
 									<a href="#/guide/index.af?page=1">
 										<div class="txt">
-											<div class="inner">
+											<div class="inner" style="color:#fff;">
 												<strong>이용정보</strong>
 												<p>시설 이용시간 및 이용요금<br/> 정책을 확인할 수 있습니다.</p>
 											</div>
@@ -51,7 +51,7 @@
 										<div class="txt">
 											<div class="inner">
 												<strong>정산안내</strong>
-												<p>아쿠아필드 이용방법을<br/> 입장 순서별로 안내합니다.</p>
+												<p style="color:#fff;">아쿠아필드 이용방법을<br/> 입장 순서별로 안내합니다.</p>
 											</div>
 										</div>
 									</a>

@@ -26,7 +26,7 @@ try{
 	//드라이버 연결
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	//jspdb는 DB명 // mysql-> user는 root 비밀번호는 1234
-	conn=DriverManager.getConnection("jdbc:oracle:thin:@124.51.251.71:1521:orcl","aquafield","aquafield0719");
+	conn=DriverManager.getConnection("jdbc:oracle:thin:@10.253.41.218:1521:aqua","ahp","ahpaqua000");
 	
 	if(conn==null)
 	throw new Exception("데이터베이스 연결 실패");
@@ -44,7 +44,7 @@ try{
 	sb.append("delete from TB_RESERVATION where INS_DATE <= '"+df.format(cal.getTime())+"'");
 	int updateCount = stmt.executeUpdate(sb.toString());
 
-	System.out.println(updateCount);
+	out.println(updateCount);
 	
 	}finally{
 		try{

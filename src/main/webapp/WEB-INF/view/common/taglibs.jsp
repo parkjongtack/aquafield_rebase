@@ -16,13 +16,13 @@ if(session.getAttribute("NO_LOGIN") != null){
 <html lang="ko">
 <meta charset="utf-8">
 	<script>
-	alert("로그아웃 되었거나 로그인 되지 않았습니다.");
-	location.href="/member/logout.af";
+	//alert("<%=new String("로그아웃 되었거나 로그인 되지 않았습니다.\\n로그인을 하세요.".getBytes("iso-8859-1"), "utf-8")%>");
+	//location.href="/member/logout.af";
 	</script>
 <body>
 </body>
 </html>
 <%
-	//return;
+	return;
 }
 %>

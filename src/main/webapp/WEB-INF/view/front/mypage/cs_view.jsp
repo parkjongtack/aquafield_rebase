@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.net.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../../common/taglibs.jsp" %>
     <div class="iscContent">
@@ -29,9 +28,8 @@
                                         <tr>
                                             <th>내   용</th>
                                             <td class="cont" id="contents999">
-                                            	${fn:escapeXml(oneToOneInfo.ASK_CONTENT.replaceAll("<br />","\\\r\\\n"))}
-                                                <!-- ${oneToOneInfo.ASK_CONTENT}  -->
-                                                <c:out value='${oneToOneInfo.ASK_CONTENT.replaceAll("<br />","@한@줄@내@림@")}' />
+                                                <!--${oneToOneInfo.ASK_CONTENT.replaceAll("<br />","@한@줄@내@림@")} -->
+												<c:out value="${oneToOneInfo.ASK_CONTENT}" escapeXml="true" />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -69,9 +67,23 @@
                     <button class="btn_pack btn_mo white btn_close">돌아가기</button>
                 </div>
                 <script type="text/javascript">
-                var str = $("#contents999").text();
-                str = str.replace(/@한@줄@내@림@/gi, "<br/>");
-                $("#contents999").html(str);
+					/*
+					setTimeout(function(){
+						var str = $("#contents999").text();
+						//console.log($("#contents999").text());
+
+						if(str.indexOf('<br/>') == -1){
+
+							str = str.replace(/@한@줄@내@림@/gi, "<br/>");
+							//console.log(str);
+							$("#contents999").html(str);
+//							clearInterval();
+						}else{
+							console.log('end');
+							
+						}
+					},300)
+					*/
                 </script>
             </section>
         </div>

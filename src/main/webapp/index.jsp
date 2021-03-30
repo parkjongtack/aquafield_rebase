@@ -15,7 +15,6 @@
 <meta property="og:image" content=https://www.aquafield-ssg.co.kr/common/front/images/main/Logo_Gate.png>
 <meta property="og:url" content="http://www.aquafield-ssg.co.kr">
 
-
 <link rel="stylesheet" type="text/css" href="/common/front/css/slick.css">
 <link rel="stylesheet" type="text/css" href="/common/front/css/common.css">
 <link rel="stylesheet" type="text/css" href="/common/front/css/intro.css">
@@ -50,9 +49,9 @@
 	  	arrows: false,
 	  	fade: true,
 	  	infinite: false,
-	  	speed: 500,
+	  	speed: 1000,
 	  	autoplay: false,
-	  	cssEase: 'linear'
+	  	cssEase: 'ease'
 	});
 
 	introSlider.on('setPosition', function(event, slick, direction){

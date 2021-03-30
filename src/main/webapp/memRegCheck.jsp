@@ -2,14 +2,9 @@
     pageEncoding="utf-8"%>
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="java.net.URLDecoder"%>
-<%@page import="java.io.*, java.net.*"%>
+<%@ page import="java.io.*, java.net.*"%>
 <%@ page import="java.sql.*"%>
-<%@ page import = "org.json.*" %>
-<%@ page import="org.json.simple.parser.JSONParser" %>
-<%@ page import="org.json.simple.*" %>
-<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
-<%@ page import="com.fasterxml.jackson.databind.node.ObjectNode" %>
-<%@ page import="com.fasterxml.jackson.databind.JsonNode" %>    
+
 <% 
 	
 	Connection conn=null;
@@ -21,7 +16,7 @@
 	//드라이버 연결
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	//jspdb는 DB명 // mysql-> user는 root 비밀번호는 1234
-	conn=DriverManager.getConnection("jdbc:oracle:thin:@124.51.251.71:1521:orcl","aquafield","aquafield0719");
+	conn=DriverManager.getConnection("jdbc:oracle:thin:@10.253.41.218:1521:aqua","ahp","ahpaqua000");
 	
 	if(conn==null)
 	throw new Exception("데이터베이스 연결 실패");

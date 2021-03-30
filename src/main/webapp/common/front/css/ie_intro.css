@@ -1,0 +1,5 @@
+@charset "utf-8";
+#intro_wrap .intro_section .kr { display: block; opacity: 0;}
+#intro_wrap .intro_section .en { display: block; opacity: 1;}
+#intro_wrap .intro_section:hover .kr { display: block; opacity: 1; transition: 0s all ease;}
+#intro_wrap .intro_section:hover .en { display: block; opacity: 0;}

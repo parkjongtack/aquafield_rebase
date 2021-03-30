@@ -29,7 +29,8 @@
     			,data : {'num':$(this).val()}
     			,dataType : "html"
     			,success: function(obj){
-    				$("#termsContent").html(obj);
+    				//$("#termsContent").html(obj);
+    				$("#privacy").html(obj);
     			}
     			,error: function(xhr, option, error){
     				alert("에러가 발생했습니다. 잠시 후에 다시하세요.");

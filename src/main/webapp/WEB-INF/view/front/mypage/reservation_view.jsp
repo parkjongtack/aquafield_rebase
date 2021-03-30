@@ -457,6 +457,9 @@
 	}
 
 	function reserveCancel(obj){
+
+//alert('111111');
+
 		   var goUrl ='';
 		   var payType = '${pgResultInfo.r_TYPE}';
 		   if(payType ==='카드'){
@@ -469,6 +472,9 @@
 		   }else if(payType === 'SSG PAY'){
 			   goUrl = '/reserve/ssg_cancel.af';
 		   }
+
+//alert(goUrl);
+//return;
 
 		   var text = '';
 		   if(obj != '0'){
@@ -491,6 +497,7 @@
 						location.reload();
 			   		}
 			   		,error: function(xhr, option, error){
+						console.log(xhr.responseText);
 			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
 			   		}
 		   		});

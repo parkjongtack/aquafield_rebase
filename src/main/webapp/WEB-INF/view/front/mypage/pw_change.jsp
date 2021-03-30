@@ -58,7 +58,7 @@
 	    function nowPw(id) {
 	    	var t = $(id), list = t.closest('tr'), meg = list.find(".status");
 	    	if(chkNull(t,meg,list)) return;
-
+			//alert("${sessionScope.MEM_INFO.MOBILE_NUM}");
 	    	var result = true;
 	    	if(!result){
 				list.removeClass("good").addClass('bad');
@@ -74,6 +74,18 @@
 	    	var t = $(id), list = t.closest('tr'), meg = list.find(".status");
 			if(chkNull(t,meg,list)) return;
 			var chk = 0;
+			if(t.val().indexOf("${sessionScope.MEM_INFO.MOBILE_NUM}") != -1) {
+				list.removeClass("good").addClass('bad');
+				meg.html("*휴대전화 번호가 포함된 비밀번호는 사용불가능합니다.");
+				return false;
+			}
+			if(t.val().indexOf("${sessionScope.MEM_INFO.MEM_ID}") != -1) {
+				//$('#pwChk').val('N');
+				list.removeClass("good").addClass('bad');
+				meg.html("*아이디가 포함된 비밀번호는 사용불가능합니다.");
+				//t.focus();
+				return false;
+			}
 			if(t.val().search(/[0-9]/g) != -1 ) chk ++; //숫자
 		    if(t.val().search(/[a-z]/ig)  != -1 ) chk ++; //영문
 			if(/^[a-zA-Z0-9!@#$%^&*()?_~]{8,15}$/.test(t.val())) chk ++; //8~14자

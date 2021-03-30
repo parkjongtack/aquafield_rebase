@@ -36,7 +36,7 @@
                         <h2 class="subtit">생각을 비우다 여유를 채우다<br>아쿠아필드</h2>
                         <h1>FEELING & HEALING</h1>
                         <img src="../../../../../../common/front/images/POINT05/about/concept_bx_bg_m2.jpg" alt="">
-                        <p class="wordBraek">
+                        <p class="wordBraek">청량한 물소리와 하늘 빛 자연을 한 눈에 품을 아쿠아필드는 감각 있는 사람들의 오감만족 힐링 클럽입니다.
                                             <span class="break_word"></span>
 				                            하늘과 맞닿은 인피니티풀에서 느긋이 즐기고 신비로운 
                                             오로라부터 구름 위의 휴식까지 다채로운 찜질스파를 경험하는 곳 

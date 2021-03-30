@@ -15,7 +15,7 @@
                 <div class="col s6 paraShowing" data-dirc='x' data-dist='-150' data-ease='Power2.easeInOut' data-dura='1'>
                     <h2><span>One-Key</span> System</h2>
                     <div class="imgArea">
-                        <img src="/common/front/images/guide/guide2_img_new.jpg" alt="라커룸">
+                        <img src="/common/front/images/POINT05/guide/guide2_img_new.jpg" alt="라커룸">
                     </div>
                     <div class="txtArea">
                     	아쿠아필드 내부의 모든 시설물(F&B, 상품샵, 세신, 자판기, 안마의자 등)은 락커키(RF 방식) 이용 및 결제하실 수 있는 후불제 One-Key 시스템 입니다.

@@ -99,7 +99,7 @@
 									<label>지정수량: </label>
 									<input type="number" name="" class="ipt2 w140" placeholder="숫자만 입력하세요"/><span class="unitTxt">개</span>
 								</td>
-							</tr>
+							</tr>							
 							<tr class="wpSeason">
 								<th rowspan="4">${itemList[1].ITEM_NM}</th>
 								<td>성수기 지정</td>
@@ -315,6 +315,7 @@ $( document ).ready(function(){
 			day = i;
 		}	
 		var nowDay = nowYearMonth + day;
+		
 		$("#"+nowDay).next().find("ul > input").eq(0).val(nowDay);
 		$("#"+nowDay).next().next().find("ul > input").eq(0).val(nowDay);
 		$("#"+nowDay).next().next().next().find("ul > input").eq(0).val(nowDay);

@@ -1,0 +1,245 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <!-- ADMIN BASE TEMPLTE -->
+    <definition name="base" template="/WEB-INF/view/layout/admin/template.jsp" preparer="com.soft.web.tiles.CommonAdminViewPreparer">
+        <put-attribute name="top" value="/WEB-INF/view/layout/admin/top.jsp"/>    
+        <put-attribute name="header" value="/WEB-INF/view/layout/admin/header.jsp"/>
+        <put-attribute name="leftmenu" value="/WEB-INF/view/layout/admin/left_menu.jsp"/>        
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/view/layout/admin/footer.jsp"/>
+        <put-attribute name="bot" value="/WEB-INF/view/layout/admin/bot.jsp"/>        
+    </definition>
+     
+    <definition name="/admin/*/*" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/admin/{1}/{2}.jsp"/>
+    </definition>    
+ 
+     <!-- ADMIN MAIN TEMPLTE -->   
+    <definition name="main" template="/WEB-INF/view/layout/admin/maintemplate.jsp" preparer="com.soft.web.tiles.CommonAdminViewPreparer">
+        <put-attribute name="maintop" value="/WEB-INF/view/layout/admin/top.jsp"/>    
+        <put-attribute name="mainheader" value="/WEB-INF/view/layout/admin/header.jsp"/>     
+        <put-attribute name="mainbody" value=""/>
+        <put-attribute name="mainfooter" value="/WEB-INF/view/layout/admin/footer.jsp"/>
+        <put-attribute name="mainbot" value="/WEB-INF/view/layout/admin/bot.jsp"/>        
+    </definition>    
+    
+    <definition name="/admin/*" extends="main">
+        <put-attribute name="mainbody" value="/WEB-INF/view/admin/{1}.jsp"/>
+    </definition>
+
+  	<!-- admin pop layout -->
+    <definition name="adminPop/*/*" template="/WEB-INF/view/layout/admin/poptemplate.jsp">    
+    	<put-attribute name="popbody" value="/WEB-INF/view/admin/{1}/{2}.jsp"/>
+    </definition> 
+    <definition name="deskAdminPop/*/*" template="/WEB-INF/view/layout/admin/poptemplate.jsp">    
+    	<put-attribute name="popbody" value="/WEB-INF/view/admdesk/{1}/{2}.jsp"/>
+    </definition> 
+    
+    <!-- admin login -->
+    <definition name="/admin/login" template="/WEB-INF/view/layout/admin/poptemplate.jsp">
+        <put-attribute name="popbody" value="/WEB-INF/view/admin/login.jsp"/>
+    </definition>
+
+    <!-- admin profile -->
+    <definition name="/admin/ajax_edit_my_profile" template="/WEB-INF/view/layout/admin/poptemplate.jsp">
+        <put-attribute name="popbody" value="/WEB-INF/view/admin/ajax_edit_my_profile.jsp"/>
+    </definition>
+    
+     <!-- admin totalData -->
+    <definition name="/admin/statistics/ajax_totalData" template="/WEB-INF/view/layout/admin/poptemplate.jsp">
+        <put-attribute name="popbody" value="/WEB-INF/view/admin/statistics/ajax_totalData.jsp"/>
+    </definition>
+    
+    <!-- DESK ADMIN BASE TEMPLTE -->
+    <definition name="deskBase" template="/WEB-INF/view/layout/admdesk/template.jsp" preparer="com.soft.web.tiles.CommonDeskAdminViewPreparer">
+        <put-attribute name="top" value="/WEB-INF/view/layout/admdesk/top.jsp"/>    
+        <put-attribute name="header" value="/WEB-INF/view/layout/admdesk/header.jsp"/>
+        <put-attribute name="leftmenu" value="/WEB-INF/view/layout/admdesk/left_menu.jsp"/>        
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/view/layout/admdesk/footer.jsp"/>
+        <put-attribute name="bot" value="/WEB-INF/view/layout/admdesk/bot.jsp"/>        
+    </definition>
+     
+    <definition name="/admdesk/*/*" extends="deskBase">
+        <put-attribute name="body" value="/WEB-INF/view/admdesk/{1}/{2}.jsp"/>
+    </definition>    
+ 
+ 
+     <!-- ADMIN MAIN TEMPLTE -->   
+    <definition name="deskMain" template="/WEB-INF/view/layout/admdesk/maintemplate.jsp" preparer="com.soft.web.tiles.CommonDeskAdminViewPreparer">
+        <put-attribute name="maintop" value="/WEB-INF/view/layout/admdesk/top.jsp"/>    
+        <put-attribute name="mainheader" value="/WEB-INF/view/layout/admdesk/header.jsp"/>     
+        <put-attribute name="mainbody" value=""/>
+        <put-attribute name="mainfooter" value="/WEB-INF/view/layout/admdesk/footer.jsp"/>
+        <put-attribute name="mainbot" value="/WEB-INF/view/layout/admdesk/bot.jsp"/>        
+    </definition>    
+    
+    <definition name="/admdesk/*" extends="deskMain">
+        <put-attribute name="mainbody" value="/WEB-INF/view/admdesk/{1}.jsp"/>
+    </definition>
+    
+    <!-- desk admin login -->
+    <definition name="/admdesk/login" template="/WEB-INF/view/layout/admdesk/poptemplate.jsp">
+        <put-attribute name="popbody" value="/WEB-INF/view/admdesk/login.jsp"/>
+    </definition>
+
+    <!-- desk admin profile -->
+    <definition name="/admdesk/ajax_edit_my_profile" template="/WEB-INF/view/layout/admin/poptemplate.jsp">
+        <put-attribute name="popbody" value="/WEB-INF/view/admdesk/ajax_edit_my_profile.jsp"/>
+    </definition>
+    
+    
+    <!-- ERROR EXTEMPLTE -->    
+    <!-- definition name="errorPage" template="/WEB-INF/view/layout/front/errortemplate.jsp" preparer="com.soft.web.tiles.CommonViewPreparer">    
+        <put-attribute name="errortop" value=""/>
+        <put-attribute name="errorbody" value=""/>    
+    </definition>   
+
+    <definition name="/front/error/*" extends="errorPage">
+        <put-attribute name="errorbody" value="/WEB-INF/view/front/error/{1}.jsp"/>
+    </definition -->
+    
+
+     <!-- FRONT MAIN TEMPLTE -->   
+    <definition name="frontMain" template="/WEB-INF/view/layout/front/maintemplate.jsp" preparer="com.soft.web.tiles.CommonViewPreparer">
+        <put-attribute name="maintop" value="/WEB-INF/view/layout/front/top.jsp"/>    
+        <put-attribute name="mainheader" value="/WEB-INF/view/layout/front/header.jsp"/>     
+        <put-attribute name="mainbody" value=""/>
+        <put-attribute name="mainfooter" value="/WEB-INF/view/layout/front/footer.jsp"/>
+        <put-attribute name="mainbot" value="/WEB-INF/view/layout/front/bot.jsp"/>        
+    </definition> 
+    
+    <definition name="/front/main" extends="frontMain">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/main.jsp"/>
+    </definition>
+    
+    <definition name="/front/intro" extends="frontMain">
+        <put-attribute name="main" value="/WEB-INF/view/front/intro.jsp"/>
+    </definition>
+    
+    <definition name="/front/m_main_content" extends="frontMain">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/m_main_content.jsp"/>
+    </definition>    
+    
+    <definition name="/front/mypage/mypage" extends="frontMain">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/mypage/mypage.jsp"/>
+    </definition>
+    
+    <definition name="/front/index" extends="frontMain">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/index.jsp"/>
+    </definition> 
+    
+    <definition name="/front/m_main_content" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/m_main_content.jsp"/>
+    </definition>          
+    
+      <!-- FRONT MAIN EXTEMPLTE -->    
+    <definition name="frontMainEx" template="/WEB-INF/view/layout/front/mainextemplate.jsp" preparer="com.soft.web.tiles.CommonViewPreparer">
+        <put-attribute name="mainextop" value="/WEB-INF/view/layout/front/top.jsp"/>      
+        <put-attribute name="mainexbody" value=""/>       
+    </definition>              
+    
+     <!-- FRONT TEMPLTE -->   
+    <definition name="front" template="/WEB-INF/view/layout/front/template.jsp" preparer="com.soft.web.tiles.CommonViewPreparer">
+        <put-attribute name="maintop" value="/WEB-INF/view/layout/front/top.jsp"/>    
+        <put-attribute name="mainheader" value="/WEB-INF/view/layout/front/header.jsp"/>     
+        <put-attribute name="mainbody" value=""/>
+        <put-attribute name="mainfooter" value="/WEB-INF/view/layout/front/footer.jsp"/>
+        <put-attribute name="mainbot" value="/WEB-INF/view/layout/front/bot.jsp"/>        
+    </definition>    
+         
+    <definition name="/front/*/about/*" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/about/{2}.jsp"/>
+    </definition>
+    <!-- 
+    <definition name="/front/event/*" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/event/{1}.jsp"/>
+    </definition>
+     -->
+    <definition name="/front/*/guide/page/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/guide/page/index.jsp"/>
+    </definition>
+    
+    <definition name="/front/*/guide/step/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/guide/step/index.jsp"/>
+    </definition> 
+    
+    <definition name="/front/service/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/service/index.jsp"/>
+    </definition>        
+    
+    <definition name="/front/event/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/event/index.jsp"/>
+    </definition> 
+    
+    <definition name="/front/event/wirte" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/event/wirte.jsp"/>
+    </definition> 
+    
+    <definition name="/front/event/notice_edit" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/event/notice_edit.jsp"/>
+    </definition>     
+    
+    <definition name="/front/*/about/concept/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/about/concept/index.jsp"/>
+    </definition> 
+    
+    <definition name="/front/*/about/location/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/about/location/index.jsp"/>
+    </definition> 
+    
+    <definition name="/front/*/facilities/index" extends="front">
+        <put-attribute name="mainbody" value="/WEB-INF/view/front/{1}/facilities/index.jsp"/>
+    </definition>   
+
+    <definition name="/front/reserve/final_m" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/reservation/res_final_m.jsp"/>
+    </definition>                                   
+        
+     <!-- FRONT POP/MAIN.jsp TEMPLTE -->   
+    <definition name="frontPop" template="/WEB-INF/view/layout/front/poptemplate.jsp" preparer="com.soft.web.tiles.CommonViewPreparer">    
+        <put-attribute name="popbody" value=""/>      
+    </definition> 
+
+    <definition name="/front/member/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/member/{1}.jsp"/>
+    </definition>
+    
+    <definition name="/front/reservation/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/reservation/{1}.jsp"/>
+    </definition> 
+    
+    <definition name="/front/mypage/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/mypage/{1}.jsp"/>
+    </definition>
+    
+    <definition name="/front/*/guide/page/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/{1}/guide/page/{2}.jsp"/>
+    </definition>
+    
+    <definition name="/front/*/guide/step/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/{1}/guide/step/{2}.jsp"/>
+    </definition>
+    
+    <definition name="/front/service/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/service/{1}.jsp"/>
+    </definition>          
+    
+    <definition name="/front/*/about/concept/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/{1}/about/concept/{2}.jsp"/>
+    </definition>       
+                                   
+    <definition name="/front/*/about/location/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/{1}/about/location/{2}.jsp"/>
+    </definition>
+    
+    <definition name="/front/event/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/event/{1}.jsp"/>
+    </definition>     
+    
+    <definition name="/front/*/facilities/*" extends="frontPop">
+        <put-attribute name="popbody" value="/WEB-INF/view/front/{1}/facilities/{2}.jsp"/>
+    </definition> 
+    
+</tiles-definitions>

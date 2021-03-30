@@ -66,11 +66,7 @@
 				</ul>
 				<div class="logo">
 					<a href="${POINT_URL}">
-<<<<<<< HEAD
-						<img class="pc" src="/common/front/images/common/logo.png" alt="아쿠아필드" width='100' height='50'>
-=======
 						<img class="pc" src="/common/front/images/common/logo.png" alt="아쿠아필드" width="100" height="50">
->>>>>>> 7120f25f79c341f89da6958775edf04083f7b11d
 						<img class="mobile" src="/common/front/images/common/m_logo.png" alt="아쿠아필드">
 					</a>
 				</div>

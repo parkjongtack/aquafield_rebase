@@ -141,7 +141,7 @@
                 </div>
                 <!-- <p class="swipe_txt"><img src="/common/front/images/guide/bg_swipe.gif" alt="화면을 좌우로 움직이시면 숨겨진 표를 보실 수 있습니다.">화면을 좌우로 움직이시면 숨겨진 표를 보실 수 있습니다.</p> -->
                 <div class="col s12 paraShowing" data-dirc='x' data-dist='-150' data-ease='Power3.easeInOut' data-dura='1' data-delay='0.5'>
-                	<div class="img_box img_box3"><img src="/common/front/images/${pointCode}/guide/guide3_family_bg.jpg" alt="패밀리룩 패키지 바디"></div>
+                	<div class="img_box img_box3" style="width:100%;"><img src="/common/front/images/${pointCode}/guide/guide3_family_bg.jpg" alt="패밀리룩 패키지 바디"></div>
                 	<div class="float_box3">
                     	<div class="inner2">
                     		<div class="float_box3_in">

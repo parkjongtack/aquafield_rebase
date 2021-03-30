@@ -622,7 +622,7 @@ var FacilityFn = function(params){
 								"<div class='notice_caption' style='margin-top:5px;'>※요금 및 이용시간은 달라질 수 있습니다.</div>";
 
     sesin_f_POINT03 = "<div class='title notice_caption' style='font-size:18px; margin-bottom: 10px;'>이용안내</div>" +
-								"<div class='info'><strong>운영시간</strong> : 10:00 - 22:00</div>" +
+								"<div class='info'><strong>운영시간</strong> : 11:00 - 22:00</div>" +
 								"<div> " +
 									"<table>" +
 										"<caption>세신 이용 요금 - 구분, 종류, 소요시간, 가격</caption>" +
@@ -681,7 +681,7 @@ var FacilityFn = function(params){
 								"<div class='notice_caption' style='margin-top:5px;'>※요금 및 이용시간은 달라질 수 있습니다.</div>";
 
     sesin_m_POINT03 = "<div class='title notice_caption' style='font-size:18px; margin-bottom: 10px;'>이용안내</div>" +
-								"<div class='info'><strong>운영시간</strong> : 10:00 - 22:00</div>" +
+								"<div class='info'><strong>운영시간</strong> : 11:00 - 22:00</div>" +
 								"<div> " +
 									"<table>" +
 										"<caption>세신 이용 요금 - 구분, 종류, 소요시간, 가격</caption>" +
@@ -921,6 +921,15 @@ var FacilityFn = function(params){
     var spa_snack_content_POINT01 = "";
 	var spa_snack_content_POINT03 = "";
 	var family_room = "";
+	var family_room_POINT05 = "";
+
+	family_room_POINT05 = "<div class='info'><br/><strong>이용대상</strong></div>" +
+					"<div class='contents'>" +
+						"<ul>" +
+							"<li>· 성별이 다른 36개월 이상 ~ 초등학생 2학년 이하 자녀<br/>&nbsp;&nbsp;<span style='color:#ac8c5e;'>(샤워이용은 자녀에 한함)</span></li>" +
+							"<li>· 등본, 가족관계증명서 등 서류 지참 필수</li>" +
+						"</ul>" +
+					"</div>";
 
 	family_room = "<div class='info'><br/><strong>이용대상</strong></div>" +
 					"<div class='contents'>" +
@@ -1071,7 +1080,7 @@ var FacilityFn = function(params){
         {id : 'floor_4f', zoom:1, name : '4층 전체', cate : 1, faci : [{
             id : 'floor_4f_1', name : '찜질스파', name2: 'Jjimjil SPA', cate : 2,
             unit : [
-                {l:25, b:91,name : '풋스파', text: '아름다운 북한산 뷰를 감상하며 족욕을 통해 피로를 풀고 지친일상에서 벗어나 여유로움과 편안함을 느낄 수 있는 야외 풋스파입니다.', img: 'img_pop_3_7', cate:2},
+                {l:25, b:93,name : '풋스파', text: '아름다운 북한산 뷰를 감상하며 족욕을 통해 피로를 풀고 지친일상에서 벗어나 여유로움과 편안함을 느낄 수 있는 야외 풋스파입니다.', img: 'img_pop_3_7', cate:2},
                 {l:28, b:78,name : '키즈룸', text: '어린이들이 안전하고 재미있는 시간을 보낼 수 있고, 보호자는 편히 휴식할 수 있도록 도움을 주는 어린이 전용 놀이공간입니다.', img: 'img_pop_3_1', cate:2},
                 {l:40, b:86,name : '패밀리홀', text: '다양한 찜질 공간에 가까이 위치하여 찜질스파 이용에 활기를 더해주는 휴식 공간입니다. 지인을 기다리거나 담소를 나누실수 있습니다.', img: 'img_pop_3_9', cate:2},
                 {l:48.5, b:76,name : '편백<br/>나무방', text: '편백나무의 피톤치드와 숲 속 영상으로 마치 자연에 있는 듯한 편안함을 느끼며 휴식을 취할 수 있습니다.', img: 'img_pop_3_13', cate:2},
@@ -1086,7 +1095,7 @@ var FacilityFn = function(params){
                 {l:78, b:47,name : '황토방', text: '품질이 우수한 고창 황토를 사용하여, 황토의 향과 원적외선을 통해 심리적 안정과 편안함을 느끼게 해주는 전통적인 찜질공간입니다.', img: 'img_pop_3_11', cate:2},
                 {l:67, b:46,name : '소금방', text: '세계적으로 유명한 청정소금인 히말라야 암염 원석을 사용하여 노폐물과 각질 제거, 피부염 개선을 통해 피부미용은 물론 피부건강에도 도움을 줄 수 있는 찜질공간입니다.', img: 'img_pop_3_14', cate:2},
                 {l:62, b:48,name : '구름방', text: '촉촉한 미스트로 구름 이미지를 연출하여 마치 구름 안에 있는 듯한 편안함으로, 깊은 휴식을 취하며 찜질을 즐길 수 있는 찜질공간입니다.', img: 'img_pop_3_5', cate:2},
-                /*{l:42.5, b:49,name : '패밀리홀', text: '다양한 찜질 공간에 가까이 위치하여 찜질스파 이용에 활기를 더해주는 휴식 공간입니다. 지인을 기다리거나 담소를 나누실수 있습니다.', img: 'img_pop_3_3', cate:2},*/
+                /*{42.5, b:49,name : '패밀리홀', text: '다양한 찜질 공간에 가까이 위치하여 찜질스파 이용에 활기를 더해주는 휴식 공간입니다. 지인을 기다리거나 담소를 나누실수 있습니다.', img: 'img_pop_3_3', cate:2},*/
                 {l:58, b:56,name : '수유실', text: '수유가 필요한 아이에게 편안하고 쾌적하게 수유할 수 있으며, 잠시 잠을 재우거나, 기저귀를 교체할 수 있는 공간입니다.', img: 'img_pop_2_11', cate:2}
 
             ]
@@ -1191,14 +1200,14 @@ var dubble_ico = 0;
 		},{
 			id : 'floor_4f_4', name : '기타시설', name2: 'Additional Facilities', cate : 6,
 			unit : [
-				{l:31, b:12,name : 'Day Comics<br /> 만화&보드게임', text: '가족, 친구, 연인과 함께 만화책, 보드게임 등 다양한 놀거리와 맛있는 식음료를 먹으면 힐링할 수 있는 공간입니다.' + cartoon_content_POINT05, cate:7},
-				{l:40, b:12,name : 'Cafe De AQUA<br /> 수족관 카페', text: '다양한 어종의 물고기를 보며 여유로운 휴식과 맛있는 카페음료를 먹을 수 있는 공간입니다.' + cartoon_content_POINT05, cate:7},
+				{l:31, b:12,name : 'Day Comics<br /> 만화&보드게임', text: '가족, 친구, 연인과 함께 즐길 수 있는 만화책, 보드게임, 넷플릭스 등 다양한 놀거리와 맛있는 식음료가 있는 복합 엔터테인먼트 공간입니다.' + cartoon_content_POINT05, cate:7},
+				{l:40, b:12,name : 'Cafe De AQUA<br /> 수족관 카페', text: '다양한 어종의 물고기를 보며 여유로운 휴식을 즐기고 맛있는 카페 음료와 디저트를 만나보실 수 있는 공간입니다.' + cartoon_content_POINT05, cate:7},
 				{l:19, b:11.5,name : '매표소', text: '찜질스파 또는 워터파크 입장권을 무인 키오스크에서 구매하실 수 있습니다.', cate:7},
-				{l:17.5, b:15,name : '컨시어즈', text: '입장 후 음식물, 이용제한물품 등을 컨시어즈 데스크에 데스크에 맡기실 수 있습니다.', cate:7},
+				{l:17.5, b:15,name : '컨시어즈', text: '입장 후 음식물, 이용제한물품 등을 컨시어즈 데스크에 맡기실 수 있습니다.', cate:7},
 				{l:15, b:4,name : '록시걸(용품샵)', text: '록시, 퀵실버, 배럴 등 엄선된 브랜드의 스윔&비치웨어와 물놀이 용품 등 20개 이상의 브랜드를 아쿠아샵 록시걸에서 편안하게 만나보실 수 있습니다.', cate:7},
 				{l:10, b:29,name : '신발장', text: '발권 영수증에 기재된 번호의 신발장을 이용하실 수 있습니다.', cate:7},
 				{l:14, b:44,name : '정산소', text: '락커키로 결제한 부대시설 등의 이용금액을 정산하실 수 있습니다.', cate:7},
-				{l:12, b:53,name : '가족샤워실', text: '혼자 샤워가 어려운 이성 자녀를 편안하게 케어할 수 있는 공간으로 이용 대상 여부 확인 후 이용하실 수 있습니다.' + family_room, cate:7},
+				{l:12, b:53,name : '가족샤워실', text: '혼자 샤워가 어려운 이성 자녀를 편안하게 케어할 수 있는 공간으로 이용 대상 여부 확인 후 이용하실 수 있습니다.' + family_room_POINT05, cate:7},
 				//{l:7, b:44,name : '아쿠아샵', text: '다양한 브랜드의 비치웨어와 물놀이 용품, 그리고 아쿠아필드에서만 구매할 수 있는 시그니처 상품을 자유롭게 구경하고 구매하실 수 있습니다.' + aqua_shop_content_POINT01, cate:7}
 			]
 		}]},
@@ -1530,11 +1539,11 @@ var dubble_ico = 0;
 							new_str += '<img src="/common/front/images/'+POINT_CODE+'/facilities/'+imgCode+'.jpg"/>';
 							new_str += '</div>';
 						}
-						str +='<div class="detail_item iscContent"><div class="inner"><div class="dth2_tit"><span class="tit1">'+faci.name+'</span><span class="tit2">'+faci.name2+'</span></div><div class="img swiper-container main_slider'+k+'">'+sample_text_img+'<div class="swiper-wrapper">'+new_str+'</div></div><div class="txt"><div class="dth3_tit">'+units[k].name+'</div><div class="dth3_txt">'+units[k].text+'</div></div></div></div>\n';
+						str +='<div class="detail_item iscContent"><div class="inner"><div class="dth2_tit"><span class="tit1">'+faci.name+'</span><span class="tit2">'+faci.name2+'</span></div><div class="img swiper-container main_slider'+k+'">'+'<div class="swiper-wrapper">'+new_str+'</div></div><div class="txt"><div class="dth3_tit">'+units[k].name+'</div><div class="dth3_txt">'+units[k].text+'</div></div></div></div>\n';
 						swiper_nav += '<div class="main_slider_pagi'+k+' main_slider_pagi"><div class="swiper-pagination"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>';
 					}else{
 						if(units[k]['dubble_ico'] != 1){
-							str +='<div class="detail_item iscContent"><div class="inner"><div class="dth2_tit"><span class="tit1">'+faci.name+'</span><span class="tit2">'+faci.name2+'</span></div><div class="img">'+sample_text_img+'<img src="/common/front/images/'+POINT_CODE+'/facilities/'+imgCode+'.jpg"/></div><div class="txt"><div class="dth3_tit">'+units[k].name+'</div><div class="dth3_txt">'+units[k].text+'</div></div></div></div>\n';	
+							str +='<div class="detail_item iscContent"><div class="inner"><div class="dth2_tit"><span class="tit1">'+faci.name+'</span><span class="tit2">'+faci.name2+'</span></div><div class="img">'+'<img src="/common/front/images/'+POINT_CODE+'/facilities/'+imgCode+'.jpg"/></div><div class="txt"><div class="dth3_tit">'+units[k].name+'</div><div class="dth3_txt">'+units[k].text+'</div></div></div></div>\n';	
 						}
 					}
                 }

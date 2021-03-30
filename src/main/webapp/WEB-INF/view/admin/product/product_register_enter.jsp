@@ -42,13 +42,13 @@
 				</table>
 			</div>
 			<form id="itemSet" name="itemSet" method="post">
-			<input type="text" name="itemyear" id="itemyear" value="${paramater.year}"/>
-			<input type="text" name="itemmonth" id="itemmonth" value="${paramater.month}"/>
-			<input type="text" name="itemName01" value="${itemList[0].ITEM_NM}"/>	
-			<input type="text" name="itemName02" value="${itemList[1].ITEM_NM}"/>
-			<input type="text" name="itemName03" value="${itemList[2].ITEM_NM}"/>
-			<input type="text" name="pointCode" id="pointCode" value="${paramater.point }"/>	
-			<input type="text" name="pointNm" id="pointNm" value="${paramater.pointNm }"/>	          	
+			<input type="hidden" name="itemyear" id="itemyear" value="${paramater.year}"/>
+			<input type="hidden" name="itemmonth" id="itemmonth" value="${paramater.month}"/>
+			<input type="hidden" name="itemName01" value="${itemList[0].ITEM_NM}"/>	
+			<input type="hidden" name="itemName02" value="${itemList[1].ITEM_NM}"/>
+			<input type="hidden" name="itemName03" value="${itemList[2].ITEM_NM}"/>
+			<input type="hidden" name="pointCode" id="pointCode" value="${paramater.point }"/>	
+			<input type="hidden" name="pointNm" id="pointNm" value="${paramater.pointNm }"/>	          	
 			<div class="tb_type1 mb20">
 				<h3>가격정보 설정</h3>
 				<table>
@@ -59,7 +59,7 @@
 					</colgroup>
 					<tbody>
 						<tr class="spaWeekday">
-							<th rowspan="3"><!--${itemList[0].ITEM_NM}-->찜질스파 </th>
+							<th rowspan="3">${itemList[0].ITEM_NM} </th>
 							<td>주중</td>
 							<td class="tit">
 								<label>대인가: </label>
@@ -91,9 +91,9 @@
 								<label>지정수량: </label>
 								<input type="number" name="" class="ipt2 w140" placeholder="숫자만 입력하세요"/><span class="unitTxt">개</span>
 							</td>
-						</tr>
+						</tr>							
 						<tr class="wpSeason">
-							<th rowspan="4"><!--${itemList[1].ITEM_NM}--> 워터파크</th>
+							<th rowspan="4">${itemList[1].ITEM_NM}</th>
 							<td>성수기 지정</td>
 							<td class="tit">
 								<select name="season" class="customized-select selectSeason">
@@ -139,7 +139,7 @@
 						</tr>
 						<!-- 20150525 oktomato start -->
 						<tr class="complexSeason">						
-							<th rowspan="4"><!--${itemList[2].ITEM_NM}-->복합권</th>
+							<th rowspan="4">${itemList[2].ITEM_NM}</th>
 							<td>성수기 지정</td>
 							<td class="tit">
 								<select name="season" class="customized-select selectSeason">

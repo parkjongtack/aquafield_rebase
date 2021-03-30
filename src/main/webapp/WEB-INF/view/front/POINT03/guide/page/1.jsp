@@ -50,7 +50,7 @@
 	                     	<ul class="cnt">
 	                            <!-- <li style="color:#2E9AFE;">단축운영<br>(2020.5.15 ~ 별도 공지 시 까지)</li> -->
 	                        	<br/>
-	                            <li>SEASON OFF</li>
+	                            <li>11:00 - 20:00<br/>(입장마감 19:30)</li>
 	                        </ul>
 	                    </div>
                     </div>
@@ -106,14 +106,14 @@
                         	<tr>
                         		<td class="center" style="line-height: 0.5;">주중</td>
                         		<!-- <td class="center">08:00 ~ 23:00</td> -->
-                        		<td class="center"  style="line-height: 0.5;" rowspan="2" colspan="2">SEASON OFF</td>
-                        		<!-- <td class="center"  style="line-height: 0.5;">17,000원</td> -->
+                        		<td class="center"  style="line-height: 0.5;">21,000원</td>
+                        		<td class="center"  style="line-height: 0.5;">17,000원</td>
                         	</tr>
                         	<tr>
                         		<td class="center"  style="line-height: 0.5;">주말·공휴일</td>
                         	<!-- 	<td class="center">07:00 ~ 23:00</td> -->
-                        		<!-- <td class="center"  style="line-height: 0.5;">23,000원</td>
-                        		<td class="center"  style="line-height: 0.5;">19,000원</td> -->
+                        		<td class="center"  style="line-height: 0.5;">23,000원</td>
+                        		<td class="center"  style="line-height: 0.5;">19,000원</td>
                         	</tr>
                            <!--  <tr>
                             	<td class="center">~2019/2/28</td>
@@ -267,11 +267,12 @@
                             	<td class="center">57,000</td>
                             	<td class="center">46,000</td>
                             </tr> -->
-                          	<tr>
+							<tr>
                              	<!-- <th class="center" rowspan="2" style="background-color: #FFFFFF;">2020.8.17 ~ 8.30</th> -->
                             	<td colspan="2" class="center" style="padding:0; height: 47px;">루프탑풀</td>
-                            	<td class="center" rowspan="2" colspan="2">SEASON OFF</td>
-                            	<!-- <td class="center">29,000</td> -->
+								<td class="center" rowspan="2" colspan="2">SEASON OFF</td>
+                            	<!-- <td class="center">35,000</td>
+                            	<td class="center">29,000</td> -->
                             </tr>
                             <tr>
                             	<td class="center" colspan="2" style="line-height: 1.5; padding:0; height: 47px;">루프탑풀+찜질스파<br>(복합권)</td>
@@ -285,12 +286,13 @@
                 <ul class="notice">
                     <li class="c-red" style="line-height: 20px;">대인 : 중학생이상 / 소인 : 36개월 ~ 초등학생</li>
                     <li style="line-height: 20px; font-size:14px;">찜질스파 / 루프탑풀은 최대 6시간, 복합권은 최대 12시간까지 이용가능하며 이용시간 초과 시 시간당 5,000원의 추가 요금을 받습니다.</li>
-					<li style="line-height: 20px;">36개월 미만의 유아는 무료입장이 가능합니다. <b style="color: #e56b54;">(서류 지참 필수)</b></li>
-					<li class="" style="line-height: 20px;">36개월 미만의 유아는 찜질복이 지급되지 않습니다.</li>
+                    <li style="line-height: 20px;">36개월 미만의 유아는 무료입장이 가능합니다. <b style="color: #e56b54;">(서류 지참 필수)</b></li>
+					<li style="line-height: 20px;">36개월 미만의 유아는 찜질복이 지급되지 않습니다.</li>
                     <li style="line-height: 20px;">국가유공자 및 장애인은 본인 및 동반 1인까지 20% 할인 됩니다.</li>
                     <li style="line-height: 20px;">티켓 발권 후 20분이내 신발장을 이용해 주십시오.(미이용시 신발장이 자동으로 잠깁니다)</li>
                     <li style="line-height: 20px;">모든 할인은 중복적용이 불가 합니다.</li>
-                    <li style="line-height: 20px;">만 5세 (60개월)이상 남여 어린이는 공중위생관리법에 따라 혼욕 할 수 없습니다.<br>※ 105cm 이상, 만 5세 (60개월)미만 어린이는 증빙서류 지참 시 입장 가능합니다.</li>
+<!--                     <li style="line-height: 20px;">만 5세 (60개월)이상 남여 어린이는 공중위생관리법에 따라 혼욕 할 수 없습니다.<br>※ 105cm 이상, 만 5세 (60개월)미만 어린이는 증빙서류 지참 시 입장 가능합니다.</li> -->
+					<li style="line-height: 20px;">만 4세 (48개월)이상 남여 어린이는 공중위생관리법에 따라 혼욕 할 수 없습니다.<br>※ 95cm 이상, 만 4세(48개월)미만 어린이는 증빙서류 지참 시 입장 가능합니다.</li> 
                 </ul>
                 <div class="notice_caption">유아, 소인, 국가유공자, 장애인 입장 시 반드시 증빙서류를 지참 하셔야 합니다.</div>
             </div>

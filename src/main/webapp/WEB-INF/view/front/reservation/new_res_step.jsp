@@ -46,6 +46,7 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 						<input type="hidden" name="browser" id="browser" value=""/>
 						<input type="hidden" name="mem_mobile3" id="mem_mobile3" value=""/>
 						<input type="hidden" name="member_name" id="member_name" value=""/>
+						<input type="hidden" name="email_set" id="email_set" value=""/>
 						<input type="hidden" name="rand" value="${rand}"/>
 						
 						<ul class="res_info_list">
@@ -164,6 +165,12 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 			                <div class="tit">고객연락처<div style="margin-top:7px;">(SNS회원만 입력해주세요)</div></div>
 			                <div class="info">
 			                    <input type="number" id="phone_number" name="mem_mobile" style="width:200px;" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" <c:if test="${fn:indexOf(sessionScope.MEM_INFO.MEM_ID, 'naver_') == '-1' && fn:indexOf(sessionScope.MEM_INFO.MEM_ID, 'kakao_') == '-1'}"> value="${sessionScope.MEM_INFO.MOBILE_NUM}" readOnly </c:if> />
+			                </div>
+			            </li>
+			            <li class="type">
+			                <div class="tit">고객이메일<div style="margin-top:7px;">(SNS회원만 입력해주세요)</div></div>
+			                <div class="info">
+			                    <input type="email" id="email_set_empty" name="email_set_empty" style="width:200px;" <c:if test="${fn:indexOf(sessionScope.MEM_INFO.MEM_ID, 'naver_') == '-1' && fn:indexOf(sessionScope.MEM_INFO.MEM_ID, 'kakao_') == '-1'}"> value="${sessionScope.MEM_INFO.MEM_ID}" readOnly </c:if> />
 			                </div>
 			            </li>
 
@@ -440,6 +447,19 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 		
 	}
 	
+// 이메일이 잘못되었는지 확인하는 함수 
+
+function CheckEmail(str)
+{                                                 
+     var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+     if(!reg_email.test(str)) {                            
+          return false;         
+     }                            
+     else {                       
+          return true;         
+     }                            
+}             
+
 	
 	//접속 아이피 정보
 	var ip = "";
@@ -512,10 +532,31 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 			return;
 		}
 
+		var kor_check = /([^가-힣ㄱ-ㅎㅏ-ㅣ\x20])/i;
+		if (kor_check.test($("#member_name_empty").val()))
+		{
+			alert("고객이름은 한글만 입력할 수 있습니다.");
+			$("#member_name_empty").focus();
+			return;
+		}
+
+
 		if($("#phone_number").val() == "") {
 			alert("고객연락처는 필수 입력 항목입니다.");
 			$("#phone_number").focus();
 			return;
+		}
+
+		if($("#email_set_empty").val() == "") {
+			alert("고객이메일은 필수 입력 항목입니다.");
+			$("#email_set_empty").focus();
+			return;
+		}
+
+		if(!CheckEmail($("#email_set_empty").val())) {
+			alert("고객이메일이 형식에 맞지 않습니다.");
+			$("#email_set_empty").focus();
+			return;			
 		}
 
 		if($("#phone_number").val().length < 11 || $("#phone_number").val().length > 11) {
@@ -526,6 +567,7 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 
 		$("#mem_mobile3").val($("input[name=mem_mobile]").val());
 		$("#member_name").val($("input[name=member_name_empty]").val());
+		$("#email_set").val($("input[name=email_set_empty]").val());
 
 	 	if(date != null && date != '') {
 		 	
@@ -542,6 +584,8 @@ document.cookie = "crossCookie=JSESSIONID; SameSite=None; Secure";
 
 					if(confirm("예약정보를 정확히 입력하셨는지 확인바랍니다.")) {
 						$('#f').submit();
+					} else {
+						return;
 					}
 		 	
 		 		} else {

@@ -373,7 +373,7 @@
 					if(inputs.eq(i).prop('checked')) cnt++;
 				}
 				if (len > cnt) {
-					alert('약관을 체크해 확인해주세요.');
+					alert('약관을 체크를 확인해주세요.');
 					return;
 				}
 				//실명 인증

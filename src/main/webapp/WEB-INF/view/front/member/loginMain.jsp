@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../../common/taglibs.jsp" %>
-
 <script type="text/javascript" src="/common/front/js/naveridlogin_js_sdk_2.0.0.js"></script>
-
 <script type="text/javascript" src="/common/front/js/kakao.js"></script>
+
+
+
 <style media="screen">
 	input::placeholder  {	color: #555;	font-weight:bold; }
 </style>
@@ -57,7 +58,7 @@
 					<div class="btn_group btn2">
 						<a href="javascript:login();" class="btn blue2">로그인</a>
 					</div>
-					
+
 		         	<p class="checkbox_st">
 						<input type="checkbox" name="saveId" id="saveId" value="Y" tabindex="-1" class="checkbox-style" />
 						<label for="saveId">이메일 저장</label>
@@ -67,16 +68,7 @@
 					<div id="naverIdLogin" class="btn_con">
 						<img src="/common/front/images/naver_login_bt.png" class="input_btn"/>
 					</div>
-					
-					<!-- 
-					<div>
-						<input type="text" name="mobile_num" />
-						<div id="naverIdLogin">
-							<input type="button" name="naverIdLogin" value="로그인" />
-						</div>
-					</div>
-					-->
-					
+
 					<br/>
 					<a id="custom-login-btn" href="javascript:loginWithKakao()">
 					  <img
@@ -84,27 +76,23 @@
 						width="390"
 					  />
 					</a>
-
+					
 					<!-- 네이버아디디로로그인 초기화 Script -->
 					<script type="text/javascript">
-
-						var naverLogin = new naver.LoginWithNaverId( 
+						var naverLogin = new naver.LoginWithNaverId(
 							{
 								clientId: "occAe_qDtkFxlWrdSTnc",
-								callbackUrl: "http://localhost:8080/naverLoginCallBack.jsp",
-								callbackHandle: true,
-								isPopup: false, 
-								loginButton: {color: "green", type: 3, height: 82} 
+								callbackUrl: "http://aquafield-ssg.co.kr/naverLoginCallBack.jsp",
+								isPopup: false, /* 팝업을 통한 연동처리 여부 */
+								loginButton: {color: "green", type: 3, height: 82} /* 로그인 버튼의 타입을 지정 */
 							}
 						);
 						
+						/* 설정정보를 초기화하고 연동을 준비 */
 						naverLogin.init();
-						
-						
 						
 					</script>
 					<!-- // 네이버아이디로로그인 초기화 Script -->					
-		         	</p>
 		         	
 					<ul class="option">
 						<li><a href="/member/findMemberId.af">아이디 찾기</a></li>
@@ -265,7 +253,8 @@
 
 			  //alert(JSON.stringify(res));
 			  $("input[name=id]").val("kakao_" + res.id);
-			  $("input[name=name]").val(res.properties.nickname);
+			  //$("input[name=name]").val(res.properties.nickname);
+			  $("input[name=name]").val("12341234");
 			  $("input[name=email]").val(res.kakao_account.email);
 			  $("input[name=gender]").val(res.kakao_account.gender);
 			  $("input[name=phone_number]").val(res.kakao_account.phone_number);
@@ -288,4 +277,5 @@
   }
   
 </script>	
+	
 	

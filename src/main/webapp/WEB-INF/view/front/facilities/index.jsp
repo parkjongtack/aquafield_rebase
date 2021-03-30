@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ include file="../../common/taglibs.jsp" %>
+<%@ include file="../../../common/taglibs.jsp" %>
 <%
 String ie678 = "";
 String ua=request.getHeader("User-Agent");
@@ -36,54 +36,25 @@ if(ua.indexOf("MSIE 6") > 0 || ua.indexOf("MSIE 7") > 0 || ua.indexOf("MSIE 8") 
 						<div class="inner">
 							<ul>
 								<li class="cate_spa">
-									<a href="#/facilities/index.af?depth1=2&depth2=2">
+									<a href="#/facilities/index.af?depth1=2&depth2=1">
 										<div class="txt">
 											<div class="inner">
 												<strong>찜질스파</strong>
-												<p>JJIMJIL SPA</p>
 											</div>
 										</div>
 									</a>
 								</li>
 								<li class="cate_in_water">
-									<a href="#/facilities/index.af?depth1=2&depth2=1">
-										<div class="txt">
-											<div class="inner">
-												<strong>실내 수영장</strong>
-												<p>찾아오시는 길 안내 및 주차안내,<br/> 매장위치를 소개합니다.</p>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="cate_fnb">
-									<a href="#/facilities/index.af?depth1=2&depth2=4">
-										<div class="txt">
-											<div class="inner">
-												<strong>F&B</strong>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="cate_af">
-									<a href="#/facilities/index.af?depth1=3">
-										<div class="txt">
-											<div class="inner">
-												<strong>기타시설</strong>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="cate_out_water">
 									<a href="#/facilities/index.af?depth1=1">
 										<div class="txt">
 											<div class="inner">
-												<strong>야외 수영장</strong>
+												<strong>루프탑풀</strong>
 											</div>
 										</div>
 									</a>
 								</li>
 								<li class="cate_sauna">
-									<a href="#/facilities/index.af?depth1=2&depth2=3">
+									<a href="#/facilities/index.af?depth1=2&depth2=2">
 										<div class="txt">
 											<div class="inner">
 												<strong>사우나</strong>
@@ -91,11 +62,29 @@ if(ua.indexOf("MSIE 6") > 0 || ua.indexOf("MSIE 7") > 0 || ua.indexOf("MSIE 8") 
 										</div>
 									</a>
 								</li>
+								<li class="cate_fnb">
+									<a href="#/facilities/index.af?depth1=2&depth2=3">
+										<div class="txt">
+											<div class="inner">
+												<strong>F&B</strong>
+											</div>
+										</div>
+									</a>
+								</li>
+								<!-- <li class="cate_af">
+									<a href="#/facilities/index.af?depth1=2">
+										<div class="txt">
+											<div class="inner">
+												<strong>기타시설</strong>
+											</div>
+										</div>
+									</a>
+								</li> -->
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 </div>

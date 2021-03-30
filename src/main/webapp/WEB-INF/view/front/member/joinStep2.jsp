@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 	
 <div id="login_wrap" class="wrap_line">
 	<!-- <div class="login_top">
@@ -83,26 +86,30 @@
 										</div>
 					                </li>
 									<li class="require_tit">
-										<p>※영 소문자, 숫자 조합 8자리 이상</p>
+										<p>※영 소문자, 숫자, 특수문자 조합 8자리 이상</p>
 									</li>
 				              	</ul>
 				            </div>
 				            
 				            <div class="form_type3">
+							<span class="necessary" style="color: #2F87C1; float: right;">* 선택항목</span>
 				                 <ul>
 				                     <li style="overflow: hidden;">
 										
-									 	<span class="der_tit"><span class="" style="color: #D96C77;">*</span>생년월일</span>
+									 	<span class="der_tit"><span class="" style="color: #2F87C1;">*</span>생년월일</span>
 				                        <div class="inputlabel der der2">
-							     			<input type="text" class="input w160 datepicker" name="birthDay" id="birthday" value="${parameter.objBirth}" readonly="readonly">
+							     			<input type="text" class="input w160 datepicker" name="birthDay" id="birthday" value="" readonly="readonly">
 					                        <label for="birthday" class="tit" style="top:-30px;"></label>
+											<!-- ${parameter.objBirth} -->
 				                        </div>
 										<div class="form_type3_checkbox">
+											<!--
 											<p class="checkbox_st">
 										        <input type="checkbox" id="divECI_ISDVSAVE1" class="checkbox-style" name="lunar" value="Y"/><label for="divECI_ISDVSAVE1">양력</label>
 										        <input type="checkbox" id="divECI_ISDVSAVE2" class="checkbox-style" name="lunar" value="N"/><label for="divECI_ISDVSAVE2">음력</label>
 										        
 										    </p>
+											-->
 											<!-- <p class="checkbox_st">
 											    <input type="checkbox" id="divECI_ISDVSAVE2" class="checkbox-style" name="lunar" value="N"/>
 											    <label for="divECI_ISDVSAVE2">음력</label>
@@ -111,16 +118,18 @@
 				                     </li>
 				                     <li>
 										
-										<span class="der_tit"><span class="" style="color: #D96C77;">*</span>성별</span>
+										<span class="der_tit"><span class="" style="color: #2F87C1;">*</span>성별</span>
 										<div class="form_type3_checkbox">
 											<p class="checkbox_st">
-									            <input type="checkbox" id="divECI_ISDVSAVE3" name="sex" value="M" <c:if test="${parameter.objGender eq 'M'}">checked</c:if> onclick="return false;">
-									            <label for="divECI_ISDVSAVE3">남</label>
+									            <input type="radio" id="divECI_ISDVSAVE3" name="sex" value="M"  >
+									            <label for="divECI_ISDVSAVE3">남</label><!-- onclick="return false;" -->
+												<!-- <c:if test="${parameter.objGender eq 'M'}">checked</c:if> -->
 									            
 								            </p>
 											<p class="checkbox_st">
-									            <input type="checkbox" id="divECI_ISDVSAVE4" name="sex" value="W" <c:if test="${parameter.objGender eq 'W'}">checked</c:if> onclick="return false;">
+									            <input type="radio" id="divECI_ISDVSAVE4" name="sex" value="W" >
 									            <label for="divECI_ISDVSAVE4">여</label>
+												<!-- <c:if test="${parameter.objGender eq 'W'}">checked</c:if> -->
 								            </p>
 										</div>
 				                    </li>
@@ -255,7 +264,19 @@
     /* 새 비밀번호 형식 Check */
 	function pw01(id) {
 		var t = $(id), list = t.closest('li'), meg = list.find(".status");
-		var chk = 0;
+		var chk = 0;		
+		if(t.val().indexOf($('#phonenum').val()) != -1) {
+			$('#pwChk').val('N');
+			alert("휴대전화 번호가 포함된 비밀번호는 사용불가능합니다.");
+			t.focus();
+			return false;
+		}
+		if(t.val().indexOf($('#userid').val()) != -1) {
+			$('#pwChk').val('N');
+			alert("아이디가 포함된 비밀번호는 사용불가능합니다.");
+			t.focus();
+			return false;
+		}
 		if(t.val().search(/[0-9]/g) != -1 ) chk ++; //숫자
 	    if(t.val().search(/[a-z]/ig)  != -1 ) chk ++; //영문
 	    //if(t.val().search(/[!@#$%^&*()?_~]/g)  != -1  ) chk ++; //특수기호
@@ -325,9 +346,10 @@
             $("#PWD2").focus();
 			return;
 			
-		} else if(lunar == '' || lunar == undefined) {
+		/*} else if(lunar == '' || lunar == undefined) {
 			alert("양력, 음력을 선택해주세요.");
 			return;
+		*/
 		//} else if(address == '' || address == undefined) {
 		//	alert("주소를 입력해주세요.");
         //    $("#address").focus();
@@ -343,7 +365,7 @@
 		}
 	}
 	
-    /* Datepicker 
+    /* Datepicker */
     $("#birthday").datepicker({
         showOn: "both",
         buttonImage: "/common/front/images/ico/ico_calen.png",
@@ -356,7 +378,7 @@
            maxDate: '+0y',
            monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12']
     });
-	*/
+	
 	
 	$("input[name='info']").click(function(e) {
 		if($("input:checkbox[name='info']").is(':checked')){

@@ -54,6 +54,28 @@
                     $("#hanam20201005").css("display","block");
                 }
             }
+			//하남 팝업 추가
+			if(mobileYn){
+                if(getCookie('210325_hanam') != 'Y') {
+                    $("#210325_hanam").css("display","block");
+                }
+
+            }else{
+                if(getCookie('hanam20201005') != 'Y') {
+                    $("#210325_hanam").css("display","block");
+                }
+            }
+        } else if(point == '/anseong/index.af'){
+            if(mobileYn){
+                if(getCookie('anseong20200904') != 'Y') {
+                    $("#anseong20200904").css("display","block");
+                }
+
+            }else{
+                if(getCookie('anseong20200904') != 'Y') {
+                    $("#anseong20200904").css("display","block");
+                }
+            }
         }
 
     });
@@ -86,13 +108,8 @@
             <div class="pop-container">
                 <div class="pop-conts">
                     <div class="popup">
-<<<<<<< HEAD
-                        <!-- <img src="/common/front/images/popup/hanam_20200305.jpg" alt="아쿠아필드 하남 운영안내"> -->
-                        <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 하남 임시 휴장 안내">
-=======
-                        <!-- <img src="/common/front/images/popup/hanam20200828.jpg" alt="아쿠아필드 하남 운영안내"> -->
-                        <img src="/common/front/images/popup/hanam20201005.jpg" alt="아쿠아필드 하남 임시 휴장 안내">
->>>>>>> 7120f25f79c341f89da6958775edf04083f7b11d
+                        <img src="/common/front/images/popup/hanam20210317.jpg" alt="아쿠아필드 하남 운영안내">
+                        <!-- <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 하남 임시 휴장 안내"> -->
                     </div>
                     <div class="button-area">
                         <div class="checkArea">
@@ -107,32 +124,22 @@
             </div>
         </div>
     </div>
-</c:if>
-<c:if test="${POINT_CODE eq 'POINT03'}">
-    
-<<<<<<< HEAD
-    <div class="layer-wrap" id="goyang20200904" style="display: none;">
+	<div class="layer-wrap" id="210325_hanam" style="display: none;">
         <div class="layerbg"></div>
-        <div class="pop-layer slider size-720">
+        <div class="pop-layer size-720">
             <div class="pop-container">
                 <div class="pop-conts">
                     <div class="popup">
-                        <!-- <img src="/common/front/images/popup/goyang_20200305.jpg" alt="아쿠아필드 고양 운영안내"> -->
-                        <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 고양 임시 휴장 안내">
-<!--
-                        <div class="popSlider">
-                            <div><img src="/common/front/images/POINT03/main/goyang200226.jpg" alt="찜질스파 운연시간 안내"></div>
-                            <div><img src="/common/front/images/POINT03/main/goyang200226-1.jpg" alt="서버점검 팝업"></div>
-                        </div>
--->
+                        <img src="/common/front/images/popup/210325_hanam.png" alt="아쿠아필드 하남 운영안내">
+                        <!-- <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 하남 임시 휴장 안내"> -->
                     </div>
                     <div class="button-area">
                         <div class="checkArea">
-                            <input class="checkbox" id="goyang20200904c" type="checkbox" onclick="closePop('goyang20200904');" checked>
-                            <label for="goyang20200904c">오늘 하루 열지 않기</label>
+                            <input class="checkbox" id="hanam20201005d" type="checkbox" onclick="closePop('210325_hanam');" checked>
+                            <label for="hanam20201005d">오늘 하루 열지 않기</label>
                         </div>
                         <div class="close-button">
-                            <a class="pop-close" href="javascript:;" onclick="$('#goyang20200904').css('display','none');return false;" >닫기</a>
+                            <a class="pop-close" href="javascript:;" onclick="$('#210325_hanam').css('display','none');return false;" >닫기</a>
                         </div>
                     </div>
                 </div>
@@ -140,23 +147,16 @@
         </div>
     </div>
 </c:if>
-<c:if test="${POINT_CODE eq 'POINT05'}">
+<c:if test="${POINT_CODE eq 'POINT03'}">
     
-    <div class="layer-wrap" id="anseong20200904" style="display: none !important;">
-=======
     <div class="layer-wrap" id="goyang20201005" style="display: none;">
->>>>>>> 7120f25f79c341f89da6958775edf04083f7b11d
         <div class="layerbg"></div>
         <div class="pop-layer slider size-720">
             <div class="pop-container">
                 <div class="pop-conts">
                     <div class="popup">
-<<<<<<< HEAD
-                        <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 고양 임시 휴장 안내">
-=======
-                        <!-- <img src="/common/front/images/popup/goyang20200828.jpg" alt="아쿠아필드 고양 운영안내"> -->
-                        <img src="/common/front/images/popup/goyang20201005.jpg" alt="아쿠아필드 고양 임시 휴장 안내">
->>>>>>> 7120f25f79c341f89da6958775edf04083f7b11d
+                        <img src="/common/front/images/popup/goyang20201126.jpg" alt="아쿠아필드 고양 운영안내">
+                        <!-- <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 고양 임시 휴장 안내"> -->
 <!--
                         <div class="popSlider">
                             <div><img src="/common/front/images/POINT03/main/goyang200226.jpg" alt="찜질스파 운연시간 안내"></div>
@@ -171,6 +171,36 @@
                         </div>
                         <div class="close-button">
                             <a class="pop-close" href="javascript:;" onclick="$('#goyang20201005').css('display','none');return false;" >닫기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+<c:if test="${POINT_CODE eq 'POINT05'}">
+    <div class="layer-wrap" id="anseong20200904" style="display: none;">
+        <div class="layerbg"></div>
+        <div class="pop-layer slider size-720">
+            <div class="pop-container">
+                <div class="pop-conts">
+                    <div class="popup">
+						<img src="/common/front/images/popup/anseong20201126.jpg" alt="아쿠아필드 안성 운영안내">
+                        <!-- <img src="/common/front/images/popup/popup_20201027.jpg" alt="아쿠아필드 고양 임시 휴장 안내"> -->
+<!--
+                        <div class="popSlider">
+                            <div><img src="/common/front/images/POINT03/main/goyang200226.jpg" alt="찜질스파 운연시간 안내"></div>
+                            <div><img src="/common/front/images/POINT03/main/goyang200226-1.jpg" alt="서버점검 팝업"></div>
+                        </div>
+-->
+                    </div>
+                    <div class="button-area">
+                        <div class="checkArea">
+                            <input class="checkbox" id="anseong20200904c" type="checkbox" onclick="closePop('anseong20200904');" checked>
+                            <label for="anseong20200904c">오늘 하루 열지 않기</label>
+                        </div>
+                        <div class="close-button">
+                            <a class="pop-close" href="javascript:;" onclick="$('#anseong20200904').css('display','none');return false;" >닫기</a>
                         </div>
                     </div>
                 </div>
