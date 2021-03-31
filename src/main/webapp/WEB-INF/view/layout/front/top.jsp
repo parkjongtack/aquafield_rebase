@@ -73,7 +73,8 @@ if(ua.matches("(?i).*(android|avantgo|bada\\/|blackberry|blazer|compal|elaine|fe
 <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=traxKGRv2RvbYav81Pt8"></script> -->
 <!-- 20180326 네이버 지도 수정 -->
  <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=occAe_qDtkFxlWrdSTnc"></script> -->
- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7ce3cc24dce206936545f361d5804fb5"></script>
+ <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7ce3cc24dce206936545f361d5804fb5"></script> -->
+ <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0fbb7d4fae30c19a80e92d17c32cdcb3"></script>
  
 <script type="text/javascript" src="/common/front/js/common.js"></script>
 <script type="text/javascript" src="/common/front/js/commonUI.js"></script>

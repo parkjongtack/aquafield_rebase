@@ -174,35 +174,29 @@
 	<polygon class="st6" points="563,235 510,235 510,270 510,273 510,287 544,287 544,273 563,273 	"/>
 	<rect id="Rectangle_10_copy_2" x="510" y="287.5" class="st6" width="34" height="32"/>
 	<rect id="Rectangle_10_copy_3" x="510" y="319.5" class="st6" width="34" height="32"/>
-	<rect id="_3._노천탕-2" x="426" y="364.8" class="st6" width="80" height="44"/>
-	<g id="_1">
-		<rect x="713" y="476" class="st7" width="9" height="44"/>
-		<rect id="Rectangle_9_copy_10" x="436" y="476" class="st7" width="9" height="44"/>
-		<rect id="Rectangle_9_copy" x="685" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_2" x="657" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_3" x="629" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_4" x="601" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_5" x="573" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_6" x="545" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_7" x="517" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_8" x="489" y="476" class="st7" width="12" height="44"/>
-		<rect id="Rectangle_9_copy_9" x="461" y="476" class="st7" width="12" height="44"/>
+	<g id="_1" data-name=" 1">
+		<rect class="st9" x="713" y="476" width="9" height="44"/>
+		<rect id="Rectangle_9_copy" data-name="Rectangle 9 copy" class="st9" x="685" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_2" data-name="Rectangle 9 copy 2" class="st9" x="657" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_3" data-name="Rectangle 9 copy 3" class="st9" x="629" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_4" data-name="Rectangle 9 copy 4" class="st9" x="601" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_5" data-name="Rectangle 9 copy 5" class="st9" x="573" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_6" data-name="Rectangle 9 copy 6" class="st9" x="545" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_7" data-name="Rectangle 9 copy 7" class="st9" x="517" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_8" data-name="Rectangle 9 copy 8" class="st9" x="489" y="476" width="12" height="44"/>
+		<rect id="Rectangle_9_copy_9" data-name="Rectangle 9 copy 9" class="st9" x="461" y="476" width="12" height="44"/>
 	</g>
-	<g id="_2">
-		<rect id="Rectangle_9_copy_11" x="399" y="420" class="st7" width="6" height="34"/>
-		<rect id="Rectangle_9_copy_22" x="724" y="420" class="st7" width="6" height="34"/>
-		<rect id="Rectangle_9_copy_12" x="420" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_13" x="448" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_14" x="476" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_15" x="504" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_16" x="532" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_17" x="560" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_18" x="612" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_19" x="640" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_20" x="668" y="420" class="st7" width="12" height="34"/>
-		<rect id="Rectangle_9_copy_21" x="696" y="420" class="st7" width="12" height="34"/>
+	<g id="_2" data-name=" 2">
+		<rect id="Rectangle_9_copy_22" data-name="Rectangle 9 copy 22" class="st9" x="724" y="420" width="6" height="34"/>
+		<rect id="Rectangle_9_copy_15" data-name="Rectangle 9 copy 15" class="st9" x="504" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_16" data-name="Rectangle 9 copy 16" class="st9" x="532" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_17" data-name="Rectangle 9 copy 17" class="st9" x="560" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_18" data-name="Rectangle 9 copy 18" class="st9" x="612" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_19" data-name="Rectangle 9 copy 19" class="st9" x="640" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_20" data-name="Rectangle 9 copy 20" class="st9" x="668" y="420" width="12" height="34"/>
+		<rect id="Rectangle_9_copy_21" data-name="Rectangle 9 copy 21" class="st9" x="696" y="420" width="12" height="34"/>
 	</g>
-	<path class="st2" d="M380,436l14-19h184"/>
+	<path class="st2" d="M502.94,417h70.45" transform="translate(0 0)"/>
 	<path class="st2" d="M610,417h124"/>
 	<path class="st6" d="M904,583c0,0,37.6-11.2,38-49h28v49H904z"/>
 	<path class="st2" d="M160,630h44l51-51"/>
@@ -573,20 +567,17 @@
 	</g>
 </g>
 <g id="floor_4f_5">
-	<path class="st12" d="M155.9,705H3.9V229h192v120h47v16h-33h-0.1v82v92h-62v52h38.7v37.2h-30.7L155.9,705z"/>
-	<path class="st12" d="M503.6,230H715v29h105.6v213h-68v48H386.8c0-32.4-18.8-46.7-18.8-46.7l8.9-11.1l-29.4-27.1l54.1-69.1v-17h102
-		V230z"/>
-			<text transform="matrix(1 0 0 1 75.7601 470)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xB0A8;&#xC790; &#xC0AC;&#xC6B0;&#xB098;</text>
+	<path id="_04-3" data-name=" 04" class="st12" d="M156,701.38V628.17h31.67V591H148V539h62V365h33V349H196V229H4V705H160" transform="translate(0 0)" />
+            <path class="st12" d="M432,436h41V349h31V230H715v29H821V472H753v48H432Zm0,0h0Z" transform="translate(0 0)" />
+    <text transform="matrix(1 0 0 1 75.7601 470)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xB0A8;&#xC790; &#xC0AC;&#xC6B0;&#xB098;</text>
 	<text transform="matrix(1 0 0 1 559.7601 372)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xC5EC;&#xC790; &#xC0AC;&#xC6B0;&#xB098;</text>
 </g>
 <g id="floor_4f_4">
-	<path class="st12" d="M267.2,415l-22.9-46.6l-0.6-1.6h-33.5V447v92h-62v52h39.7v37.2h-31.7V705h83v210h119c19.5-76.6,83-73,83-73
-		h51v-34h-85v-63h-59v-40h101.2v-65h-78.2v-37c44-38.5,42.5-83,42.5-83h-26.2c0-32.4-18.9-46.7-18.9-46.7l8.9-11.1l-29.4-27.1
-		l11.8-15.1l-0.1-0.1l-1.2-0.7C316.8,394.5,267.2,415,267.2,415z"/>
-	<path class="st12" d="M740.2,740h81v-16h69v157h-150V740z"/>
-	<path class="st12" d="M740.2,740h-85v-16h-89v33h-31v56l0,0v32H652c6.5,0,23.6-1.1,33.2,22c5.4,13,9,14,25.1,14c9,0,29.9,0,29.9,0"
-		/>
-		<text transform="matrix(1 0 0 1 475.9999 881)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xAE30;&#xD0C0;&#xC2DC;&#xC124;</text>
+	<path class="st12" d="M210,365V539H148v52h39.67v37.17H156V705h83V915H358c19.5-76.62,83-73,83-73h51V808H407V745H348V705H449.17V640H371V603c44-38.5,42.67-83,42.67-83H387.25v-.61c-2-30.95-18.92-46.06-18.92-46.06l8.92-11.08-29.4-27.1,11.8-15.07C317.77,395.41,267,415,267,415h0l-24.37-50Z" transform="translate(0 0)"/>
+	<path class="st12" d="M473.05,349v87h-41v84H387.3c0-32.37-18.92-46.67-18.92-46.67l8.92-11.08-29.4-27.1L402.05,366V349Z" transform="translate(0 0)" /></g>
+	<path class="st12" d="M740,740h81V724h69V881H740Z" transform="translate(0 0)" />
+	<path class="st12" d="M740,881H710.13c-16.09,0-19.66-1-25.08-14-9.57-23.07-26.67-22-33.16-22H535V813h0V757h31V724h89v16h85Z" transform="translate(0 0)" />
+	<text transform="matrix(1 0 0 1 475.9999 881)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xAE30;&#xD0C0;&#xC2DC;&#xC124;</text>
 </g>
 <g id="floor_4f_3">
 	<path class="st12" d="M902,179L902,179h-51v19h-30v30h-44.9l-0.1,31l44.9-0.3L821,472h-68v48H413.6c0,0,1.4,44.5-42.6,83v37h78.2
@@ -594,10 +585,8 @@
 	<text transform="matrix(1 0 0 1 951.2001 372)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xCC1C;&#xC9C8;&#xC2A4;&#xD30C;</text>
 </g>
 <g id="floor_4f_2">
-	<path class="st28" d="M267,415L267,415l-24-49v-17h-47V229H7H4v-45L244,4h378l0.1,100h93L715,205l0,0v25H504v119H402v17l-42.5,54
-		C317.7,395.3,267,415,267,415"/>
-	<path class="st12" d="M267,415L267,415l-24-49v-17h-47V229H7H4v-45L244,4h378l0.1,100h93L715,205l0,0v25H504v119H402v17l-42.5,54
-		C317.7,395.3,267,415,267,415z"/>
+	<path id="실내워터파크-2" data-name="실내워터파크" class="st12" d="M4.05,233V184l240-180h378V104h93V208h0v22h-211V349h-102v17l-42.46,54c-41.88-24.67-92.54-5-92.54-5h0l-24-49V349h-47V229H7.05" transform="translate(0 0)" />
+    <path class="st12" d="M473.05,349v87h-41v84H387.3c0-32.37-18.92-46.67-18.92-46.67l8.92-11.08-29.4-27.1L402.05,366V349Z" transform="translate(0 0)" />
 	<text transform="matrix(1 0 0 1 325.5601 228)" class="st21 st22 st23" fill="#333333" font-family="'NotoSansCJKkr-Regular-KSCpc-EUC-H'" font-size="8">&#xC2E4;&#xB0B4; &#xC6CC;&#xD130;&#xD30C;&#xD06C;</text>
 </g>
 <g id="floor_4f_1">

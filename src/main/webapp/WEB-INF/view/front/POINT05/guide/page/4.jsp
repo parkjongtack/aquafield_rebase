@@ -22,13 +22,14 @@
                     			<table>
                                     <caption>루프탑 풀 - 대여료, 보증금</caption>
                     				<colgroup>
-                                        <col width="33.33%">
+                    					<col width="10%">
+                                        <col width="23.33%">
                                         <col width="33.33%">
                                         <col width="33.33%">
                                     </colgroup>
                                     <thead>
                     					<tr>
-                    						<th rowspan="2"></th>
+                    						<th rowspan="2" colspan="2"></th>
 											<th>대여료</th>
 											<th>보증금</th>
                     						<!-- <th></th> -->
@@ -41,46 +42,46 @@
                     				</thead>
                     				<tbody>
                     					<tr>
+                    						<th class="color_yel">공통</th>
                     						<th>라이프자켓</th>
-                    						<!-- <td>5,000원</td> -->
 											<td>5,000원</td>
                     						<td>1,000원</td>
                     					</tr>
                     					<tr>
-                    						<th>바스타월</th>
-                    						<!-- <td >5,000원</td> -->
-											<td>5,000원</td>
-                    						<td>1,000원</td>
+                    						<th class="b_bottom"></th>
+                    						<th class="b_bottom">바스타월</th>
+											<td class="b_bottom">5,000원</td>
+                    						<td class="b_bottom">1,000원</td>
                     					</tr>
                     					<tr>
-                    						<th>비치체어</th>
-                    						<!-- <td>40,000원</td> -->
-											<td>20,000원</td>
+                    						<th class="color_yel b_bottom">실내</th>
+                    						<th class="b_bottom">비치체어</th>
+											<td class="b_bottom">15,000원</td>
+                    						<td class="b_bottom">10,000원</td>
+                    					</tr>
+                    					<tr class="">
+                    						<th class="color_yel">야외</th>
+                    						<th>썬베드</th>
+                    						<td>25,000원</td>
                     						<td>10,000원</td>
                     					</tr>
-                    					<tr class="not_open">
-                    						<th>썬베드</th>
-                    						<!-- <td>90,000원</td> -->
-											<td rowspan="4" colspan="2" style="vertical-align: middle;">2021년 오픈예정</td>
-                    						<!-- <td>10,000원</td> -->
-                    					</tr>
-                                        <tr class="not_open">
+                                        <tr class="">
+                    						<th></th>
                                             <th>카바나</th>
-                                            <!-- <td>70,000원</td> -->
-											<!-- <td>-</td> -->
-                                            <!-- <td>10,000원</td> -->
+                                            <td>150,000원</td>
+                                            <td>10,000원</td>
                                         </tr>
-                                        <tr class="not_open">
+                                        <tr class="">
+                    						<th></th>
                                             <th>데이베드</th>
-                                            <!-- <td>300,000원</td> -->
-											<!-- <td>-</td> -->
-                                            <!-- <td>10,000원</td> -->
+                                            <td>130,000원</td>
+                                            <td>10,000원</td>
                                         </tr>
-                                        <tr class="not_open">
+                                        <tr class="">
+                    						<th></th>
                                             <th>빈백</th>
-                                            <!-- <td>300,000원</td> -->
-											<!-- <td>-</td> -->
-                                            <!-- <td>10,000원</td> -->
+                                            <td>35,000원</td>
+                                            <td>10,000원</td>
                                         </tr>
                     				</tbody>
                     			</table>
