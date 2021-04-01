@@ -43,7 +43,7 @@
                     				<tbody>
                     					<tr>
                     						<th class="color_yel">공통</th>
-                    						<th>라이프자켓</th>
+                    						<th>구명조끼</th>
 											<td>5,000원</td>
                     						<td>1,000원</td>
                     					</tr>

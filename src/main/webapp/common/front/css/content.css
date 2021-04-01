@@ -1220,8 +1220,9 @@ aside#bx_multi_aside .bx_your_id strong{color: #0071d2;text-decoration: underlin
 #location .tabs .tab_cont .tab-pane { display: none; }
 #location .tabs .tab_cont .tab-pane.active { display: block; }
 
+#POINT05 #location #aquaEnter{background: url("../images/about/aqua_enter_anseong.jpg") top left no-repeat; background-size: cover;}
 #location #aquaEnter { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 101; display: none; background: url("../images/about/aqua_enter.jpg") top left no-repeat; background-size: cover; }
-#location #aquaEnter.show_parking {background: url("../images/about/aqua_parking.jpg") top left no-repeat; background-size: cover;}
+#location #aquaEnter.show_parking {background: url("../images/about/aqua_parking.jpg") top left no-repeat; background-size: 100%; background-position: center; background-color: #F9F8F4;}
 #location #aquaParking { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 101; display: none; background: url("../images/POINT03/about/aqua_parking.jpg") top left no-repeat; background-size: cover; }
 #POINT03 #location #aquaEnter { background: url("../images/POINT03/about/aqua_enter.jpg") top left no-repeat; background-size: cover; }
 #location #aquaEnter.show { display: block; }
@@ -1426,7 +1427,7 @@ aside#bx_multi_aside .bx_your_id strong{color: #0071d2;text-decoration: underlin
 #guide3 .row .col .float_box .cnt table tbody tr:first-child th {padding-top:5px;}
 #guide3 .row .col .float_box .cnt table tbody td {text-align:center; line-height:30px; vertical-align: middle;}
 #guide3 .row .col .float_box .cnt table tbody th.color_yel{color: #BFD8AA;}
-#guide3 .row .col .float_box .cnt table tbody .b_bottom{border-bottom: 1px solid #0d687c;}
+#guide3 .row .col .float_box .cnt table tbody .b_bottom{border-bottom: 1px solid rgba(13, 104, 124, 0.5);}
  
 #guide3 .row .col .float_box1 .cnt table tbody td { color: #bef2fd; }
 #guide3 .row .col .float_box2 .cnt table tbody td { color: #dbcac6; }
