@@ -488,6 +488,8 @@
 
 	#pop_service.pop_type1 { width: 100% !important; max-width: 100%; }
 	#pop_service #bx_multi_content > .content { height: 100%; }
+	
+	#POINT05 #location #aquaEnter.show_parking {background: url("../images/about/aqua_parking.jpg") top left no-repeat; background-size: 100%; background-position: center; background-color: #F9F8F4;}
 
 }
 

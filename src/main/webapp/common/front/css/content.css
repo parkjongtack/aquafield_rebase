@@ -1222,7 +1222,7 @@ aside#bx_multi_aside .bx_your_id strong{color: #0071d2;text-decoration: underlin
 
 #POINT05 #location #aquaEnter{background: url("../images/about/aqua_enter_anseong.jpg") top left no-repeat; background-size: cover;}
 #location #aquaEnter { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 101; display: none; background: url("../images/about/aqua_enter.jpg") top left no-repeat; background-size: cover; }
-#location #aquaEnter.show_parking {background: url("../images/about/aqua_parking.jpg") top left no-repeat; background-size: 100%; background-position: center; background-color: #F9F8F4;}
+#POINT05 #location #aquaEnter.show_parking {background: url("../images/about/aqua_parking.jpg") top left no-repeat; background-size: 90%; background-position: center -40px; background-color: #F9F8F4;}
 #location #aquaParking { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 101; display: none; background: url("../images/POINT03/about/aqua_parking.jpg") top left no-repeat; background-size: cover; }
 #POINT03 #location #aquaEnter { background: url("../images/POINT03/about/aqua_enter.jpg") top left no-repeat; background-size: cover; }
 #location #aquaEnter.show { display: block; }
