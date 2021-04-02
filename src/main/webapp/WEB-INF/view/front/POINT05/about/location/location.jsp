@@ -423,6 +423,7 @@
 						if($(this).hasClass('way_star')){
 							$('#aquaEnter').removeClass('show');
 							// 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
+							$('#addressBx').show();
 							removeMarker(markers);
 							marker = aquaMarkers(map);
 							zoomOut();
@@ -430,10 +431,12 @@
 						}else if($(this).hasClass('parking')){
 							$('#aquaEnter').addClass('show');
 							$('#aquaEnter').addClass('show_parking');
+							$('#addressBx').hide();
 							
 						}else if($(this).hasClass('way_aqua')){
 							$('#aquaEnter').addClass('show');
 							$('#aquaEnter').removeClass('show_parking');
+							$('#addressBx').show();
 							TweenMax.fromTo($('#aquaEnter'),0.5,{ alpha : 0 },{alpha : 1, ease: Power1.easeInOut});
 						}
 					
