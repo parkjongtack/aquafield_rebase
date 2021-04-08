@@ -11,49 +11,52 @@ public interface CommonService {
 	
 	public List<Map> commonlist(Map param);
 	
-	//FAQ ë¦¬ìŠ¤íŠ¸
+	//FAQ ¸®½ºÆ®
 	public List<Map> faqlist(Map param);
 	
-	//ì˜ˆì•½ ë¯¸ì‚¬ìš© ì—…ë°ì´íŠ¸
+	//¿¹¾à ¹Ì»ç¿ë ¾÷µ¥ÀÌÆ®
 	public String batchNoUseUpd();
 	
-	//ì˜ˆì•½ ìë™ì·¨ì†Œ ë¦¬ìŠ¤íŠ¸
+	//¿¹¾à ÀÚµ¿Ãë¼Ò ¸®½ºÆ®
 	public List<Map> batchCancelList();
 	
-	//1ì¼ì „ SMS ì•Œë¦¼
+	//1ÀÏÀü SMS ¾Ë¸²
 	public List<Map> beforeOneDaySmslist();
 	
-	//SMS ë°œì†¡ ì´ë ¥ ë“±ë¡
+	//SMS ¹ß¼Û ÀÌ·Â µî·Ï
 	public String insSmsSend(Map param);
 	
-	//SMS í…œí”Œë¦¿ ê°€ì ¸ì˜¤ê¸°
+	//SMS ÅÛÇÃ¸´ °¡Á®¿À±â
 	public Map getSmsTemplete(Map param);
 	
-	//SMS 1ë²ˆ ë” ë°œì†¡í•˜ê¸°
+	//SMS 1¹ø ´õ ¹ß¼ÛÇÏ±â
 	public int sendSmsCnt(Map param); 
 	
-	//Email ë°œì†¡ ì´ë ¥ ë“±ë¡
+	//Email ¹ß¼Û ÀÌ·Â µî·Ï
 	public String insEmailSend(Map param);
 	
-	//íœ´ë©´ê³„ì • 7ì¼ì „ mailë°œì†¡
+	//ÈŞ¸é°èÁ¤ 7ÀÏÀü mail¹ß¼Û
 	public List<Map> beforeSevenDayMailList();
 	
-	//íœ´ëª…ê³„ì • INSERT
+	//¸¶ÄÉÆÃ µ¿ÀÇ ¸ŞÀÏ ¹ß¼Û
+	public List<Map> marketAgreeMail();	
+	
+	//ÈŞ¸í°èÁ¤ INSERT
 	public String inactMemIns(Map param);
 	
-	//íœ´ë©´ê°œì • UPD
+	//ÈŞ¸é°³Á¤ UPD
 	public String inactMemUpd();
 	
-	//ADMIN ì‚¬ìš©ê¸°ë¡ INSERT
+	//ADMIN »ç¿ë±â·Ï INSERT
 	public String insAdminContentLog(Map param);
 	
-	//ê´€ë¦¬ì ë©”ë‰´ ê°€ì ¸ì˜¤ê¸°
+	//°ü¸®ÀÚ ¸Ş´º °¡Á®¿À±â
 	public Map getAdminMenu(String param); 	
 	
-	//ì§€ì  ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	//ÁöÁ¡ Á¤º¸ °¡Á®¿À±â
 	public Map getPointInfo(String param);
 
-	//ê²°ì œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	//°áÁ¦ Á¤º¸ °¡Á®¿À±â
 	public List<Map> payList();
 	
 }

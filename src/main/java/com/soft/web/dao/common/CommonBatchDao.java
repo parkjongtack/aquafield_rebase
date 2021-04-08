@@ -6,21 +6,24 @@ import java.util.Map;
 
 public interface CommonBatchDao {
 
-	//ì˜ˆì•½ ë¯¸ì‚¬ìš© ì—…ë°ì´íŠ¸
+	//¿¹¾à ¹Ì»ç¿ë ¾÷µ¥ÀÌÆ®
 	public void batchNoUseUpd();
 	
-	//1ì¼ì „ SMS ì•Œë¦¼
+	//1ÀÏÀü SMS ¾Ë¸²
 	public List<Map> beforeOneDaySmslist();
 	
-	//ë¯¸ì‚¬ìš© 10% ìœ„ì•½ê¸ˆ ìë™ì·¨ì†Œ ì˜ˆì•½ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	//¹Ì»ç¿ë 10% À§¾à±İ ÀÚµ¿Ãë¼Ò ¿¹¾à¸®½ºÆ® °¡Á®¿À±â
 	public List<Map> batchCancelList();
 	
-	//íœ´ë©´ê³„ì • 7ì¼ì „ mailë°œì†¡
+	//ÈŞ¸é°èÁ¤ 7ÀÏÀü mail¹ß¼Û
 	public List<Map> beforeSevenDayMailList();
 	
-	//íœ´ë©´ê³„ì • INSERT
+	//¸¶ÄÉÆÃ µ¿ÀÇ ¸ŞÀÏ ¹ß¼Û
+	public List<Map> marketAgreeMail();	
+	
+	//ÈŞ¸é°èÁ¤ INSERT
 	public void inactMemIns(Map param);
 	
-	//íœ´ë©´ê°œì • UPD
+	//ÈŞ¸é°³Á¤ UPD
 	public void inactMemUpd();
 }

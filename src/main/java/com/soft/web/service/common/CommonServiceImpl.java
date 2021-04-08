@@ -59,14 +59,14 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//FAQ ë¦¬ìŠ¤íŠ¸
+	//FAQ ¸®½ºÆ®
 	public List<Map> faqlist(Map param){
 		return sqlSession.getMapper(CommonDao.class).faqlist(param);
 	}
 	
 	@Override
 	@Transactional
-	//ì˜ˆì•½ ë¯¸ì‚¬ìš© ì—…ë°ì´íŠ¸
+	//¿¹¾à ¹Ì»ç¿ë ¾÷µ¥ÀÌÆ®
 	public String batchNoUseUpd(){
 		String result ="";
 		try {
@@ -80,7 +80,7 @@ public class CommonServiceImpl implements CommonService {
 		return result;
 	}
 	
-	//1ì¼ì „ SMS ì•Œë¦¼ ê´€ë ¨
+	//1ÀÏÀü SMS ¾Ë¸² °ü·Ã
 	@Override	
 	public List<Map> beforeOneDaySmslist(){
 		List<Map> beforeOneDaySmslist = null;
@@ -111,7 +111,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//SMS í…œí”Œë¦¿ ê°€ì ¸ì˜¤ê¸°
+	//SMS ÅÛÇÃ¸´ °¡Á®¿À±â
 	public Map getSmsTemplete(Map param){
 		Map smsTemplete = null;
 		try {
@@ -124,14 +124,14 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//SMS 1ë²ˆ ë” ë°œì†¡í•˜ê¸°
+	//SMS 1¹ø ´õ ¹ß¼ÛÇÏ±â
 	public int sendSmsCnt(Map param){
 		return sqlSession.getMapper(CommonDao.class).sendSmsCnt(param);
 	}
 	
 	@Override
 	@Transactional	
-	//Email ë°œì†¡ ì´ë ¥ ë“±ë¡
+	//Email ¹ß¼Û ÀÌ·Â µî·Ï
 	public String insEmailSend(Map param){
 		String result="";
 		try {
@@ -148,7 +148,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//ì˜ˆì•½ ìë™ì·¨ì†Œ ë¦¬ìŠ¤íŠ¸
+	//¿¹¾à ÀÚµ¿Ãë¼Ò ¸®½ºÆ®
 	public List<Map> batchCancelList(){
 		List<Map> batchCancelList = null;
 		try {
@@ -161,7 +161,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//íœ´ë©´ê³„ì • 7ì¼ì „ mailë°œì†¡
+	//ÈŞ¸é°èÁ¤ 7ÀÏÀü mail¹ß¼Û
 	public List<Map> beforeSevenDayMailList(){
 		List<Map> beforeSevenDayMailList = null;
 		try {
@@ -174,8 +174,21 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
+	//ÈŞ¸é°èÁ¤ 7ÀÏÀü mail¹ß¼Û
+	public List<Map> marketAgreeMail(){
+		List<Map> beforeSevenDayMailList = null;
+		try {
+			beforeSevenDayMailList = Util.setListKoConvert(sqlSession.getMapper(CommonBatchDao.class).marketAgreeMail(),config.getProperty("character.set"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return beforeSevenDayMailList;			
+	}	
+	
+	@Override
 	@Transactional
-	//íœ´ëª…ê³„ì • INSERT
+	//ÈŞ¸í°èÁ¤ INSERT
 	public String inactMemIns(Map param){
 		String result="";
 		try {
@@ -193,7 +206,7 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Override
 	@Transactional
-	//íœ´ë©´ê°œì • UPD
+	//ÈŞ¸é°³Á¤ UPD
 	public String inactMemUpd(){
 		String result ="";
 		try {
@@ -209,11 +222,11 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Override
 	@Transactional
-	//ADMIN ì‚¬ìš©ê¸°ë¡ INSERT
+	//ADMIN »ç¿ë±â·Ï INSERT
 	public String insAdminContentLog(Map param){
 		String result="";
 		try {
-			/* 20180711 syw : ê¸°ë³¸ì˜ ë¬¸ìì—´ ì„ 16ì§„ìˆ˜ë¡œ ë°”ê¾¸ëŠ” í•¨ìˆ˜..  ì‚¬ìš©ê¸°ë¡ë¡œê·¸ëŠ” ì•”í˜¸í™” ì‹œí‚¤ì§€ ì•Šê³  dbì— ì €ì¥ì‹œí‚¨ë‹¤. 
+			/* 20180711 syw : ±âº»ÀÇ ¹®ÀÚ¿­ À» 16Áø¼ö·Î ¹Ù²Ù´Â ÇÔ¼ö..  »ç¿ë±â·Ï·Î±×´Â ¾ÏÈ£È­ ½ÃÅ°Áö ¾Ê°í db¿¡ ÀúÀå½ÃÅ²´Ù. 
 			param.put("access_menu_nm", Util.convertStringToHex((String)param.get("access_menu_nm")));
 			param.put("admin_nm", Util.convertStringToHex((String)param.get("admin_nm")));	
 			param.put("etc", Util.convertStringToHex((String)param.get("etc")));
@@ -221,7 +234,7 @@ public class CommonServiceImpl implements CommonService {
 			*/
 			
 			
-			/* 20180720 syw : ì‹¤ì„œë²„ ì˜¬ë¦´ë•Œ euc-krë¡œ ë³€ê²½í•˜ê¸° ìœ„í•´ í•¨ìˆ˜ */
+			/* 20180720 syw : ½Ç¼­¹ö ¿Ã¸±¶§ euc-kr·Î º¯°æÇÏ±â À§ÇØ ÇÔ¼ö */
 			param.put("access_menu_nm", Util.convertCharacterSet((String)param.get("access_menu_nm")));
 			param.put("admin_nm", Util.convertCharacterSet((String)param.get("admin_nm")));	
 			param.put("etc", Util.convertCharacterSet((String)param.get("etc")));
@@ -239,7 +252,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//ê´€ë¦¬ì ë©”ë‰´ ê°€ì ¸ì˜¤ê¸°
+	//°ü¸®ÀÚ ¸Ş´º °¡Á®¿À±â
 	public Map getAdminMenu(String param){
 		Map getAdminMenu = null;
 		try {
@@ -252,7 +265,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	//ê´€ë¦¬ì ë©”ë‰´ ê°€ì ¸ì˜¤ê¸°
+	//°ü¸®ÀÚ ¸Ş´º °¡Á®¿À±â
 	public Map getPointInfo(String param){
 		Map getPointInfo = null;
 		try {
@@ -265,7 +278,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	//ê²°ì œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	//°áÁ¦ Á¤º¸ °¡Á®¿À±â
 	public List<Map> payList(){
 		List<Map> payList =null;
 		

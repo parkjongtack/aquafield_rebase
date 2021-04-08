@@ -205,7 +205,105 @@ public class AquaScheduler {
     		logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 업데이트  Error @@@@@@@@@@ ");
     	}
     	logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 업데이트 End @@@@@@@@@@");
-	}	
+	}
+	
+    /***
+     * 2년에 한번 마케팅 순신동의 메일 발송
+     * @throws Exception 
+     * 
+     */
+	@Scheduled(cron="0 0 03 * * *")
+	//@Scheduled(cron="0/10 * * * * *")
+	public void marketAgreeMail() throws Exception{
+    	java.util.Calendar calendar = java.util.Calendar.getInstance();
+    	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	
+    	String errContents = "";
+    	List<Map> beforeSevenDayMailList = commonservice.marketAgreeMail();
+    	
+    	if(beforeSevenDayMailList != null ){
+    		
+    		logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 INSSERT 및  알림 메일 Start @@@@@@@@@@");
+    		
+    		for (Iterator iterator = beforeSevenDayMailList.iterator(); iterator.hasNext();) {
+				Map map = (Map) iterator.next();
+
+				//메일발송 #####################################
+				Map emailParam = new HashMap();
+				emailParam.put("email_uid", "4");
+				Map inactEmail = adminEmailTempletService.adminEmailTempletDetail(emailParam);
+				
+				String path = this.getClass().getResource("").getPath();
+				path = path.substring(0, path.indexOf("WEB-INF")-1);
+				String realPath = path + "/common/upload/email_templet";
+				
+				String inactMemHtml = getHTMfile(realPath+"/6");						
+				
+				String nowTime = AquaDateUtil.getToday();
+				//String inactMemDay = AquaDateUtil.addDay(nowTime, 7);
+				String inactMemDay = map.get("LAST_LOGIN_DATE").toString();
+				//nowTime = nowTime.substring(0, 4)+"."+nowTime.substring(4, 6)+"."+nowTime.substring(6, 8);
+				inactMemDay = inactMemDay.substring(0, 4)+"년"+inactMemDay.substring(4, 6)+"월"+inactMemDay.substring(6, 8)+"일";
+
+				//inactMemHtml = inactMemHtml.replace("{{#NOW#}}",nowTime); // 현재시간 치환
+				//inactMemHtml = inactMemHtml.replace("{{#NAME#}}",map.get("MEM_NM").toString());//이름 치환
+				inactMemHtml = inactMemHtml.replace("{{#INACTDAY#}}",inactMemDay);//휴면전화 날짜 치환
+				//inactMemHtml = inactMemHtml.replace("{{#ID#}}",map.get("MEM_ID").toString());// ID 치환
+				
+				logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 마케팅 동의 알림 메일 1"+map.get("MEM_ID").toString()+" @@@@@@@@@@ ");
+				boolean booleanresult =	mailService.sendmail(mailSender, "aquafield.official@gmail.com", inactEmail.get("FORM_EMAIL_NM").toString(), map.get("MEM_ID").toString(), map.get("MEM_NM").toString(), "마케팅 정보 수신 동의 내역 안내", inactMemHtml);
+
+				if(!booleanresult){
+					errContents = "처리중 에러가 발생하였습니다.(이메일)";
+					logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 마케팅 동의 알림 메일 Error "+map.get("MEM_ID").toString()+" @@@@@@@@@@ "+ errContents);
+				}else{
+					//EMAIL 발송 이력 등록
+					emailParam.put("point_code", "POINT01");
+					emailParam.put("email_uid", "4");
+					emailParam.put("mem_id", map.get("MEM_ID").toString());
+					emailParam.put("custom_nm", map.get("MEM_NM").toString());
+					emailParam.put("custom_email", map.get("MEM_ID").toString());
+					emailParam.put("ins_ip", "");
+					emailParam.put("ins_id", map.get("MEM_ID").toString()); 
+					emailParam.put("send_status", "OK");
+					
+					String smsResult = commonService.insEmailSend(emailParam);
+					if("ERROR".equals(emailParam)){
+						errContents = "처리중 에러가 발생하였습니다.(이메일 발송 등록)";
+						logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 마케팅 동의 알림 메일 발송등록 Error "+map.get("MEM_ID").toString()+" @@@@@@@@@@ "+ errContents);
+					}						
+				}										
+				//###########################################					
+				/*
+				Map params = new HashMap();
+				params.put("mem_uid",map.get("MEM_UID"));
+				params.put("mem_nm",map.get("MEM_NM"));
+				params.put("mem_id",map.get("MEM_ID"));
+				params.put("point_code",map.get("POINT_CODE"));
+				params.put("last_login_date",map.get("LAST_LOGIN_DATE"));
+				params.put("mem_num",map.get("MEM_NUM"));				
+
+				String inactInsResult = commonService.inactMemIns(params);
+				if("ERROR".equals(inactInsResult)){
+					errContents = "처리중 에러가 발생하였습니다.(마케팅계정 등록)";
+					logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 마케팅동의 알림 계정 등록 Error "+map.get("MEM_ID").toString()+" @@@@@@@@@@ "+ errContents);
+				}
+				*/
+
+			}
+    		//logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 INSSERT 및  알림 메일 End @@@@@@@@@@");
+    	}
+    	
+    	/*
+    	//휴면전환 업데이트
+    	logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 업데이트 Start @@@@@@@@@@");
+    	String inactUpdResult = commonservice.inactMemUpd();
+    	if("ERROR".equals(inactUpdResult)){
+    		logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 업데이트  Error @@@@@@@@@@ ");
+    	}
+    	logger.debug("@@@@@@@ 현재 시각: " +  dateFormat.format(calendar.getTime()) +" 휴면전환 업데이트 End @@@@@@@@@@");
+    	*/
+	}		
 	
 	/***
 	 * 온라인 예약 상품 미사용 UPDATE

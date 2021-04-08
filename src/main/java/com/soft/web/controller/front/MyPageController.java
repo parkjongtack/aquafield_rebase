@@ -116,13 +116,13 @@ public class MyPageController extends GenericController {
 		
 		
 		if (memberInfo2 != null ) {
-			String message = "�솗�씤�릺�뿀�뒿�땲�떎.";
+			String message = "확인되었습니다.";
 			String url = "contentBox.showCont({url : '/mypage/myinfo.af', move:'next'})";
 			html = Util.gotoUrl(url, message);
 			session.setAttribute("check", "Y");
 			
 		} else {
-			String message = "�엯�젰�븯�떊 鍮꾨�踰덊샇媛� ��由쎈땲�떎.\\n�솗�씤�븯�떆湲� 諛붾엻�땲�떎.";
+			String message = "입력하신 비밀번호가 틀립니다.\\n확인하시기 바랍니다.";
 			String url = "document.submitForm.member_pw.value='';";
 			html = Util.gotoUrl(url, message);
 			session.setAttribute("check", "N");
@@ -175,7 +175,7 @@ public class MyPageController extends GenericController {
 		return "/front/mypage/myinfo_write";
 	}
 	
-	//留덉씠�럹�씠吏� �닔�젙
+	//마이페이지 수정
 	@RequestMapping(value = "/mypage/myinfoUpd.af")
 	public String myinfoUpd(@RequestParam Map param, Model model,
 			HttpSession session, HttpServletResponse response)
@@ -204,23 +204,23 @@ public class MyPageController extends GenericController {
 		String result = frontMemberService.setMemInfo(parameter);
 
 		if ("SETOK".equals(result)) {
-			String message = "�닔�젙�릺�뿀�뒿�땲�떎.";
+			String message = "수정되었습니다.";
 			String url = "contentBox.showCont({url : '/mypage/myinfo.af', move:'next'})";
 			html = Util.gotoUrl(url, message);
 			
-			// �쉶�썝�젙蹂� �닔�젙�떆 濡쒓렇�씤 �꽭�뀡 �떎�떆 set ###################################
+			// 회원정보 수정시 로그인 세션 다시 set ###################################
 			int memUid = Util.getInt(memberInfo.get("MEM_UID").toString());
 			
 			Map reMemberInfo = frontMemberService.memberInfoTwo(memUid);
 						
 			InetAddress ip = InetAddress.getLocalHost();
 			String userIp = ip.getHostAddress();
-			reMemberInfo.put("MEM_IP", userIp); //�젒�냽 IP�젙蹂�
+			reMemberInfo.put("MEM_IP", userIp); //접속 IP정보
 			session.setAttribute("MEM_INFO", reMemberInfo);
 			// ############################################################
 			
 		} else {
-			String message = "泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.\\n�떎�떆 �떆�룄�빐 二쇱떆湲곕컮�엻�땲�떎.";
+			String message = "처리중 에러가 발생하였습니다.\\n다시 시도해 주시기바랍니다.";
 			html = Util.alert(message);
 		}
 		Util.htmlPrint(html, response);
@@ -249,15 +249,15 @@ public class MyPageController extends GenericController {
 			String result = frontMemberService.setMemPwUpd(parameter);
 	
 			if ("SETOK".equals(result)) {
-				String message = "�닔�젙�릺�뿀�뒿�땲�떎.";
+				String message = "수정되었습니다.";
 				String url = "contentBox.showCont({url : '/mypage/myinfo.af', move:'next'})";
 				html = Util.gotoUrl(url, message);
 			} else {
-				String message = "泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.\\n�떎�떆 �떆�룄�빐 二쇱떆湲곕컮�엻�땲�떎.";
+				String message = "처리중 에러가 발생하였습니다.\\n다시 시도해 주시기바랍니다.";
 				html = Util.alert(message);
 			}
 		}else{
-			String message = "�쁽�옱鍮꾨�踰덊샇媛� ��由쎈땲�떎.\\n�떎�떆 �떆�룄�빐 二쇱떆湲곕컮�엻�땲�떎.";
+			String message = "현재비밀번호가 틀립니다.\\n다시 시도해 주시기바랍니다.";
 			html = Util.alert(message);			
 		}
 		Util.htmlPrint(html, response);
@@ -281,7 +281,7 @@ public class MyPageController extends GenericController {
 		
 		Map memberInfo = (Map) session.getAttribute("MEM_INFO");
 		
-		//�럹�씠吏�
+		//페이징
 		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
 		param.put("ins_uid", memberInfo.get("MEM_UID"));
 		param.put("point_code", memberInfo.get("POINT_CODE"));
@@ -292,10 +292,10 @@ public class MyPageController extends GenericController {
 		param.put("pageListSize", pageListSize);
 		param.put("page", String.valueOf(page));		
 		
-		//紐⑸줉 議고쉶
+		//목록 조회
 		List<Map> onetoOnelist = frontOneToOneService.onetoOnelist(param);
 		
-		//String html ="<div class=\"inner\"><div class=\"tb_type2\"><table><thead><tr><th>臾몄쓽�쑀�삎</th><th>�젣紐�</th><th>�옉�꽦�씪</th><th>泥섎━�긽�깭</th></tr></thead><tbody>";
+		//String html ="<div class=\"inner\"><div class=\"tb_type2\"><table><thead><tr><th>문의유형</th><th>제목</th><th>작성일</th><th>처리상태</th></tr></thead><tbody>";
 		String html ="";
 		
 		if(!onetoOnelist.isEmpty()){
@@ -310,7 +310,7 @@ public class MyPageController extends GenericController {
 			}
 
 		}else{
-			html += "<tr><td colspan=\"5\"> 議고쉶�맂 �궡�슜�씠 �뾾�뒿�땲�떎. </td><tr>";			
+			html += "<tr><td colspan=\"5\"> 조회된 내용이 없습니다. </td><tr>";			
 		}
 		html +="<script type='text/javascript'>setPaging({ totalCount: "+totCnt+", recordCount: "+pageListSize+", perPage: "+blockListSize+", page: "+page+" });</script>";
 
@@ -354,7 +354,7 @@ public class MyPageController extends GenericController {
 		
 		String html ="";
 		String strContent = (String) param.get("content");
-		//strContent = strContent.replaceAll("\r\n", "<br/>");
+		strContent = strContent.replaceAll("\r\n", "<br/>");
 		Map memberInfo = (Map) session.getAttribute("MEM_INFO");
 		param.put("point_code", param.get("pointCode"));
 		param.put("writer", memberInfo.get("MEM_NM"));	
@@ -370,22 +370,22 @@ public class MyPageController extends GenericController {
 		String result = frontOneToOneService.oneToOneIns(param);
 	
 		if("INSOK".equals(result)){
-			html +="alert('�젙�긽 �벑濡� �릺�뿀�뒿�땲�떎.');";
+			html +="alert('정상 등록 되었습니다.');";
 			html +="$('.btn_close.layer_close').click();";
 			html +="contentBox.showCont({url:'/mypage/cs.af', move:'prev'})";
 			
-			//1:1臾몄쓽 �븣由� 硫붿씪諛쒖넚 #####################################
-			String reHtml= memberInfo.get("MEM_NM").toString()+"("+memberInfo.get("MEM_ID")+") 怨좉컼�떂�씠 1:1臾몄쓽瑜� �벑濡앺븯�뀲�뒿�땲�떎.";
+			//1:1문의 알림 메일발송 #####################################
+			String reHtml= memberInfo.get("MEM_NM").toString()+"("+memberInfo.get("MEM_ID")+") 고객님이 1:1문의를 등록하셨습니다.";
 
-			boolean booleanresult =	mailService.sendmail(mailSender, param.get("ins_id").toString(), memberInfo.get("MEM_NM").toString(), "aquafield@shinsegae.com", "�븘荑좎븘�븘�뱶 �슫�쁺�옄", "[�븘荑좎븘�븘�뱶]1:1臾몄쓽 �븣由쇰찓�씪�엯�땲�떎.", reHtml);
+			boolean booleanresult =	mailService.sendmail(mailSender, param.get("ins_id").toString(), memberInfo.get("MEM_NM").toString(), "aquafield@shinsegae.com", "아쿠아필드 운영자", "[아쿠아필드]1:1문의 알림메일입니다.", reHtml);
 			
 			if(!booleanresult){
-				logger.debug("@@@@@@@@@@@@@@@@ 1:1臾몄쓽 �븣由� 硫붿씪 諛쒖넚以� �뿉�윭媛� 諛쒖깮�뻽�뒿�땲�떎. @@@@@@@@@@@@@@@@@");
+				logger.debug("@@@@@@@@@@@@@@@@ 1:1문의 알림 메일 발송중 에러가 발생했습니다. @@@@@@@@@@@@@@@@@");
 			}
 			//###########################################			
 			
 		}else{
-			html +="alert('泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.');";			
+			html +="alert('처리중 에러가 발생하였습니다.');";			
 		}
 		Util.htmlPrint(html, response);		
 		
@@ -396,7 +396,7 @@ public class MyPageController extends GenericController {
 	public String csView(@RequestParam Map param, Model model, HttpSession session) throws Exception {
 
 		Map memberInfo = (Map) session.getAttribute("MEM_INFO");
-		//�럹�씠吏�
+		//페이징
 		Map param2= new HashMap<>();
 		param2.put("insUid", memberInfo.get("MEM_UID"));
 		param2.put("askUid", param.get("askUid"));
@@ -475,18 +475,18 @@ public class MyPageController extends GenericController {
 			
 			html += "<div class=\"swiper-slide\"><div class=\"resTicket\"><div class=\"inner\"><ul><li class=\"front\"><div class=\"tickettop\">";
 			html += "<img src=\"/common/front/images/mypage/ticket_header_logo.png\"></div>";
-			html += "<div class=\"codenum\"><div class=\"ico res_1\"></div><div class=\"tit\">�븘荑좎븘�븘�뱶 <span>"+map.get("POINT_CODE")+"�젏</span> �엯�옣沅�</div>";
+			html += "<div class=\"codenum\"><div class=\"ico res_1\"></div><div class=\"tit\">아쿠아필드 <span>"+map.get("POINT_CODE")+"점</span> 입장권</div>";
 			html += "<div class=\"code\">No."+map.get("ORDER_NUM")+"</div></div><div class=\"txtArea\">";
-			html += "<ul><li><span class=\"tit\">�엯 �옣 �씪</span><span class=\"value\">"+map.get("RESERVE_DATE")+"</span></li>";
-			html += "<li><span class=\"tit\">�삁�빟�떆�꽕</span><span class=\"value\">"+map.get("ORDER_NM")+" �쇅</span></li>";
-			html += "<li><span class=\"tit\">�삁�빟�씤�썝</span><span class=\"value\">珥� "+((Integer.parseInt(map.get("ADULT_SUM").toString())+ Integer.parseInt(map.get("CHILD_SUM").toString())))+"紐�</span></li>";
-			html += "<li><span class=\"tit\">寃곗젣湲덉븸</span><span class=\"value\">"+map.get("PAYMENT_PRICE")+"�썝</span></li>";
+			html += "<ul><li><span class=\"tit\">입 장 일</span><span class=\"value\">"+map.get("RESERVE_DATE")+"</span></li>";
+			html += "<li><span class=\"tit\">예약시설</span><span class=\"value\">"+map.get("ORDER_NM")+" 외</span></li>";
+			html += "<li><span class=\"tit\">예약인원</span><span class=\"value\">총 "+((Integer.parseInt(map.get("ADULT_SUM").toString())+ Integer.parseInt(map.get("CHILD_SUM").toString())))+"명</span></li>";
+			html += "<li><span class=\"tit\">결제금액</span><span class=\"value\">"+map.get("PAYMENT_PRICE")+"원</span></li>";
 			html += "</ul></div></li>";
-			html += "<li class=\"back\"><div class=\"info\"><div class=\"tit\">�엯�옣�젙蹂�</div><ul class=\"item_list\">";
-			html += "<li><span class=\"tit\">"+map.get("ORDER_NM")+"</span><span class=\"value\">���씤 "+map.get("ADULT_SUM")+"紐�</span></li>";
-			html += "<li><span class=\"tit\">"+map.get("ORDER_NM")+"</span><span class=\"value\">�냼�씤 "+map.get("CHILD_SUM")+"紐�</span></li>";
-			html += "</ul></div><div class=\"txtArea\"><div class=\"alert\">* 二쇱쓽�궗�빆</div>";
-			html += "<p>�씠�슜�씪 �떦�씪 痍⑥냼 �떆 30% �쐞�빟湲덉씠 諛쒖깮�빀�땲�떎.</p><p>36媛쒖썡 誘몃쭔 �쑀�븘�뒗 臾대즺�엯�옣�씠 媛��뒫�븯硫� �쁽�옣諛⑸Ц �떆 �쓽猷뚮낫�뿕利� �벑�쓽 怨듭씤 �꽌瑜섎�� �젣�떆 諛붾엻�땲�떎.</p>	<p>�냼�씤(36媛쒖썡 ~ 珥덈벑�븰�깮 �엯�옣 �떆 �쓽猷뚮낫�뿕利� �벑�쓽 怨듭씤�꽌瑜섎�� 留ㅽ몴�냼�뿉 �젣�떆 諛붾엻�땲�떎.  </p>";
+			html += "<li class=\"back\"><div class=\"info\"><div class=\"tit\">입장정보</div><ul class=\"item_list\">";
+			html += "<li><span class=\"tit\">"+map.get("ORDER_NM")+"</span><span class=\"value\">대인 "+map.get("ADULT_SUM")+"명</span></li>";
+			html += "<li><span class=\"tit\">"+map.get("ORDER_NM")+"</span><span class=\"value\">소인 "+map.get("CHILD_SUM")+"명</span></li>";
+			html += "</ul></div><div class=\"txtArea\"><div class=\"alert\">* 주의사항</div>";
+			html += "<p>이용일 당일 취소 시 30% 위약금이 발생합니다.</p><p>36개월 미만 유아는 무료입장이 가능하며 현장방문 시 의료보험증 등의 공인 서류를 제시 바랍니다.</p>	<p>소인(36개월 ~ 초등학생 입장 시 의료보험증 등의 공인서류를 매표소에 제시 바랍니다.  </p>";
 			html += "</div></li></ul><div class=\"btnArea\">";
 			html += "<a href=\"javascript:void(0);\" onclick=\"window.resTicketPop = new ResTicketPopFn({data:{resid:'17092304221', stat:'Y'}});\">";
 			html += "More Info</a></div></div><div class=\"border\">";
@@ -511,10 +511,10 @@ public class MyPageController extends GenericController {
 		param1.put("reserve_uid", intUid);
 		param1.put("mem_id", mem_id);
 		
-		/* 湲곗〈�삁�빟�젙蹂대낫湲�
+		/* 기존예약정보보기
 		 * Map getReserveInfo = frontReservationService.getReserveInfo(intUid);*/
 		
-		//�삁�빟�젙蹂대낫湲�(�쎒痍⑥빟�젏 )
+		//예약정보보기(웹취약점 )
 		Map getReserveInfo = frontReservationService.getReserveInfoNew(param1);
 		
 		if(getReserveInfo == null) {
@@ -601,10 +601,10 @@ public class MyPageController extends GenericController {
 		String r_TYPE = "";		
 		String authty = "";
 		switch (compareVal) {
-		case 1: r_TYPE = "移대뱶";authty = "1010";
+		case 1: r_TYPE = "카드";authty = "1010";
 			break;
-		case 2: r_TYPE = "�떎�떆媛꾧퀎醫뚯씠泥�";
-			//�떦�씪 �뿬遺� 泥댄겕
+		case 2: r_TYPE = "실시간계좌이체";
+			//당일 여부 체크
 			Date toDay = new Date();
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy.MM.dd");
 			String toDayToString = transFormat.format(toDay).trim();
@@ -628,7 +628,7 @@ public class MyPageController extends GenericController {
 			}else{
 				authty = "2030";
 			}
-			logger.debug("############## �떎�떆媛꾧퀎醫뚯씠泥� 痍⑥냼 肄붾뱶媛�>> authty : " + authty);
+			logger.debug("############## 실시간계좌이체 취소 코드값>> authty : " + authty);
 			break;
 		case 4: r_TYPE = "SSG PAY";authty = "4110";
 			break;				
@@ -647,7 +647,7 @@ public class MyPageController extends GenericController {
 		userInfo.put("RESERVEUID", getReserveInfo.get("RESERVE_UID"));
 		userInfo.put("RESERVEDAY", getReserveInfo.get("RESERVE_DATE"));	
 		
-		//1踰� �뜑 SMS 臾몄옄諛쒖넚 �뿬遺� 泥댄겕
+		//1번 더 SMS 문자발송 여부 체크
 		Map smsCnt = new HashMap();
 		smsCnt.put("point_code", "POINT01");
 		smsCnt.put("custom_mobile", memberInfo.get("MOBILE_NUM"));
@@ -665,38 +665,38 @@ public class MyPageController extends GenericController {
 	public String sendSms(@RequestParam Map param, Model model, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		
 		Map memberInfo = (Map) session.getAttribute("MEM_INFO");
-		String html ="�삁�빟臾몄옄媛� 諛쒖넚�릺�뿀�뒿�땲�떎.";
-		//�삁�빟臾몄옄 諛쒖넚
+		String html ="예약문자가 발송되었습니다.";
+		//예약문자 발송
 		String reserveDay = param.get("reserveday").toString();
 		reserveDay = reserveDay.substring(0, 4)+"."+reserveDay.substring(4, 6)+"."+reserveDay.substring(6, 8);
-		//String contents = "[�븘荑좎븘�븘�뱶]�삩�씪�씤 �삁�빟(�삁�빟踰덊샇:"+param.get("ordernum")+",�삁�빟�씪:"+reserveDay+")";
+		//String contents = "[아쿠아필드]온라인 예약(예약번호:"+param.get("ordernum")+",예약일:"+reserveDay+")";
 		Map smsParam = new HashMap();
 		smsParam.put("point_code", "POINT01");
 		smsParam.put("sms_type", "RESERVE");
 		
 		Map smsTemplte = commonService.getSmsTemplete(smsParam);
 		String contents = smsTemplte.get("SMS_CONTENT").toString();
-		//contents = contents.replace("{吏��젏}",param.get("pointNm").toString());//�삁�빟踰덊샇 移섑솚
+		//contents = contents.replace("{지점}",param.get("pointNm").toString());//예약번호 치환
 		
-		contents = contents.replace("{吏��젏}","");//20190116 syw: 留덉씠�럹�씠吏� sms�쟾�넚�떆 �븳湲� 源⑥쭚. 
-		contents = contents.replace("{踰덊샇}",param.get("ordernum").toString());//�삁�빟踰덊샇 移섑솚
-		contents = contents.replace("{�삁�빟�씪}",reserveDay);//�삁�빟�씪 移섑솚
+		contents = contents.replace("{지점}","");//20190116 syw: 마이페이지 sms전송시 한글 깨짐. 
+		contents = contents.replace("{번호}",param.get("ordernum").toString());//예약번호 치환
+		contents = contents.replace("{예약일}",reserveDay);//예약일 치환
 		
 		Map parameters = new HashMap();
-		//parameters.put("recipient_num", param.get("phoneNo")); // �닔�떊踰덊샇
-		parameters.put("recipient_num", memberInfo.get("MOBILE_NUM").toString()); // �닔�떊踰덊샇
+		//parameters.put("recipient_num", param.get("phoneNo")); // 수신번호
+		parameters.put("recipient_num", memberInfo.get("MOBILE_NUM").toString()); // 수신번호
 		
 		
-		parameters.put("subject", "");//20190116 syw: 留덉씠�럹�씠吏� sms�쟾�넚�떆 �븳湲� 源⑥쭚.
-		parameters.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)		
-		parameters.put("callback", "031-8072-8800"); //20190116 syw:  �봽濡쒗띁�떚�뿉�꽌 遺덈윭�삤吏� 紐삵븯�뿬 �삤瑜�
+		parameters.put("subject", "");//20190116 syw: 마이페이지 sms전송시 한글 깨짐.
+		parameters.put("content", contents); // 내용 (SMS=88Byte, LMS=2000Byte)		
+		parameters.put("callback", "031-8072-8800"); //20190116 syw:  프로퍼티에서 불러오지 못하여 오류
 		
 		if(!smsService.sendSms(parameters)){
-			/*html = "alert('泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.');";*/
-			html = "泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.";
+			/*html = "alert('처리중 에러가 발생하였습니다.');";*/
+			html = "처리중 에러가 발생하였습니다.";
 		}else{
 		
-			//SMS 諛쒖넚 �씠�젰 �벑濡�
+			//SMS 발송 이력 등록
 			smsParam.put("sms_uid", smsTemplte.get("SMS_UID"));
 			smsParam.put("mem_id", memberInfo.get("MEM_ID").toString());
 			smsParam.put("custom_nm", memberInfo.get("MEM_NM").toString());
@@ -708,7 +708,7 @@ public class MyPageController extends GenericController {
 			
 			String smsResult = commonService.insSmsSend(smsParam);
 			if("ERROR".equals(smsResult)){
-				html = "泥섎━以� �뿉�윭媛� 諛쒖깮�븯���뒿�땲�떎.(臾몄옄�씠�젰�벑濡�)";
+				html = "처리중 에러가 발생하였습니다.(문자이력등록)";
 			}			
 		}
 		Util.htmlPrint(html, response);		

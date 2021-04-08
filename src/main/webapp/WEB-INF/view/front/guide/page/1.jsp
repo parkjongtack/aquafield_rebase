@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ include file="../../../../common/taglibs.jsp" %>
+<%@ include file="../../../common/taglibs.jsp" %>
 <section id="guide1">
     <div class="miniTit">
         <h1>이용정보</h1>

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ include file="../../../common/taglibs.jsp" %>
+<%@ include file="../../common/taglibs.jsp" %>
 <%
 String ie678 = "";
 String ua=request.getHeader("User-Agent");

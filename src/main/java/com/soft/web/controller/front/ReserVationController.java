@@ -2563,7 +2563,7 @@ public class ReserVationController extends GenericController {
 			        			pointnm = "고양";		        				
 		        			}		        			
 		        			
-		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05")) {
+		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05") || getReserveInfo2_2.get("POINT_CODE").equals("POINT07")) {
 			        			pointnm = "안성";		        				
 		        			}	
 		        			
@@ -2742,7 +2742,7 @@ public class ReserVationController extends GenericController {
 			        			pointnm = "고양";		        				
 		        			}		        			
 		        			
-		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05")) {
+		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05") || getReserveInfo2_2.get("POINT_CODE").equals("POINT07")) {
 			        			pointnm = "안성";		        				
 		        			}	
 		        			
@@ -5166,6 +5166,10 @@ public class ReserVationController extends GenericController {
 		String memUid = memberInfo.get("MEM_UID").toString();
 		/*String strPoint = (String)rsDataObject.get("pointCode");*/
 		String strPoint = (String) param.get("pointCode");
+		
+		if(strPoint.toString().equals("POINT05")) {
+			strPoint = "POINT07";
+		}
 		
 		String strPointNm = (String)rsDataObject.get("pointNm");
 		String strDate =(String)rsDataObject.get("date");
