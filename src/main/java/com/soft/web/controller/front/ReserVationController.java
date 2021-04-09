@@ -657,6 +657,15 @@ public class ReserVationController extends GenericController {
 		String strPoint = (String)rsDataObject.get("pointCode");
 		String strPointNm = (String)rsDataObject.get("pointNm");
 		
+		if(strPoint.equals("POINT01")) {
+			strPointNm = "하남";
+		} else if(strPoint.equals("POINT03")) {
+			strPointNm = "고양";
+		} else if(strPoint.equals("POINT05") || strPoint.equals("POINT07")) {
+			strPointNm = "안성";
+		}
+		
+		
 		//System.out.println(session.getAttribute("MEM_INFO"));
 		
 		//Map memberInfo = (Map) session.getAttribute("MEM_INFO");
@@ -840,8 +849,8 @@ public class ReserVationController extends GenericController {
 													Map smsTemplte = commonService.getSmsTemplete(smsParam);
 													String contents = smsTemplte.get("SMS_CONTENT").toString();
 													
-													//contents = contents.replace("{지점}",strPointNm);//�삁�빟吏��젏 移섑솚
-													contents = contents.replace("{지점}","");//�삁�빟吏��젏 移섑솚													
+													contents = contents.replace("{지점}",strPointNm);//�삁�빟吏��젏 移섑솚
+													//contents = contents.replace("{지점}","");//�삁�빟吏��젏 移섑솚													
 													contents = contents.replace("{번호}",param.get("sndOrdernumber").toString());//�삁�빟踰덊샇 移섑솚
 													contents = contents.replace("{예약일}",reserveDay);//�삁�빟�씪 移섑솚
 													
@@ -1604,7 +1613,7 @@ public class ReserVationController extends GenericController {
 							        			pointnm = "고양";		        				
 						        			}		        			
 						        			
-						        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05")) {
+						        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05") || getReserveInfo2_2.get("POINT_CODE").equals("POINT07")) {
 							        			pointnm = "안성";		        				
 						        			}	
 						        			
@@ -2955,7 +2964,7 @@ public class ReserVationController extends GenericController {
 			        			pointnm = "고양";		        				
 		        			}		        			
 		        			
-		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05")) {
+		        			if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05") || getReserveInfo2_2.get("POINT_CODE").equals("POINT07")) {
 			        			pointnm = "안성";		        				
 		        			}	
 		        			

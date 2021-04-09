@@ -45,7 +45,7 @@ public class AdminReserVationController extends GenericController {
     @Resource(name="config")
     private Properties config;
 	//PG STORE CODE
-	//private String pg_store_code = "2001106041";//<!-- real ìƒì ì½”ë“œ 2001106041 --> <!-- test ìƒì •ì½”ë“œ  2999199999-->
+	//private String pg_store_code = "2001106041";//<!-- real »óÁ¡ÄÚµå 2001106041 --> <!-- test »óÁ¤ÄÚµå  2999199999-->
 	
 	@Autowired
 	ReservationService reservationService;
@@ -57,23 +57,23 @@ public class AdminReserVationController extends GenericController {
 	AdminAdminAuthService adminAdminAuthService;
 	
 	/*
-	 * ì˜ˆì•½ë‚´ì—­ íŒŒë¼ë¯¸í„° ëª¨ìŒ
-	 * page : í˜ì´ì§€, reserve_uid : ì˜ˆì•½ë²ˆí˜¸, category : ì¹´í…Œê³ ë¦¬, 
-	 * mem_nm : íšŒì›ëª…, mob_no : íšŒì›ì „í™”ë²ˆí˜¸, reserve_state : ì˜ˆì•½ìƒíƒœ, 
-	 * srch_reg_s : ë°©ë¬¸ì¼ ì‹œì‘, srch_reg_e : ë°©ë¬¸ì¼ ì¢…ë£Œ, mem_uid : íšŒì›ê³ ìœ ë²ˆí˜¸
+	 * ¿¹¾à³»¿ª ÆÄ¶ó¹ÌÅÍ ¸ğÀ½
+	 * page : ÆäÀÌÁö, reserve_uid : ¿¹¾à¹øÈ£, category : Ä«Å×°í¸®, 
+	 * mem_nm : È¸¿ø¸í, mob_no : È¸¿øÀüÈ­¹øÈ£, reserve_state : ¿¹¾à»óÅÂ, 
+	 * srch_reg_s : ¹æ¹®ÀÏ ½ÃÀÛ, srch_reg_e : ¹æ¹®ÀÏ Á¾·á, mem_uid : È¸¿ø°íÀ¯¹øÈ£
 	 */
 	protected String[] pageParamList = {"page","reserve_uid","category","mem_nm","mob_no", "reserve_state", "srch_reg_s", "srch_reg_e", "mem_uid"};
 		
 	
 	/*
-	 * ì˜ˆì•½ë‚´ì—­ ê´€ë¦¬ ëª©ë¡
+	 * ¿¹¾à³»¿ª °ü¸® ¸ñ·Ï
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/admin/reservation/index.af")
 	public String index(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		
 		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
-		//ì™¼ìª½ ë©”ë‰´
+		//¿ŞÂÊ ¸Ş´º
 		String sMenuCode = "1301";
 		model.addAttribute("sMenuCode", sMenuCode);
 		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
@@ -83,16 +83,16 @@ public class AdminReserVationController extends GenericController {
 		}
 		
 		int page = 0;
-		//-- xss ì²´í¬
+		//-- xss Ã¼Å©
 		param = Util.chkParam(pageParamList, param);
 
-		//í˜ì´ì§•
+		//ÆäÀÌÂ¡
 		page = (param.get("page") == null || "".equals(param.get("page").toString() ) ) ?  page = 1 : Util.getInt(param.get("page").toString());
 		if(page < 1){
 			page = 1;
 			param.put("page",String.valueOf(page));
 		}
-		//-- 16ì§„ìˆ˜ ë³€ê²½
+		//-- 16Áø¼ö º¯°æ
 		param = Util.setMapHex(param);		
 		
 		int totCnt = reservationService.reservationListCnt(param);
@@ -101,18 +101,18 @@ public class AdminReserVationController extends GenericController {
 		param.put("pageListSize", pageListSize);
 		param.put("page", String.valueOf(page));
 		
-		//ëª©ë¡ì¡°íšŒ	
+		//¸ñ·ÏÁ¶È¸	
 		List<Map> rList = reservationService.reservationList(param);
-		//ì½”ë“œ ì¡°íšŒ
+		//ÄÚµå Á¶È¸
 		List codeRSRVT_TYPE = super.getCommonCodes("RSRVT_TYPE");
-		//ì§€ì  ì¡°íšŒ
+		//ÁöÁ¡ Á¶È¸
 		List codePOINT_CODE = super.getCommonCodes("POINT_CODE");
-				
-		//ì´ˆê¸° ì§„ì… ì—¬ë¶€ ì²´í¬
+		
+		//ÃÊ±â ÁøÀÔ ¿©ºÎ Ã¼Å©
 		if(param.get("first") != null){
 			model.addAttribute("first", param.get("first").toString());	
 		}
-		// Util.pageParamMap2 ëŠ” post ë°©ì‹ìš©, Util.pageParamMap ëŠ” get ë°©ì‹ìš© (URLEncoder ë“¤ì–´ê°€ìˆìŒ)
+		// Util.pageParamMap2 ´Â post ¹æ½Ä¿ë, Util.pageParamMap ´Â get ¹æ½Ä¿ë (URLEncoder µé¾î°¡ÀÖÀ½)
 		model.addAttribute("resultParam", param);
 		model.addAttribute("totalCount", Util.numberFormat(totCnt));
 		model.addAttribute("pu", paging);
@@ -125,15 +125,15 @@ public class AdminReserVationController extends GenericController {
 	}
 	
 	/*
-	 * ì˜ˆì•½ì •ë³´ ë°”ë¡œë³´ê¸° ajax
-	 * jsp ë¥¼ return
+	 * ¿¹¾àÁ¤º¸ ¹Ù·Îº¸±â ajax
+	 * jsp ¸¦ return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/admin/reservation/ajax_res_view.af")
 	public String ajax_res_view(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
 		
-		//-- xss ì²´í¬
+		//-- xss Ã¼Å©
 		param = Util.chkParam(pageParamList, param);
 		
 		Map vo = reservationService.reservationDetail(param);
@@ -142,13 +142,13 @@ public class AdminReserVationController extends GenericController {
 		model.addAttribute("vo", vo);
  		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());
  		
-		//ê´€ë¦¬ì ì‚¬ìš©ê¸°ë¡ ë¡œê·¸ #############################################
-		String etc = vo.get("ORDER_NUM").toString()+"("+ vo.get("ORDER_NM").toString() +") ì—´ëŒ";;
+		//°ü¸®ÀÚ »ç¿ë±â·Ï ·Î±× #############################################
+		String etc = vo.get("ORDER_NUM").toString()+"("+ vo.get("ORDER_NM").toString() +") ¿­¶÷";;
 		Map logParam = new HashMap();
 		logParam.put("point_code", "POINT01");
 		logParam.put("action", "R");
 		/*logParam.put("data_num", param.get("reserve_uid"));*/
-		logParam.put("data_num", vo.get("MEM_NM").toString() + "íšŒì›ë‹˜ì˜ ì˜ˆì•½ì •ë³´ë¥¼ ì—´ëŒí•˜ì…¨ìŠµë‹ˆë‹¤.");
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "È¸¿ø´ÔÀÇ ¿¹¾àÁ¤º¸¸¦ ¿­¶÷ÇÏ¼Ì½À´Ï´Ù.");
 		logParam.put("data_url", "javascript: ajaxShowPopCont({ url : '"+request.getRequestURL().toString()+"' ,data : { reserve_uid : "+param.get("reserve_uid").toString()+"} });");
 		logParam.put("ins_ip", request.getRemoteAddr().toString());	
 		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
@@ -163,7 +163,7 @@ public class AdminReserVationController extends GenericController {
 	}
 	
 	/*
-	 * ì˜ˆì•½ì •ë³´ ë°”ë¡œë³´ê¸°íŒì—…ì—ì„œ ì‚¬ìš©ì²˜ë¦¬ ë²„íŠ¼ ajax
+	 * ¿¹¾àÁ¤º¸ ¹Ù·Îº¸±âÆË¾÷¿¡¼­ »ç¿ëÃ³¸® ¹öÆ° ajax
 	 */
 	@SuppressWarnings("unchecked")
 	@ResponseBody
@@ -171,25 +171,25 @@ public class AdminReserVationController extends GenericController {
 	public int resCompleteUse(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
 		
-		//-- xss ì²´í¬
+		//-- xss Ã¼Å©
 		param = Util.chkParam(pageParamList, param);
 		
 		param.put("upd_id", admin.get("SESSION_ADMIN_ID"));
-		// ì‚¬ìš©ì²˜ë¦¬
+		// »ç¿ëÃ³¸®
 		int result = reservationService.reservationUseChnge(param);
 		
-		//20180315 ì¶”ê°€
+		//20180315 Ãß°¡
 		Map vo = reservationService.reservationDetail(param);
 		
 		
-		//ê´€ë¦¬ì ì‚¬ìš©ê¸°ë¡ ë¡œê·¸ #############################################
-		String etc = param.get("order_num").toString()+"("+ param.get("order_nm").toString() +") ì˜ˆì•½ ì‚¬ìš©ì²˜ë¦¬ ìˆ˜ì •";;
+		//°ü¸®ÀÚ »ç¿ë±â·Ï ·Î±× #############################################
+		String etc = param.get("order_num").toString()+"("+ param.get("order_nm").toString() +") ¿¹¾à »ç¿ëÃ³¸® ¼öÁ¤";;
 		Map logParam = new HashMap();
 		logParam.put("point_code", "POINT01");
 		logParam.put("action", "U");
-		/*20180315 ìˆ˜ì • í™•ì¸í•˜ê³  ì§€ìš°ê¸°.
+		/*20180315 ¼öÁ¤ È®ÀÎÇÏ°í Áö¿ì±â.
 		 * logParam.put("data_num", param.get("reserve_uid"));*/
-		logParam.put("data_num", vo.get("MEM_NM").toString() + "íšŒì›ë‹˜ì˜ ì˜ˆì•½ ì‚¬ìš©ì²˜ë¦¬ ìˆ˜ì •");
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "È¸¿ø´ÔÀÇ ¿¹¾à »ç¿ëÃ³¸® ¼öÁ¤");
 		logParam.put("data_url", "javascript: ajaxShowPopCont({ url : '"+request.getRequestURL().toString()+"' ,data : { reserve_uid : "+param.get("reserve_uid").toString()+"} });");
 		logParam.put("ins_ip", request.getRemoteAddr().toString());	
 		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
@@ -204,19 +204,19 @@ public class AdminReserVationController extends GenericController {
 	}
 	
 	/*
-	 * ì˜ˆì•½ë‚´ì—­ ìˆ˜ì • ì´ë™
+	 * ¿¹¾à³»¿ª ¼öÁ¤ ÀÌµ¿
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/admin/reservation/res_edit.af")
 	public String res_edit(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
 		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
-		//ì™¼ìª½ ë©”ë‰´
+		//¿ŞÂÊ ¸Ş´º
 		String sMenuCode = "1301";
 		model.addAttribute("sMenuCode", sMenuCode);
 		if(adminAdminAuthService.adminAuthGetIsAuthUse(admin.get("SESSION_ADMIN_UID").toString(), sMenuCode, response) == 0) return null; 
 		
-		//-- xss ì²´í¬
+		//-- xss Ã¼Å©
 		param = Util.chkParam(pageParamList, param);
 		model.addAttribute("resultParam", Util.pageParamMap2(pageParamList, param) );
 		
@@ -230,10 +230,10 @@ public class AdminReserVationController extends GenericController {
 		
 		int compareVal = Integer.parseInt(pgResultInfo.get("TR_NO").toString().substring(0,1));		
 		switch (compareVal) {
-		case 1: r_TYPE = "ì¹´ë“œ";authty = "1010";
+		case 1: r_TYPE = "Ä«µå";authty = "1010";
 			break;
-		case 2: r_TYPE = "ì‹¤ì‹œê°„ê³„ì¢Œì´ì²´";
-			//ë‹¹ì¼ ì—¬ë¶€ ì²´í¬
+		case 2: r_TYPE = "½Ç½Ã°£°èÁÂÀÌÃ¼";
+			//´çÀÏ ¿©ºÎ Ã¼Å©
 			Date toDay = new Date();
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy.MM.dd");
 			String toDayToString = transFormat.format(toDay).trim();
@@ -245,7 +245,7 @@ public class AdminReserVationController extends GenericController {
 			}else{
 				authty = "2030";
 			}
-			logger.debug("############## ì‹¤ì‹œê°„ê³„ì¢Œì´ì²´ ì·¨ì†Œ ì½”ë“œê°’>> authty : " + authty);
+			logger.debug("############## ½Ç½Ã°£°èÁÂÀÌÃ¼ Ãë¼Ò ÄÚµå°ª>> authty : " + authty);
 			break;
 		case 4: r_TYPE = "SSG PAY";authty = "4110";
 			break;				
@@ -256,19 +256,19 @@ public class AdminReserVationController extends GenericController {
 		pgResultInfo.put("pgStore", config.getProperty("pg.store.code"));	
 		model.addAttribute("pgResultInfo", pgResultInfo);
 		
-		//ì½”ë“œ ì¡°íšŒ
+		//ÄÚµå Á¶È¸
 		List codeRSRVT_TYPE = super.getCommonCodes("RSRVT_TYPE");
 		model.addAttribute("codeRSRVT_TYPE", codeRSRVT_TYPE);	
- 		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());//íšŒì› on/off ê´€ë ¨
+ 		model.addAttribute("MEMINFOYN", admin.get("SESSION_MEMINFOYN").toString());//È¸¿ø on/off °ü·Ã
  		
-		//ê´€ë¦¬ì ì‚¬ìš©ê¸°ë¡ ë¡œê·¸ #############################################
-		String etc = vo.get("ORDER_NUM").toString()+"("+ vo.get("ORDER_NM").toString() +") ì—´ëŒ";;
+		//°ü¸®ÀÚ »ç¿ë±â·Ï ·Î±× #############################################
+		String etc = vo.get("ORDER_NUM").toString()+"("+ vo.get("ORDER_NM").toString() +") ¿­¶÷";;
 		Map logParam = new HashMap();
 		logParam.put("point_code", "POINT01");
 		logParam.put("action", "R");
-		/* 20180315 ìˆ˜ì •
+		/* 20180315 ¼öÁ¤
 		 * logParam.put("data_num", param.get("reserve_uid"));*/
-		logParam.put("data_num", vo.get("MEM_NM").toString() + "íšŒì›ë‹˜ì˜ ì •ë³´ ìˆ˜ì •í˜ì´ì§€ ì—´ëŒ");
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "È¸¿ø´ÔÀÇ Á¤º¸ ¼öÁ¤ÆäÀÌÁö ¿­¶÷");
 		logParam.put("data_url", request.getRequestURL().toString()+"?reserve_uid="+param.get("reserve_uid").toString());
 		logParam.put("ins_ip", request.getRemoteAddr().toString());	
 		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
@@ -284,7 +284,7 @@ public class AdminReserVationController extends GenericController {
 	
 	
 	/*
-	 * ì˜ˆì•½ë‚´ì—­ ìˆ˜ì •í˜ì´ì§€ ìˆ˜ì • action ajax
+	 * ¿¹¾à³»¿ª ¼öÁ¤ÆäÀÌÁö ¼öÁ¤ action ajax
 	 */
 	@SuppressWarnings("unchecked")
 	@ResponseBody
@@ -292,24 +292,24 @@ public class AdminReserVationController extends GenericController {
 	public int res_update(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		Map<String,String> admin = (Map)request.getSession().getAttribute(CommonConstant.session.SESSION_KEY_ADMIN);
 		
-		//-- xss ì²´í¬
+		//-- xss Ã¼Å©
 		param = Util.chkParam(pageParamList, param);
 		
 		param.put("upd_id", admin.get("SESSION_ADMIN_ID"));
-		// ì˜ˆì•½ë‚´ìš© ìˆ˜ì •
+		// ¿¹¾à³»¿ë ¼öÁ¤
 		int result = reservationService.reservationUpdate(param);
 		
-		//20180315 ì¶”ê°€
+		//20180315 Ãß°¡
 		Map vo = reservationService.reservationDetail(param);
 		
-		//ê´€ë¦¬ì ì‚¬ìš©ê¸°ë¡ ë¡œê·¸ #############################################
-		String etc = param.get("order_num").toString()+"("+ param.get("order_nm").toString() +") ì˜ˆì•½ ìˆ˜ì •";;
+		//°ü¸®ÀÚ »ç¿ë±â·Ï ·Î±× #############################################
+		String etc = param.get("order_num").toString()+"("+ param.get("order_nm").toString() +") ¿¹¾à ¼öÁ¤";;
 		Map logParam = new HashMap();
 		logParam.put("point_code", "POINT01");
 		logParam.put("action", "U");
-		/* 20180315 ìˆ˜ì •ì¤‘
+		/* 20180315 ¼öÁ¤Áß
 		 * logParam.put("data_num", param.get("reserve_uid"));*/
-		logParam.put("data_num", vo.get("MEM_NM").toString() + "íšŒì›ë‹˜ì˜ ì˜ˆì•½ë‚´ì—­ ìˆ˜ì • í•˜ì…¨ìŠµë‹ˆë‹¤.");
+		logParam.put("data_num", vo.get("MEM_NM").toString() + "È¸¿ø´ÔÀÇ ¿¹¾à³»¿ª ¼öÁ¤ ÇÏ¼Ì½À´Ï´Ù.");
 		logParam.put("data_url", "javascript: ajaxShowPopCont({ url : '"+request.getRequestURL().toString()+"' ,data : { reserve_uid : "+param.get("reserve_uid").toString()+"} });");
 		logParam.put("ins_ip", request.getRemoteAddr().toString());	
 		logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
@@ -324,7 +324,7 @@ public class AdminReserVationController extends GenericController {
 	}
 	
 	/*
-	 * ê²€ìƒ‰ê°’ì— ì˜í•œ ì—‘ì…€ ë‹¤ìš´ë¡œë“œ
+	 * °Ë»ö°ª¿¡ ÀÇÇÑ ¿¢¼¿ ´Ù¿î·Îµå
 	 */
 	@RequestMapping("/admin/reservation/res_excel_down.af")
 	public @ResponseBody byte[] res_excel_down(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response ) throws UnsupportedEncodingException{
@@ -335,22 +335,22 @@ public class AdminReserVationController extends GenericController {
 		List<List<Object>> data = new ArrayList<List<Object>>();		
 		int i = 0;
 		
-		//-- 16ì§„ìˆ˜ ë³€ê²½
+		//-- 16Áø¼ö º¯°æ
 		param = Util.setMapHex(param);
-		//í˜ì´ì§• ì—†ëŠ” ëª©ë¡ì¶”ì¶œ
+		//ÆäÀÌÂ¡ ¾ø´Â ¸ñ·ÏÃßÃâ
 		List<Map> rList = reservationService.reservationListAll(param);
 		
 		try{
-			//-- ì œëª© ì„¤ì •
-			header.add("ê²°ì œì¼");
-			header.add("ì§€ì ");
-			header.add("ì˜ˆì•½ë²ˆí˜¸");
-			header.add("íšŒì›ëª…");
-			header.add("íœ´ëŒ€í°ë²ˆí˜¸");
-			header.add("ì„ íƒìƒí’ˆ");
-			header.add("ì´");
-			header.add("ì˜ˆì•½ì¼");
-			header.add("ìƒíƒœ");
+			//-- Á¦¸ñ ¼³Á¤
+			header.add("°áÁ¦ÀÏ");
+			header.add("ÁöÁ¡");
+			header.add("¿¹¾à¹øÈ£");
+			header.add("È¸¿ø¸í");
+			header.add("ÈŞ´ëÆù¹øÈ£");
+			header.add("¼±ÅÃ»óÇ°");
+			header.add("ÃÑ");
+			header.add("¿¹¾àÀÏ");
+			header.add("»óÅÂ");
 			
 			for(Map map : rList){
 				List<Object> obj = new ArrayList<Object>();
@@ -358,7 +358,7 @@ public class AdminReserVationController extends GenericController {
 				obj.add(map.get("POINT_NM"));
 				obj.add(map.get("ORDER_NUM"));
 				
-				//20160830 ê¹€ë¯¼ì£¼ ì¶”í›„ ê¶Œí•œ ë ˆë²¨ì— ë”°ë¼ ë§ˆìŠ¤í¬ í•œê±° ì“¸ì§€ ì•ˆí•œê±° ì“¸ì§€ ì„ íƒí•˜ëŠ” ë¡œì§ ì¶”ê°€ë˜ì•¼í•¨
+				//20160830 ±è¹ÎÁÖ ÃßÈÄ ±ÇÇÑ ·¹º§¿¡ µû¶ó ¸¶½ºÅ© ÇÑ°Å ¾µÁö ¾ÈÇÑ°Å ¾µÁö ¼±ÅÃÇÏ´Â ·ÎÁ÷ Ãß°¡µÇ¾ßÇÔ
 				String nm = (String)map.get("MEM_NM");
 				String nm2 = "";
 				if(nm.length() > 2){
@@ -384,7 +384,7 @@ public class AdminReserVationController extends GenericController {
 				}
 				
 				obj.add(map.get("ORDER_NM"));
-				obj.add(map.get("TOTNUM") +" ëª…");
+				obj.add(map.get("TOTNUM") +" ¸í");
 				obj.add(map.get("RESERVE_DATE"));
 				obj.add(map.get("RESERVE_STATE_NM"));
 				
@@ -393,44 +393,44 @@ public class AdminReserVationController extends GenericController {
 			
 			ExcelUtil excelUtil = new ExcelUtil();
 			byte[] bytes = excelUtil.makeXlsx(header, data);
-			response.setHeader("Content-Disposition", "attachment; filename=" + Util.encodeString("ì˜ˆì•½ë‚´ì—­") + "_" + Util.getTodayTime() + ".xlsx");
+			response.setHeader("Content-Disposition", "attachment; filename=" + Util.encodeString("¿¹¾à³»¿ª") + "_" + Util.getTodayTime() + ".xlsx");
 			response.setContentLength(bytes.length);
 			response.setContentType("application/vnd.ms-excel");
 			
 			
 			String status = "";
 			if(param.get("reserve_state").equals("ING")) {
-				status = "ì˜ˆì•½";
+				status = "¿¹¾à";
 			} else if(param.get("reserve_state").equals("USE")) {
-				status = "ì´ìš©ì™„ë£Œ";
+				status = "ÀÌ¿ë¿Ï·á";
 			} else if(param.get("reserve_state").equals("NOUSE")) {
-				status = "ë¯¸ì‚¬ìš©";
+				status = "¹Ì»ç¿ë";
 			} else if(param.get("reserve_state").equals("CANCEL")) {
-				status = "ì •ìƒì·¨ì†Œ";
+				status = "Á¤»óÃë¼Ò";
 			} else if(param.get("reserve_state").equals("FCANCEL")) {
-				status = "ìœ„ì•½ì·¨ì†Œ";
+				status = "À§¾àÃë¼Ò";
 			} else if(param.get("reserve_state").equals("NOPMT")) {
-				status = "ì˜ˆì•½ëŒ€ê¸°";
+				status = "¿¹¾à´ë±â";
 			} else {
-				status = "ì„ íƒì•ˆí•¨";
+				status = "¼±ÅÃ¾ÈÇÔ";
 			}
 			
 			String name = "";
 			if(param.get("mem_nm").equals("") || param.get("mem_nm").equals(null)) {
 				name = "";
 			} else {
-				name = "íšŒì›ëª… : "+ param.get("mem_nm");
+				name = "È¸¿ø¸í : "+ param.get("mem_nm");
 			}
 			
-			//ê´€ë¦¬ì ì‚¬ìš©ê¸°ë¡ ë¡œê·¸ #############################################
-			String etc = "ì—‘ì…€ë‹¤ìš´ë¡œë“œ";
+			//°ü¸®ÀÚ »ç¿ë±â·Ï ·Î±× #############################################
+			String etc = "¿¢¼¿´Ù¿î·Îµå";
 			Map logParam = new HashMap();
 			logParam.put("point_code", "POINT01");
 			logParam.put("action", "E");
-			/* 20180315 ìˆ˜ì •ì¤‘
+			/* 20180315 ¼öÁ¤Áß
 			 logParam.put("data_num", param.get("reserve_uid"));*/
 			
-			logParam.put("data_num", "ì—‘ì…€ì„ ë‹¤ìš´ë°›ìœ¼ì…¨ìŠµë‹ˆë‹¤. [ê²€ìƒ‰ë‚´ìš©] ìƒíƒœ : " + status +", ë°©ë¬¸ì¼ : " + param.get("srch_reg_s") + "~" + param.get("srch_reg_e"));
+			logParam.put("data_num", "¿¢¼¿À» ´Ù¿î¹ŞÀ¸¼Ì½À´Ï´Ù. [°Ë»ö³»¿ë] »óÅÂ : " + status +", ¹æ¹®ÀÏ : " + param.get("srch_reg_s") + "~" + param.get("srch_reg_e"));
 			logParam.put("data_url", request.getRequestURL().toString()+"?reserve_uid="+param.get("reserve_uid").toString());
 			logParam.put("ins_ip", request.getRemoteAddr().toString());	
 			logParam.put("ins_admin_id", admin.get("SESSION_ADMIN_ID"));	
