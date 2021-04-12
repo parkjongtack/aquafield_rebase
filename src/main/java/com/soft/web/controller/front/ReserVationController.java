@@ -656,15 +656,36 @@ public class ReserVationController extends GenericController {
 		JSONObject rsDataObject = (JSONObject) jsonParser.parse(rsData);
 		String strPoint = (String)rsDataObject.get("pointCode");
 		String strPointNm = (String)rsDataObject.get("pointNm");
+		/*
+		Map param_set1 = new HashMap<>();
+		param_set1.put("reserve_uid", Integer.parseInt(param.get("reserveUid").toString()));
 		
-		if(strPoint.equals("POINT01")) {
+		Map getReserveInfo = frontReservationService.getReserveInfoNew(param_set1);		
+		
+		if(getReserveInfo.get("POINT_CODE").equals("POINT01")) {
 			strPointNm = "하남";
-		} else if(strPoint.equals("POINT03")) {
+		} else if(getReserveInfo.get("POINT_CODE").equals("POINT03")) {
 			strPointNm = "고양";
-		} else if(strPoint.equals("POINT05") || strPoint.equals("POINT07")) {
+		} else if(getReserveInfo.get("POINT_CODE").equals("POINT05") || getReserveInfo.get("POINT_CODE").equals("POINT07")) {
 			strPointNm = "안성";
 		}
+		*/
+		int intUid2_2 = Integer.parseInt(param.get("reserveUid").toString());
+		Map getReserveInfo2_2 = frontReservationService.getReserveInfo(intUid2_2); //�삁�빟�젙蹂� 媛��졇�삤湲�								
+
+		if(getReserveInfo2_2.get("POINT_CODE").equals("POINT01")) {
+			strPointNm = "하남";
+		} else if(getReserveInfo2_2.get("POINT_CODE").equals("POINT03")) {
+			strPointNm = "고양";
+		} else if(getReserveInfo2_2.get("POINT_CODE").equals("POINT05") || getReserveInfo2_2.get("POINT_CODE").equals("POINT07")) {
+			strPointNm = "안성";
+		}		
+
+		strPoint = getReserveInfo2_2.get("POINT_CODE").toString();		
 		
+		if(strPoint.equals("POINT07")) {
+			strPoint = "POINT05";
+		}
 		
 		//System.out.println(session.getAttribute("MEM_INFO"));
 		
@@ -867,9 +888,9 @@ public class ReserVationController extends GenericController {
 													//}
 													//sms �삤瑜� : lms臾몄옄 蹂대궪�븣 subject�뿉 媛믪씠 �뾾�뼱�꽌 �굹�뜕 �삤瑜� �엯�땲�떎. 
 													parameters.put("subject", "[아쿠필드예약안내]");
-													parameters.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)		
-													/*parameters.put("callback", config.getProperty("sms.tel.number."+strPoint)); // 諛쒖떊踰덊샇 */
-													parameters.put("callback", "031-8072-8800"); //諛쒖떊踰덊샇
+													parameters.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)	
+													parameters.put("callback", config.getProperty("sms.tel.number."+strPoint)); // 諛쒖떊踰덊샇 
+													//parameters.put("callback", "031-8072-8800"); //諛쒖떊踰덊샇
 
 													parameters.put("reserve_uid", memberInfo.get("MEM_ID").toString());
 													
@@ -1621,6 +1642,8 @@ public class ReserVationController extends GenericController {
 											contents = contents.replace("{번호}",getReserveInfo2_2.get("ORDER_NUM").toString());//�삁�빟踰덊샇 移섑솚
 											contents = contents.replace("{예약일}",getReserveInfo2_2.get("RESERVE_DATE").toString());//�삁�빟�씪 移섑솚	  											
 											
+											strPoint = getReserveInfo2_2.get("POINT_CODE").toString();											
+											
 											/*
 											Map memberInfo2 = (Map) session.getAttribute("MEM_INFO");
 											
@@ -1644,8 +1667,8 @@ public class ReserVationController extends GenericController {
 											//parameters.put("recipient_num", memberInfo.get("MOBILE_NUM")); // �닔�떊踰덊샇
 											//param.put("subject", "[�븘荑좎븘�븘�뱶]�삁�빟�솗�씤臾몄옄�엯�땲�떎.");
 											parameters.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)		
-											parameters.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
-											//parameters.put("callback", config.getProperty("sms.tel.number."+strPoint)); // 諛쒖떊踰덊샇
+											//parameters.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
+											parameters.put("callback", config.getProperty("sms.tel.number."+strPoint)); // 諛쒖떊踰덊샇
 											
 											if(!smsService.sendSms(parameters)){
 												html = "alert('처리중 에러가 발생하였습니다.(문자)');popFn.close();";
@@ -2576,6 +2599,8 @@ public class ReserVationController extends GenericController {
 			        			pointnm = "안성";		        				
 		        			}	
 		        			
+		        			//strPoint = getReserveInfo2_2.get("POINT_CODE").toString();		        			
+		        			
 							contents = contents.replace("{지점}",pointnm);//�삁�빟踰덊샇 移섑솚
 							contents = contents.replace("{번호}",getReserveInfo2_2.get("ORDER_NUM").toString());//�삁�빟踰덊샇 移섑솚
 							contents = contents.replace("{예약일}",getReserveInfo2_2.get("RESERVE_DATE").toString());//�삁�빟�씪 移섑솚	                	
@@ -2593,8 +2618,8 @@ public class ReserVationController extends GenericController {
 		        			//params.put("recipient_num", cancelParams.get("phoneNo")); // �닔�떊踰덊샇
 		        			//param.put("subject", "[�븘荑좎븘�븘�뱶]�삁�빟痍⑥냼臾몄옄�엯�땲�떎."); // LMS�씪寃쎌슦 �젣紐⑹쓣 異붽� �븷 �닔 �엳�떎.
 		        			params.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)		
-		        			params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
-		        			//params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇		        			
+		        			//params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
+		        			params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇		        			
 		        			//params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇
 		        			
 		        			if(!smsService.sendSms(params)){
@@ -2772,8 +2797,8 @@ public class ReserVationController extends GenericController {
 		        			params.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)
 		        			//吏��젙�닔�웾�씠 紐⑤몢 �뙋留ㅻ릺�뼱 �옄�룞 痍⑥냼�릺�뿀�뒿�땲�떎.
 		        			
-		        			params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
-		        			//params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇
+		        			//params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
+		        			params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇
 		        			
 		        			if(!smsService.sendSms(params)){
 		        				html = "예약취소중 에러가 발생하였습니다.(문자)";
@@ -2985,8 +3010,8 @@ public class ReserVationController extends GenericController {
 		        			//params.put("recipient_num", cancelParams.get("phoneNo")); // �닔�떊踰덊샇
 		        			//param.put("subject", "[�븘荑좎븘�븘�뱶]�삁�빟痍⑥냼臾몄옄�엯�땲�떎."); // LMS�씪寃쎌슦 �젣紐⑹쓣 異붽� �븷 �닔 �엳�떎.
 		        			params.put("content", contents); // �궡�슜 (SMS=88Byte, LMS=2000Byte)		
-		        			params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
-		        			//params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇		        			
+		        			//params.put("callback", "031-8072-8800"); // 諛쒖떊踰덊샇
+		        			params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇		        			
 		        			//params.put("callback", config.getProperty("sms.tel.number."+cancelParams.get("pointCode").toString())); // 諛쒖떊踰덊샇							
 							
 		        			if(!smsService.sendSms(params)){
