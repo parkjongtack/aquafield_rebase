@@ -15,6 +15,7 @@
 					                <li><div><img src="../common/front/images/ico/ico_signup_step4.png" alt="가입완료"></div><span>가입완료</span></li>
 					            </ul>
 					        </div>
+					        
 							<span class="necessary" style="color: #D96C77; float: right;">* 필수항목</span>
 					        <form id="step01" name="step01" action="" method="post">
 								<input type="hidden" name="obj" value="">
@@ -23,6 +24,19 @@
 								<input type="hidden" name="objBirth" value="">
 								<input type="hidden" name="objMNum" value="">
 						   		<input type="hidden" name="point" value="POINT01">
+						   		<input type="hidden" name="young_people_check" value="N">
+						   		<input type="hidden" name="general_people_check" value="N">
+						   		<input type="hidden" name="young_age_status" value="N" >
+						   		<input type="hidden" name="adult_age_status" value="N" >						   		
+						   		<input type="hidden" name="young_age_set" >
+						   		<input type="hidden" name="adult_age_set" >	
+						   		
+						   		<input type="hidden" name="young_obj" >	
+						   		<input type="hidden" name="young_objName" >
+						   		<input type="hidden" name="young_objGender" >
+						   		<input type="hidden" name="young_objBirth" >
+						   		<input type="hidden" name="young_objMNum" >							   		
+						   						   								   								   		
 					            <div class="area_terms">
 					                <div class="bx_term">
 					                    <h3 class="chk_motion lst_check3">
@@ -346,12 +360,41 @@
 					            </dd>
 					        </dl>
 					    </div>
+					    <div class="btn_group" >
+							<a href="javascript:goJoinStpe2();" class="btn s_blue" style="width:95%;font-size:17px;">
+								<div style="font-weight:1000;display:inline-block;">일반 회원</div>
+								<div style="display:inline-block;">
+									(만14세 이상) 휴대폰 인증
+								</div>
+							</a>
+						</div>
+						<div class="btn_group" style="width:100%;margin:10px 0 10px; 0;">
+							* 어린이 회원 본인인증
+						</div>
+						<div class="btn_group">
+							<a href="javascript:goJoinStpe0();" class="btn gray" style="width:43%;line-height:1.2em;height:4.500em;padding-top:15px;background-color:red;display:inline-block;">
+								<div style="font-weight:1000;">어린이 회원</div>
+								<div>(14세미만 인증)</div>
+								<div>휴대폰 인증</div>
+							</a>
+							<a href="javascript:goJoinStpe1();" class="btn gray" style="width:43%;line-height:1.2em;height:4.500em;padding-top:15px;background-color:red;display:inline-block;">
+								<div style="font-weight:1000;">법정대리인</div>
+								<div>(보호자)</div>
+								<div>휴대폰 인증</div>
+							</a>
+						</div>
+						
+						<!-- 
+					    <a href="javascript:goStep2Process();">[다음진행]</a>
+					    
 						<div class="btn_group">
 							<a href="javascript:goJoinStpe2();" class="btn gray">확인</a>
 							<a href="/member/loginMain.af" class="btn s_blue">취소</a>
 						</div>
+						 -->
 		
 		<script type="text/javascript">
+		    
 		    setChkAndRadio();
 		    $("#chkAllTerm").click(function(){
 		        var inputs = $('input[name="chkTerm"], input[name="chkTermOptSMS"], input[name="chkTermOptMarketing"], input[name="chkTerm2"]');
@@ -366,6 +409,74 @@
 		    }
 			
 		    /* 약관 및 실명인증 */
+		    function goJoinStpe0() {
+				var inputs = $('input[name="chkTerm"]'), len = inputs.length;
+				var cnt = 0;
+				for (var i = 0 ; i < len ; i++) {
+					if(inputs.eq(i).prop('checked')) cnt++;
+				}
+				if (len > cnt) {
+					alert('약관을 확인해주세요.');
+					return;
+				}
+
+				if(document.step01.young_age_status.value == "Y") {
+					alert("이미 14세미만 인증을 진행하셨습니다.");
+					return;
+				}				
+				
+				//실명 인증
+		        if($('div.content.on #certPhone').length > 0) {
+		            if($('#certPhone').is(':checked')) {
+		            	certiJoin0('checkplus','/member/checkplus.sf');		            	
+		                //_this.realNameCert();
+		            } else if($('#certIpin').is(':checked')) {
+		            	certiJoin('ipin','/member/ipin.af');
+		                //_this.realNameCert();
+		            } else {
+		                alert('실명 인증 방법을 선택해주세요.');
+		                return;
+		            }
+		        } else {
+		           //memberPop.addCont({url: "/member/signupStep2.af"});
+		        }
+			};		    
+		    
+		    /* 약관 및 실명인증 */
+		    function goJoinStpe1() {
+				var inputs = $('input[name="chkTerm"]'), len = inputs.length;
+				var cnt = 0;
+				for (var i = 0 ; i < len ; i++) {
+					if(inputs.eq(i).prop('checked')) cnt++;
+				}
+				if (len > cnt) {
+					alert('약관을 확인해주세요.');
+					return;
+				}
+				
+				if(document.step01.young_age_status.value != "Y") {
+					alert("14세미만 인증을 먼저 진행해주세요.");
+					return;
+				}
+				
+				//실명 인증
+		        if($('div.content.on #certPhone').length > 0) {
+		            if($('#certPhone').is(':checked')) {
+		            	certiJoin1('checkplus','/member/checkplus.sf');
+		                //_this.realNameCert();
+		            } else if($('#certIpin').is(':checked')) {
+		            	certiJoin('ipin','/member/ipin.af');
+		                //_this.realNameCert();
+		            } else {
+		                alert('실명 인증 방법을 선택해주세요.');
+		                return;
+		            }
+		        } else {
+		           //memberPop.addCont({url: "/member/signupStep2.af"});
+		        }
+			};					
+			
+		    /* 약관 및 실명인증 */
 		    function goJoinStpe2() {
 				var inputs = $('input[name="chkTerm"]'), len = inputs.length;
 				var cnt = 0;
@@ -373,13 +484,19 @@
 					if(inputs.eq(i).prop('checked')) cnt++;
 				}
 				if (len > cnt) {
-					alert('약관을 체크를 확인해주세요.');
+					alert('약관을 확인해주세요.');
 					return;
 				}
+				
+				if(document.step01.young_people_check.value == "Y") {
+					alert("14세 미만 회원가입을 시도하셨습니다. 일반 회원 가입을 원하실 경우 새로고침해주세요.");
+					return;
+				}
+				
 				//실명 인증
 		        if($('div.content.on #certPhone').length > 0) {
 		            if($('#certPhone').is(':checked')) {
-		            	certiJoin('checkplus','/member/checkplus.sf');
+		            	certiJoin2('checkplus','/member/checkplus.sf');
 		                //_this.realNameCert();
 		            } else if($('#certIpin').is(':checked')) {
 		            	certiJoin('ipin','/member/ipin.af');
@@ -406,21 +523,97 @@
 			   		,url : url
 			   		,dataType : "html"
 			   		,success: function(obj){
-							if(type == "ipin"){
-								document.form_ipin.enc_data.value = obj;
-								fnIpinPopup();
-							}else{
-								document.form_chk.EncodeData.value = obj;
-								fnPopup();
-							}
+						if(type == "ipin"){
+							document.form_ipin.enc_data.value = obj;
+							fnIpinPopup();
+						}else{
+							document.form_chk.EncodeData.value = obj;
+							fnPopup();
+						}
 			   		}
 			   		,error: function(xhr, option, error){
 			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
 			   		}
 		   		});
 		    };
+		    
+		    function certiJoin0(type,url){
+		    	$.ajax({
+			   		async: false
+			   		,type: "post"
+			   		,url : url
+			   		,dataType : "html"
+			   		,success: function(obj){
+						if(type == "ipin"){
+							document.form_ipin.enc_data.value = obj;
+							fnIpinPopup();
+						}else{
+	        	
+				        	document.step01.young_age_status.value = "T";
+							
+							document.form_chk.EncodeData.value = obj;
+							fnPopup();
+														
+						}
+			   		}
+			   		,error: function(xhr, option, error){
+			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
+			   		}
+		   		});
+		    };		    
 
+		    function certiJoin1(type,url){
+		    	$.ajax({
+			   		async: false
+			   		,type: "post"
+			   		,url : url
+			   		,dataType : "html"
+			   		,success: function(obj){
+						if(type == "ipin"){
+							document.form_ipin.enc_data.value = obj;
+							fnIpinPopup();
+						}else{
+	        	
+				        	document.step01.adult_age_status.value = "T";
+							
+							document.form_chk.EncodeData.value = obj;
+							fnPopup();
+														
+						}
+			   		}
+			   		,error: function(xhr, option, error){
+			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
+			   		}
+		   		});
+		    };				    
 		   
+		    function certiJoin2(type,url){
+		    	$.ajax({
+			   		async: false
+			   		,type: "post"
+			   		,url : url
+			   		,dataType : "html"
+			   		,success: function(obj){
+						if(type == "ipin"){
+							document.form_ipin.enc_data.value = obj;
+							fnIpinPopup();
+						}else{
+	        	
+
+							document.step01.general_people_check.value = "Y";
+				        	document.step01.adult_age_status.value = "T";
+							
+							document.form_chk.EncodeData.value = obj;
+							fnPopup();
+														
+						}
+			   		}
+			   		,error: function(xhr, option, error){
+			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
+			   		}
+		   		});
+		    };		    
+		    
 		   function gotoNext(obj){
 			   var result = jQuery.parseJSON(obj);
 
@@ -430,29 +623,116 @@
 			   document.step01.objBirth.value = result.sBirth;
 			   document.step01.objMNum.value = result.sMobileNumber;
 			   
+			   if(document.step01.general_people_check.value == "Y") {
+				   
+				   document.step01.young_people_check.value = "N";
+				   document.step01.young_age_status.value = "N";
+				   document.step01.adult_age_status.value = "N";
+			   				   
+			   } 			   
 			   
-				var formData = $("#step01").serialize();
+			   if(document.step01.young_age_status.value == "T" && document.step01.adult_age_status.value != "T" && document.step01.adult_age_status.value == "N" && document.step01.general_people_check.value == "N") {
+				   
+				    var return_birth = document.step01.objBirth.value;
+				    
+				    var return_birth_array = return_birth.split(".");
+				    
+				    const today = new Date();
+				    const birthDate = new Date(return_birth_array[0], return_birth_array[1], return_birth_array[2]); // 2000년 8월 10일
 
-		    	$.ajax({
-			   		async: false
-			   		,type: "post"
-			   		,url : '/member/duplicateChk.af'
-			   		,data: formData
-			   		,dataType : "html"
-			   		,success: function(obj){
-						$("#bx_signup_step").append(obj);
-			   		}
-			   		,error: function(xhr, option, error){
-			   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
-			   		}
-		   		});
-		   		
+				    let age = today.getFullYear() - birthDate.getFullYear();
+				    const m = today.getMonth() - birthDate.getMonth();
+				    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+				        age--;
+				    }
+		        	
+		        	if(age < 14) {
+		        		document.step01.young_age_status.value = "Y";
+		        	} else {
+		        		alert("해당 회원은 14세미만이 아닙니다.");
+		        		return;
+		        	}
+
+	        		document.step01.young_age_set.value = age;		        	
+			   		
+	 			   document.step01.young_obj.value = result.sDupInfo;
+				   document.step01.young_objName.value = result.sName;
+				   document.step01.young_objGender.value = result.sGender;
+				   document.step01.young_objBirth.value = result.sBirth;
+				   document.step01.young_objMNum.value = result.sMobileNumber;
+				   
+				   document.step01.adult_age_status.value = "N";
+				   document.step01.general_people_check.value = "N";
+	        	   
+				   alert("14세 미만 인증되었습니다. 보호자 인증이 완료되어야 회원으로 가입됩니다.");				   
+			   }
+			   
+			   if(document.step01.adult_age_status.value == "T") {
+				   
+				    var return_birth = document.step01.objBirth.value;
+				    
+				    var return_birth_array = return_birth.split(".");
+				    
+				    const today = new Date();
+				    const birthDate = new Date(return_birth_array[0], return_birth_array[1], return_birth_array[2]); // 2000년 8월 10일
+
+				    let age = today.getFullYear() - birthDate.getFullYear();
+				    const m = today.getMonth() - birthDate.getMonth();
+				    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+				        age--;
+				    }
+		        	
+	        		document.step01.adult_age_status.value = "Y";
+
+	        		document.step01.young_people_check.value = "Y";
+	        		
+	        		document.step01.adult_age_set.value = age;		        	
+			   		
+	 			    document.step01.obj.value = document.step01.young_obj.value;
+				    document.step01.objName.value = document.step01.young_objName.value;
+				    document.step01.objGender.value = document.step01.young_objGender.value;
+				    document.step01.objBirth.value = document.step01.young_objBirth.value;
+				    document.step01.objMNum.value = document.step01.young_objMNum.value;
+				    
+				    document.step01.general_people_check.value = "N";				    
+	        						    
+				    goStep2Process();
+			   }  
+			   
+
+			   
+			   if(document.step01.adult_age_status.value != "Y") {
+					
+				    var formData = $("#step01").serialize();
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0
+			    	$.ajax({
+				   		async: false
+				   		,type: "post"
+				   		,url : '/member/duplicateChk.af'
+				   		,data: formData
+				   		,dataType : "html"
+				   		,success: function(obj){
+							$("#bx_signup_step").append(obj);
+				   		}
+				   		,error: function(xhr, option, error){
+				   			alert("에러가 발생했습니다. 잠시 후에 다시하세요.");
+				   		}
+			   		});
+
+			   };
 		   };
 
 		   function goStep2(){
+			   if(document.step01.young_people_check.value == "Y" || document.step01.general_people_check.value == "Y") {
+				   $('#step01').attr('action', '/member/joinStep2.af');
+				   $('#step01').submit();				   
+			   }
+		   }
+		   
+		   function goStep2Process(){
 			   $('#step01').attr('action', '/member/joinStep2.af');
 			   $('#step01').submit();
-		   }
+		   }		   
 		   
 		   $(".section.main").height();
 		</script>
@@ -502,3 +782,4 @@
 	</div>
 	
 	
+ㅡ

@@ -188,12 +188,12 @@ public class MemberController extends GenericController {
 		String result = frontMemberService.setInactivityUpd(parameter);
 		
 		if("SETOK".equals(result)){
-			/*String message = "ì •ìƒì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.";
+			/*String message = "Á¤»óÃ³¸®µÇ¾ú½À´Ï´Ù.";
 			String url ="location.href='/member/loginMain.af';";
 			html = Util.gotoUrl(url, message);*/
 			
 		}else{
-			String message = "ì²˜ë¦¬ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.\\në‹¤ì‹œ ì‹œë„í•´ ì£¼ì‹œê¸°ë°”ëë‹ˆë‹¤.";
+			String message = "Ã³¸®Áß ¿¡·¯°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.\\n´Ù½Ã ½ÃµµÇØ ÁÖ½Ã±â¹Ù¶ø´Ï´Ù.";
 			result = "FAILED";
 		}
 		/*Util.htmlPrint(html, response);*/
@@ -251,7 +251,7 @@ public class MemberController extends GenericController {
 		String searchId = memberCheck(parameter);
 		
 		if(!"".equals(searchId)){
-			String message =  "ì…ë ¥í•˜ì‹  ì •ë³´ëŠ” ì´ë¯¸ ê°€ì…ëœ íšŒì›ì •ë³´ì…ë‹ˆë‹¤.";
+			String message =  "ÀÔ·ÂÇÏ½Å Á¤º¸´Â ÀÌ¹Ì °¡ÀÔµÈ È¸¿øÁ¤º¸ÀÔ´Ï´Ù.";
 			/*String action = "memberPop.addCont({url : '/member/loginMain.af'});";*/
 			String action = "location.href='/member/loginMain.af';";
 			html = Util.alertToAction(message, action);							
@@ -313,44 +313,44 @@ public class MemberController extends GenericController {
 		parameter.put("ins_id", DecoderUtil.decode(param, "userId"));
 		parameter.put("ci_certi", DecoderUtil.decode(param, "obj"));
 		
-		//ì•„ì´ë”” ì¤‘ë³µì²´í¬
+		//¾ÆÀÌµğ Áßº¹Ã¼Å©
 		int idChk = frontMemberService.idChk(parameter);
 
-		//ë³¸ì¸ì¸ì¦í•œ íšŒì›ì˜ ì •ë³´ ì¡°íšŒ
+		//º»ÀÎÀÎÁõÇÑ È¸¿øÀÇ Á¤º¸ Á¶È¸
 		int niceChk = frontMemberService.niceChk(parameter);
 		
-		//ë³¸ì¸ì¸ì¦í•œ íšŒì›ì˜ ì •ë³´ê°€ DBì— ìˆì„ë•Œ íšŒì›ê°€ì… ì§„í–‰(ì·¨ì•½ì )
+		//º»ÀÎÀÎÁõÇÑ È¸¿øÀÇ Á¤º¸°¡ DB¿¡ ÀÖÀ»¶§ È¸¿ø°¡ÀÔ ÁøÇà(Ãë¾àÁ¡)
 		if(niceChk > 0) { 	
 			
-			//ì•„ì´ë”” ì¤‘ë³µì²´í¬(ì·¨ì•½ì  ê´€ë ¨ ì‘ì—…)		
+			//¾ÆÀÌµğ Áßº¹Ã¼Å©(Ãë¾àÁ¡ °ü·Ã ÀÛ¾÷)		
 			if(idChk == 0) {
 	
 				String result = frontMemberService.memberJoin(parameter);
 			
-				//ê°€ì…ë¬¸ì ë°œì†¡
-				//String contents = "[ì•„ì¿ ì•„í•„ë“œ]"+DecoderUtil.decode(param, "userName")+"ê³ ê°ë‹˜  íšŒì›ê°€ì…ì™„ë£Œ(ID:"+parameter.get("mem_id")+")";
+				//°¡ÀÔ¹®ÀÚ ¹ß¼Û
+				//String contents = "[¾ÆÄí¾ÆÇÊµå]"+DecoderUtil.decode(param, "userName")+"°í°´´Ô  È¸¿ø°¡ÀÔ¿Ï·á(ID:"+parameter.get("mem_id")+")";
 				Map smsParam = new HashMap();
 				smsParam.put("point_code", "POINT01");
 				smsParam.put("sms_type", "JOIN");
 				
 				Map smsTemplte = commonService.getSmsTemplete(smsParam);
 				String contents = smsTemplte.get("SMS_CONTENT").toString();
-				contents = contents.replace("{ê³ ê°ëª…}",DecoderUtil.decode(param, "userName"));//ì´ë¦„ ì¹˜í™˜
-				contents = contents.replace("{ì•„ì´ë””}",DecoderUtil.decode(param, "userId"));//ê°€ì…ì•„ì´ë”” ì¹˜í™˜
+				contents = contents.replace("{°í°´¸í}",DecoderUtil.decode(param, "userName"));//ÀÌ¸§ Ä¡È¯
+				contents = contents.replace("{¾ÆÀÌµğ}",DecoderUtil.decode(param, "userId"));//°¡ÀÔ¾ÆÀÌµğ Ä¡È¯
 				
 				Map params = new HashMap();
-				params.put("recipient_num", parameter.get("mobile_num")); // ìˆ˜ì‹ ë²ˆí˜¸
-				//param.put("subject", "[ì•„ì¿ ì•„í•„ë“œ]íšŒì›ê°€ì…ë¬¸ìì…ë‹ˆë‹¤."); // LMSì¼ê²½ìš° ì œëª©ì„ ì¶”ê°€ í•  ìˆ˜ ìˆë‹¤.
-				params.put("content", contents);  // ë‚´ìš© (SMS=88Byte, LMS=2000Byte)				
-				//params.put("callback", "031-8072-8800");  // ë°œì‹ ë²ˆí˜¸  
-				params.put("callback", config.getProperty("sms.tel.number"));  // ë°œì‹ ë²ˆí˜¸ 
+				params.put("recipient_num", parameter.get("mobile_num")); // ¼ö½Å¹øÈ£
+				//param.put("subject", "[¾ÆÄí¾ÆÇÊµå]È¸¿ø°¡ÀÔ¹®ÀÚÀÔ´Ï´Ù."); // LMSÀÏ°æ¿ì Á¦¸ñÀ» Ãß°¡ ÇÒ ¼ö ÀÖ´Ù.
+				params.put("content", contents);  // ³»¿ë (SMS=88Byte, LMS=2000Byte)				
+				//params.put("callback", "031-8072-8800");  // ¹ß½Å¹øÈ£  
+				params.put("callback", config.getProperty("sms.tel.number"));  // ¹ß½Å¹øÈ£ 
 				
 				
 				if(!smsService.sendSms(params)){
 					result = "ERROR";
 				}
 				else{
-					//SMS ë°œì†¡ ì´ë ¥ ë“±ë¡
+					//SMS ¹ß¼Û ÀÌ·Â µî·Ï
 					smsParam.put("sms_uid", smsTemplte.get("SMS_UID"));
 					smsParam.put("mem_id", DecoderUtil.decode(param, "userId"));
 					smsParam.put("custom_nm", DecoderUtil.decode(param, "userName"));
@@ -366,7 +366,7 @@ public class MemberController extends GenericController {
 					}		
 				}
 			
-				//ë©”ì¼ë°œì†¡ #####################################
+				//¸ŞÀÏ¹ß¼Û #####################################
 				Map emailParam = new HashMap();
 				emailParam.put("email_uid", "1");
 				Map joinEmail = adminEmailTempletService.adminEmailTempletDetail(emailParam);
@@ -379,10 +379,10 @@ public class MemberController extends GenericController {
 		
 				String nowTime = AquaDateUtil.getToday();
 				nowTime = nowTime.substring(0, 4)+"."+nowTime.substring(4, 6)+"."+nowTime.substring(6, 8);		
-				joinHtml = joinHtml.replace("{{#NOW#}}",nowTime); // í˜„ì¬ì‹œê°„ ì¹˜í™˜
+				joinHtml = joinHtml.replace("{{#NOW#}}",nowTime); // ÇöÀç½Ã°£ Ä¡È¯
 				String reHtml= joinHtml.replace("{{#NAME#}}",DecoderUtil.decode(param, "userName"));
 		
-				boolean booleanresult =	mailService.sendmail(mailSender, "aquafield@shinsegae.com", "ì•„ì¿ ì•„í•„ë“œ", DecoderUtil.decode(param, "userId"), DecoderUtil.decode(param, "userName"), "[ì•„ì¿ ì•„í•„ë“œ]íšŒì›ê°€ì…ë©”ì¼ì…ë‹ˆë‹¤.", reHtml);
+				boolean booleanresult =	mailService.sendmail(mailSender, "aquafield@shinsegae.com", "¾ÆÄí¾ÆÇÊµå", DecoderUtil.decode(param, "userId"), DecoderUtil.decode(param, "userName"), "[¾ÆÄí¾ÆÇÊµå]È¸¿ø°¡ÀÔ¸ŞÀÏÀÔ´Ï´Ù.", reHtml);
 				
 				if(!booleanresult){
 					result = "ERROR";
@@ -415,24 +415,24 @@ public class MemberController extends GenericController {
 
 		NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
 	    
-		String realSiteCode = "AB673";				// NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ ì½”ë“œ
-	    String realSitePassword = "SaFF5TxFFNfC";		// NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ
+		String realSiteCode = "AB673";				// NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÄÚµå
+	    String realSitePassword = "SaFF5TxFFNfC";		// NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÆĞ½º¿öµå
 	    
-	    String sRequestNumber = "REQ" + com.soft.web.util.Util.getTodayTime();        	// ìš”ì²­ ë²ˆí˜¸, ì´ëŠ” ì„±ê³µ/ì‹¤íŒ¨í›„ì— ê°™ì€ ê°’ìœ¼ë¡œ ë˜ëŒë ¤ì£¼ê²Œ ë˜ë¯€ë¡œ 
-	                                                    	// ì—…ì²´ì—ì„œ ì ì ˆí•˜ê²Œ ë³€ê²½í•˜ì—¬ ì“°ê±°ë‚˜, ì•„ë˜ì™€ ê°™ì´ ìƒì„±í•œë‹¤.
+	    String sRequestNumber = "REQ" + com.soft.web.util.Util.getTodayTime();        	// ¿äÃ» ¹øÈ£, ÀÌ´Â ¼º°ø/½ÇÆĞÈÄ¿¡ °°Àº °ªÀ¸·Î µÇµ¹·ÁÁÖ°Ô µÇ¹Ç·Î 
+	                                                    	// ¾÷Ã¼¿¡¼­ ÀûÀıÇÏ°Ô º¯°æÇÏ¿© ¾²°Å³ª, ¾Æ·¡¿Í °°ÀÌ »ı¼ºÇÑ´Ù.
 	    sRequestNumber = niceCheck.getRequestNO(realSiteCode);
-	  	session.setAttribute("REQ_SEQ" , sRequestNumber);	// í•´í‚¹ë“±ì˜ ë°©ì§€ë¥¼ ìœ„í•˜ì—¬ ì„¸ì…˜ì„ ì“´ë‹¤ë©´, ì„¸ì…˜ì— ìš”ì²­ë²ˆí˜¸ë¥¼ ë„£ëŠ”ë‹¤.
+	  	session.setAttribute("REQ_SEQ" , sRequestNumber);	// ÇØÅ·µîÀÇ ¹æÁö¸¦ À§ÇÏ¿© ¼¼¼ÇÀ» ¾´´Ù¸é, ¼¼¼Ç¿¡ ¿äÃ»¹øÈ£¸¦ ³Ö´Â´Ù.
 	  	
-	   	String sAuthType = "M";      	// ì—†ìœ¼ë©´ ê¸°ë³¸ ì„ íƒí™”ë©´, M: í•¸ë“œí°, C: ì‹ ìš©ì¹´ë“œ, X: ê³µì¸ì¸ì¦ì„œ
+	   	String sAuthType = "M";      	// ¾øÀ¸¸é ±âº» ¼±ÅÃÈ­¸é, M: ÇÚµåÆù, C: ½Å¿ëÄ«µå, X: °øÀÎÀÎÁõ¼­
 	   	
-	   	String popgubun 	= "N";		//Y : ì·¨ì†Œë²„íŠ¼ ìˆìŒ / N : ì·¨ì†Œë²„íŠ¼ ì—†ìŒ
-		String customize 	= "";			//ì—†ìœ¼ë©´ ê¸°ë³¸ ì›¹í˜ì´ì§€ / Mobile : ëª¨ë°”ì¼í˜ì´ì§€
+	   	String popgubun 	= "N";		//Y : Ãë¼Ò¹öÆ° ÀÖÀ½ / N : Ãë¼Ò¹öÆ° ¾øÀ½
+		String customize 	= "";			//¾øÀ¸¸é ±âº» À¥ÆäÀÌÁö / Mobile : ¸ğ¹ÙÀÏÆäÀÌÁö
 			
-		 // CheckPlus(ë³¸ì¸ì¸ì¦) ì²˜ë¦¬ í›„, ê²°ê³¼ ë°ì´íƒ€ë¥¼ ë¦¬í„´ ë°›ê¸°ìœ„í•´ ë‹¤ìŒì˜ˆì œì™€ ê°™ì´ httpë¶€í„° ì…ë ¥í•©ë‹ˆë‹¤.
-	    String sReturnUrl = request.getScheme() + "://" + request.getServerName() + config.getProperty("member.checkplus.returnurl");     // ì„±ê³µì‹œ ì´ë™ë  URL
-	    String sErrorUrl = "";//request.getScheme() + "://" + request.getServerName() + "/pc/brand/point/real_success.do";          // ì‹¤íŒ¨ì‹œ ì´ë™ë  URL
+		 // CheckPlus(º»ÀÎÀÎÁõ) Ã³¸® ÈÄ, °á°ú µ¥ÀÌÅ¸¸¦ ¸®ÅÏ ¹Ş±âÀ§ÇØ ´ÙÀ½¿¹Á¦¿Í °°ÀÌ httpºÎÅÍ ÀÔ·ÂÇÕ´Ï´Ù.
+	    String sReturnUrl = request.getScheme() + "://" + request.getServerName() + config.getProperty("member.checkplus.returnurl");     // ¼º°ø½Ã ÀÌµ¿µÉ URL
+	    String sErrorUrl = "";//request.getScheme() + "://" + request.getServerName() + "/pc/brand/point/real_success.do";          // ½ÇÆĞ½Ã ÀÌµ¿µÉ URL
 
-	    // ì…ë ¥ë  plain ë°ì´íƒ€ë¥¼ ë§Œë“ ë‹¤.
+	    // ÀÔ·ÂµÉ plain µ¥ÀÌÅ¸¸¦ ¸¸µç´Ù.
 	    String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber +
 	                        "8:SITECODE" + realSiteCode.getBytes().length + ":" + realSiteCode +
 	                        "9:AUTH_TYPE" + sAuthType.getBytes().length + ":" + sAuthType +
@@ -451,23 +451,23 @@ public class MemberController extends GenericController {
 	    }
 	    else if( iReturn == -1)
 	    {
-	        sMessage = "ì•”í˜¸í™” ì‹œìŠ¤í…œ ì—ëŸ¬ì…ë‹ˆë‹¤.";
+	        sMessage = "¾ÏÈ£È­ ½Ã½ºÅÛ ¿¡·¯ÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -2)
 	    {
-	        sMessage = "ì•”í˜¸í™” ì²˜ë¦¬ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "¾ÏÈ£È­ Ã³¸®¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -3)
 	    {
-	        sMessage = "ì•”í˜¸í™” ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "¾ÏÈ£È­ µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -9)
 	    {
-	        sMessage = "ì…ë ¥ ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "ÀÔ·Â µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else
 	    {
-	        sMessage = "ì•Œìˆ˜ ì—†ëŠ” ì—ëŸ¬ ì…ë‹ˆë‹¤. iReturn : " + iReturn;
+	        sMessage = "¾Ë¼ö ¾ø´Â ¿¡·¯ ÀÔ´Ï´Ù. iReturn : " + iReturn;
 	    }
 	    
 	    if("".equals(sEncData) ){
@@ -490,24 +490,24 @@ public class MemberController extends GenericController {
 	    String sReserved2  = requestReplace((String)param.get("param_r2"), "");
 	    String sReserved3  = requestReplace((String)param.get("param_r3"), "");
 
-	    String sSiteCode = "AB673";				 // NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ ì½”ë“œ
-	    String sSitePassword = "SaFF5TxFFNfC";	 // NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ
+	    String sSiteCode = "AB673";				 // NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÄÚµå
+	    String sSitePassword = "SaFF5TxFFNfC";	 // NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÆĞ½º¿öµå
 
-	    String sCipherTime = "";			 // ë³µí˜¸í™”í•œ ì‹œê°„
-	    String sRequestNumber = "";			 // ìš”ì²­ ë²ˆí˜¸
-	    String sResponseNumber = "";		 // ì¸ì¦ ê³ ìœ ë²ˆí˜¸
-	    String sAuthType = "";				 // ì¸ì¦ ìˆ˜ë‹¨
-	    String sName = "";					 // ì„±ëª…
-	    String sDupInfo = "";				 // ì¤‘ë³µê°€ì… í™•ì¸ê°’ (DI_64 byte)
-	    String sConnInfo = "";				 // ì—°ê³„ì •ë³´ í™•ì¸ê°’ (CI_88 byte)
-	    String sBirthDate = "";				 // ìƒì¼
-	    String sGenderCode = "";			 // ì„±ë³„
-	    String sNationalInfo = "";           // ë‚´/ì™¸êµ­ì¸ì •ë³´ (ê°œë°œê°€ì´ë“œ ì°¸ì¡°)
+	    String sCipherTime = "";			 // º¹È£È­ÇÑ ½Ã°£
+	    String sRequestNumber = "";			 // ¿äÃ» ¹øÈ£
+	    String sResponseNumber = "";		 // ÀÎÁõ °íÀ¯¹øÈ£
+	    String sAuthType = "";				 // ÀÎÁõ ¼ö´Ü
+	    String sName = "";					 // ¼º¸í
+	    String sDupInfo = "";				 // Áßº¹°¡ÀÔ È®ÀÎ°ª (DI_64 byte)
+	    String sConnInfo = "";				 // ¿¬°èÁ¤º¸ È®ÀÎ°ª (CI_88 byte)
+	    String sBirthDate = "";				 // »ıÀÏ
+	    String sGenderCode = "";			 // ¼ºº°
+	    String sNationalInfo = "";           // ³»/¿Ü±¹ÀÎÁ¤º¸ (°³¹ß°¡ÀÌµå ÂüÁ¶)
 	    String sMessage = "";
 	    String sPlainData = "";
 	    String sGender ="";
 	    String sBirth = "";
-	    String sMobileNumber = "";            // ì¸ì¦ í•¸ë“œí° ë²ˆí˜¸
+	    String sMobileNumber = "";            // ÀÎÁõ ÇÚµåÆù ¹øÈ£
 	    
 	    int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, sEncodeData);
 
@@ -516,7 +516,7 @@ public class MemberController extends GenericController {
 	        sPlainData = niceCheck.getPlainData();
 	        sCipherTime = niceCheck.getCipherDateTime();
 	        
-	        // ë°ì´íƒ€ë¥¼ ì¶”ì¶œí•©ë‹ˆë‹¤.
+	        // µ¥ÀÌÅ¸¸¦ ÃßÃâÇÕ´Ï´Ù.
 	        java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
 	        
 	        sRequestNumber  = (String)mapresult.get("REQ_SEQ");
@@ -535,13 +535,13 @@ public class MemberController extends GenericController {
 	        parameter.put("MOBILE_NUM", sMobileNumber);
 	        parameter.put("DI_CERTI", sDupInfo);
 	        
-	        //ë³¸ì¸ì¸ì¦ì‹œ ì´ë¦„, í‚¤ê°’, í•¸ë“œí°ë²ˆí˜¸ ì €ì¥ ë° ì—…ë°ì´íŠ¸
+	        //º»ÀÎÀÎÁõ½Ã ÀÌ¸§, Å°°ª, ÇÚµåÆù¹øÈ£ ÀúÀå ¹× ¾÷µ¥ÀÌÆ®
 	        String result = frontMemberService.niceIdSave(parameter);
 	        
 	        String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
 	        if(!sRequestNumber.equals(session_sRequestNumber))
 	        {
-	        	sMessage = "ì„¸ì…˜ê°’ì´ ë‹¤ë¦…ë‹ˆë‹¤. ì˜¬ë°”ë¥¸ ê²½ë¡œë¡œ ì ‘ê·¼í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+	        	sMessage = "¼¼¼Ç°ªÀÌ ´Ù¸¨´Ï´Ù. ¿Ã¹Ù¸¥ °æ·Î·Î Á¢±ÙÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.";
 	            sResponseNumber = "";
 	            sAuthType = "";
 	        }
@@ -551,31 +551,31 @@ public class MemberController extends GenericController {
 	    }
 	    else if( iReturn == -1)
 	    {
-	        sMessage = "ë³µí˜¸í™” ì‹œìŠ¤í…œ ì—ëŸ¬ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ ½Ã½ºÅÛ ¿¡·¯ÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -4)
 	    {
-	        sMessage = "ë³µí˜¸í™” ì²˜ë¦¬ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ Ã³¸®¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -5)
 	    {
-	        sMessage = "ë³µí˜¸í™” í•´ì‰¬ ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ ÇØ½¬ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -6)
 	    {
-	        sMessage = "ë³µí˜¸í™” ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -9)
 	    {
-	        sMessage = "ì…ë ¥ ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "ÀÔ·Â µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -12)
 	    {
-	        sMessage = "ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "»çÀÌÆ® ÆĞ½º¿öµå ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else
 	    {
-	        sMessage = "ì•Œìˆ˜ ì—†ëŠ” ì—ëŸ¬ ì…ë‹ˆë‹¤. iReturn : " + iReturn;
+	        sMessage = "¾Ë¼ö ¾ø´Â ¿¡·¯ ÀÔ´Ï´Ù. iReturn : " + iReturn;
 	    }
 
 	    JSONParser jsonParser = new JSONParser();
@@ -596,13 +596,13 @@ public class MemberController extends GenericController {
 	    String sReserved2  = requestReplace((String)param.get("param_r2"), "");
 	    String sReserved3  = requestReplace((String)param.get("param_r3"), "");
 
-	    String sSiteCode = "AB673";				 // NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ ì½”ë“œ
-	    String sSitePassword = "SaFF5TxFFNfC";	 // NICEë¡œë¶€í„° ë¶€ì—¬ë°›ì€ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ
+	    String sSiteCode = "AB673";				 // NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÄÚµå
+	    String sSitePassword = "SaFF5TxFFNfC";	 // NICE·ÎºÎÅÍ ºÎ¿©¹ŞÀº »çÀÌÆ® ÆĞ½º¿öµå
 
-	    String sCipherTime = "";					// ë³µí˜¸í™”í•œ ì‹œê°„
-	    String sRequestNumber = "";				// ìš”ì²­ ë²ˆí˜¸
-	    String sErrorCode = "";						// ì¸ì¦ ê²°ê³¼ì½”ë“œ
-	    String sAuthType = "";						// ì¸ì¦ ìˆ˜ë‹¨
+	    String sCipherTime = "";					// º¹È£È­ÇÑ ½Ã°£
+	    String sRequestNumber = "";				// ¿äÃ» ¹øÈ£
+	    String sErrorCode = "";						// ÀÎÁõ °á°úÄÚµå
+	    String sAuthType = "";						// ÀÎÁõ ¼ö´Ü
 	    String sMessage = "";
 	    String sPlainData = "";
 	    
@@ -613,7 +613,7 @@ public class MemberController extends GenericController {
 	        sPlainData = niceCheck.getPlainData();
 	        sCipherTime = niceCheck.getCipherDateTime();
 	        
-	        // ë°ì´íƒ€ë¥¼ ì¶”ì¶œí•©ë‹ˆë‹¤.
+	        // µ¥ÀÌÅ¸¸¦ ÃßÃâÇÕ´Ï´Ù.
 	        java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
 	        
 	        sRequestNumber 	= (String)mapresult.get("REQ_SEQ");
@@ -622,31 +622,31 @@ public class MemberController extends GenericController {
 	    }
 	    else if( iReturn == -1)
 	    {
-	        sMessage = "ë³µí˜¸í™” ì‹œìŠ¤í…œ ì—ëŸ¬ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ ½Ã½ºÅÛ ¿¡·¯ÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -4)
 	    {
-	        sMessage = "ë³µí˜¸í™” ì²˜ë¦¬ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ Ã³¸®¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -5)
 	    {
-	        sMessage = "ë³µí˜¸í™” í•´ì‰¬ ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ ÇØ½¬ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -6)
 	    {
-	        sMessage = "ë³µí˜¸í™” ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "º¹È£È­ µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -9)
 	    {
-	        sMessage = "ì…ë ¥ ë°ì´í„° ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "ÀÔ·Â µ¥ÀÌÅÍ ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else if( iReturn == -12)
 	    {
-	        sMessage = "ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ ì˜¤ë¥˜ì…ë‹ˆë‹¤.";
+	        sMessage = "»çÀÌÆ® ÆĞ½º¿öµå ¿À·ùÀÔ´Ï´Ù.";
 	    }    
 	    else
 	    {
-	        sMessage = "ì•Œìˆ˜ ì—†ëŠ” ì—ëŸ¬ ì…ë‹ˆë‹¤. iReturn : " + iReturn;
+	        sMessage = "¾Ë¼ö ¾ø´Â ¿¡·¯ ÀÔ´Ï´Ù. iReturn : " + iReturn;
 	    }
 	    
 		Map parameter = new HashMap();
@@ -663,53 +663,53 @@ public class MemberController extends GenericController {
 	@RequestMapping(value="/member/ipin.af")
 	public String ipin(@RequestParam Map param, ModelMap model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
-		String sSiteCode				= "AD31";		// IPIN ì„œë¹„ìŠ¤ ì‚¬ì´íŠ¸ ì½”ë“œ		(NICEí‰ê°€ì •ë³´ì—ì„œ ë°œê¸‰í•œ ì‚¬ì´íŠ¸ì½”ë“œ)
-		String sSitePw					= "Aqua0811";	// IPIN ì„œë¹„ìŠ¤ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ	(NICEí‰ê°€ì •ë³´ì—ì„œ ë°œê¸‰í•œ ì‚¬ì´íŠ¸íŒ¨ìŠ¤ì›Œë“œ)
+		String sSiteCode				= "AD31";		// IPIN ¼­ºñ½º »çÀÌÆ® ÄÚµå		(NICEÆò°¡Á¤º¸¿¡¼­ ¹ß±ŞÇÑ »çÀÌÆ®ÄÚµå)
+		String sSitePw					= "Aqua0811";	// IPIN ¼­ºñ½º »çÀÌÆ® ÆĞ½º¿öµå	(NICEÆò°¡Á¤º¸¿¡¼­ ¹ß±ŞÇÑ »çÀÌÆ®ÆĞ½º¿öµå)
 		String sReturnURL				= request.getScheme() + "://" + request.getServerName() + config.getProperty("member.ipin.returnurl");
 		String sCPRequest				= "";
 		
-		// ê°ì²´ ìƒì„±
+		// °´Ã¼ »ı¼º
 		IPINClient pClient = new IPINClient();
 		
 		
-		// ì•ì„œ ì„¤ëª…ë“œë¦° ë°”ì™€ê°™ì´, CP ìš”ì²­ë²ˆí˜¸ëŠ” ë°°í¬ëœ ëª¨ë“ˆì„ í†µí•´ ì•„ë˜ì™€ ê°™ì´ ìƒì„±í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+		// ¾Õ¼­ ¼³¸íµå¸° ¹Ù¿Í°°ÀÌ, CP ¿äÃ»¹øÈ£´Â ¹èÆ÷µÈ ¸ğµâÀ» ÅëÇØ ¾Æ·¡¿Í °°ÀÌ »ı¼ºÇÒ ¼ö ÀÖ½À´Ï´Ù.
 		sCPRequest = pClient.getRequestNO(sSiteCode);
 		
-		// CP ìš”ì²­ë²ˆí˜¸ë¥¼ ì„¸ì…˜ì— ì €ì¥í•©ë‹ˆë‹¤.
-		// í˜„ì¬ ì˜ˆì œë¡œ ì €ì¥í•œ ì„¸ì…˜ì€ ipin_result.jsp í˜ì´ì§€ì—ì„œ ë°ì´íƒ€ ìœ„ë³€ì¡° ë°©ì§€ë¥¼ ìœ„í•´ í™•ì¸í•˜ê¸° ìœ„í•¨ì…ë‹ˆë‹¤.
-		// í•„ìˆ˜ì‚¬í•­ì€ ì•„ë‹ˆë©°, ë³´ì•ˆì„ ìœ„í•œ ê¶Œê³ ì‚¬í•­ì…ë‹ˆë‹¤.
+		// CP ¿äÃ»¹øÈ£¸¦ ¼¼¼Ç¿¡ ÀúÀåÇÕ´Ï´Ù.
+		// ÇöÀç ¿¹Á¦·Î ÀúÀåÇÑ ¼¼¼ÇÀº ipin_result.jsp ÆäÀÌÁö¿¡¼­ µ¥ÀÌÅ¸ À§º¯Á¶ ¹æÁö¸¦ À§ÇØ È®ÀÎÇÏ±â À§ÇÔÀÔ´Ï´Ù.
+		// ÇÊ¼ö»çÇ×Àº ¾Æ´Ï¸ç, º¸¾ÈÀ» À§ÇÑ ±Ç°í»çÇ×ÀÔ´Ï´Ù.
 		session.setAttribute("CPREQUEST" , sCPRequest);
 		
 		
-		// Method ê²°ê³¼ê°’(iRtn)ì— ë”°ë¼, í”„ë¡œì„¸ìŠ¤ ì§„í–‰ì—¬ë¶€ë¥¼ íŒŒì•…í•©ë‹ˆë‹¤.
+		// Method °á°ú°ª(iRtn)¿¡ µû¶ó, ÇÁ·Î¼¼½º ÁøÇà¿©ºÎ¸¦ ÆÄ¾ÇÇÕ´Ï´Ù.
 		int iRtn = pClient.fnRequest(sSiteCode, sSitePw, sCPRequest, sReturnURL);
 		
-		String sRtnMsg					= "";			// ï§£ì„â”å¯ƒê³Œë‚µ ï§ë¶¿ê½­ï§ï¿½
-		String sEncData					= "";			// ï¿½ë¸«ï¿½ìƒ‡ï¿½ì†• ï¿½ë§‚ ï¿½ëœ²ï¿½ì” ï¿½ï¿½
+		String sRtnMsg					= "";			
+		String sEncData					= "";			
 		
-		// Method ê²°ê³¼ê°’ì— ë”°ë¥¸ ì²˜ë¦¬ì‚¬í•­
+		// Method °á°ú°ª¿¡ µû¸¥ Ã³¸®»çÇ×
 		if (iRtn == 0)
 		{
 		
-			// fnRequest í•¨ìˆ˜ ì²˜ë¦¬ì‹œ ì—…ì²´ì •ë³´ë¥¼ ì•”í˜¸í™”í•œ ë°ì´í„°ë¥¼ ì¶”ì¶œí•©ë‹ˆë‹¤.
-			// ì¶”ì¶œëœ ì•”í˜¸í™”ëœ ë°ì´íƒ€ëŠ” ë‹¹ì‚¬ íŒì—… ìš”ì²­ì‹œ, í•¨ê»˜ ë³´ë‚´ì£¼ì…”ì•¼ í•©ë‹ˆë‹¤.
-			sEncData = pClient.getCipherData();		//ì•”í˜¸í™” ëœ ë°ì´íƒ€
+			// fnRequest ÇÔ¼ö Ã³¸®½Ã ¾÷Ã¼Á¤º¸¸¦ ¾ÏÈ£È­ÇÑ µ¥ÀÌÅÍ¸¦ ÃßÃâÇÕ´Ï´Ù.
+			// ÃßÃâµÈ ¾ÏÈ£È­µÈ µ¥ÀÌÅ¸´Â ´ç»ç ÆË¾÷ ¿äÃ»½Ã, ÇÔ²² º¸³»ÁÖ¼Å¾ß ÇÕ´Ï´Ù.
+			sEncData = pClient.getCipherData();		//¾ÏÈ£È­ µÈ µ¥ÀÌÅ¸
 			
-			sRtnMsg = "ì •ìƒ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.";
+			sRtnMsg = "Á¤»ó Ã³¸®µÇ¾ú½À´Ï´Ù.";
 		
 		}
 		else if (iRtn == -1 || iRtn == -2)
 		{
-			sRtnMsg =	"ë°°í¬í•´ ë“œë¦° ì„œë¹„ìŠ¤ ëª¨ë“ˆ ì¤‘, ê·€ì‚¬ ì„œë²„í™˜ê²½ì— ë§ëŠ” ëª¨ë“ˆì„ ì´ìš©í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.<BR>" +
-						"ê·€ì‚¬ ì„œë²„í™˜ê²½ì— ë§ëŠ” ëª¨ë“ˆì´ ì—†ë‹¤ë©´ ..<BR><B>iRtn ê°’, ì„œë²„ í™˜ê²½ì •ë³´ë¥¼ ì •í™•íˆ í™•ì¸í•˜ì—¬ ë©”ì¼ë¡œ ìš”ì²­í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.</B>";
+			sRtnMsg =	"¹èÆ÷ÇØ µå¸° ¼­ºñ½º ¸ğµâ Áß, ±Í»ç ¼­¹öÈ¯°æ¿¡ ¸Â´Â ¸ğµâÀ» ÀÌ¿ëÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.<BR>" +
+						"±Í»ç ¼­¹öÈ¯°æ¿¡ ¸Â´Â ¸ğµâÀÌ ¾ø´Ù¸é ..<BR><B>iRtn °ª, ¼­¹ö È¯°æÁ¤º¸¸¦ Á¤È®È÷ È®ÀÎÇÏ¿© ¸ŞÀÏ·Î ¿äÃ»ÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.</B>";
 		}
 		else if (iRtn == -9)
 		{
-			sRtnMsg = "ì…ë ¥ê°’ ì˜¤ë¥˜ : fnRequest í•¨ìˆ˜ ì²˜ë¦¬ì‹œ, í•„ìš”í•œ 4ê°œì˜ íŒŒë¼ë¯¸í„°ê°’ì˜ ì •ë³´ë¥¼ ì •í™•í•˜ê²Œ ì…ë ¥í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+			sRtnMsg = "ÀÔ·Â°ª ¿À·ù : fnRequest ÇÔ¼ö Ã³¸®½Ã, ÇÊ¿äÇÑ 4°³ÀÇ ÆÄ¶ó¹ÌÅÍ°ªÀÇ Á¤º¸¸¦ Á¤È®ÇÏ°Ô ÀÔ·ÂÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
 		}
 		else
 		{
-			sRtnMsg = "iRtn ê°’ í™•ì¸ í›„, NICEí‰ê°€ì •ë³´ ê°œë°œ ë‹´ë‹¹ìì—ê²Œ ë¬¸ì˜í•´ ì£¼ì„¸ìš”.";
+			sRtnMsg = "iRtn °ª È®ÀÎ ÈÄ, NICEÆò°¡Á¤º¸ °³¹ß ´ã´çÀÚ¿¡°Ô ¹®ÀÇÇØ ÁÖ¼¼¿ä.";
 		}
 
 	    if("".equals(sEncData) ){
@@ -731,85 +731,85 @@ public class MemberController extends GenericController {
 	@RequestMapping(value = "/member/ipin_result.af")
     public String ipin_result(@RequestParam Map param, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		String sSiteCode				= "AD31";			// IPIN ì„œë¹„ìŠ¤ ì‚¬ì´íŠ¸ ì½”ë“œ		(NICEí‰ê°€ì •ë³´ì—ì„œ ë°œê¸‰í•œ ì‚¬ì´íŠ¸ì½”ë“œ)
-		String sSitePw					= "Aqua0811";		// IPIN ì„œë¹„ìŠ¤ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œ	(NICEí‰ê°€ì •ë³´ì—ì„œ ë°œê¸‰í•œ ì‚¬ì´íŠ¸íŒ¨ìŠ¤ì›Œë“œ)
+		String sSiteCode				= "AD31";			// IPIN ¼­ºñ½º »çÀÌÆ® ÄÚµå		(NICEÆò°¡Á¤º¸¿¡¼­ ¹ß±ŞÇÑ »çÀÌÆ®ÄÚµå)
+		String sSitePw					= "Aqua0811";		// IPIN ¼­ºñ½º »çÀÌÆ® ÆĞ½º¿öµå	(NICEÆò°¡Á¤º¸¿¡¼­ ¹ß±ŞÇÑ »çÀÌÆ®ÆĞ½º¿öµå)
 		
 			
-		// ì‚¬ìš©ì ì •ë³´ ë° CP ìš”ì²­ë²ˆí˜¸ë¥¼ ì•”í˜¸í™”í•œ ë°ì´íƒ€ì…ë‹ˆë‹¤.
+		// »ç¿ëÀÚ Á¤º¸ ¹× CP ¿äÃ»¹øÈ£¸¦ ¾ÏÈ£È­ÇÑ µ¥ÀÌÅ¸ÀÔ´Ï´Ù.
 	    String sResponseData = requestReplace(request.getParameter("enc_data"), "encodeData");
 	    
-	    // CP ìš”ì²­ë²ˆí˜¸ : ipin_main.jsp ì—ì„œ ì„¸ì…˜ ì²˜ë¦¬í•œ ë°ì´íƒ€
+	    // CP ¿äÃ»¹øÈ£ : ipin_main.jsp ¿¡¼­ ¼¼¼Ç Ã³¸®ÇÑ µ¥ÀÌÅ¸
 	    String sCPRequest = (String)session.getAttribute("CPREQUEST");
 	
 	    
-	    // ê°ì²´ ìƒì„±
+	    // °´Ã¼ »ı¼º
 		IPINClient pClient = new IPINClient();
 		
 		
 		/*
-		â”Œ ë³µí˜¸í™” í•¨ìˆ˜ ì„¤ëª…  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-			Method ê²°ê³¼ê°’(iRtn)ì— ë”°ë¼, í”„ë¡œì„¸ìŠ¤ ì§„í–‰ì—¬ë¶€ë¥¼ íŒŒì•…í•©ë‹ˆë‹¤.
+		¦£ º¹È£È­ ÇÔ¼ö ¼³¸í  ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+			Method °á°ú°ª(iRtn)¿¡ µû¶ó, ÇÁ·Î¼¼½º ÁøÇà¿©ºÎ¸¦ ÆÄ¾ÇÇÕ´Ï´Ù.
 			
-			fnResponse í•¨ìˆ˜ëŠ” ê²°ê³¼ ë°ì´íƒ€ë¥¼ ë³µí˜¸í™” í•˜ëŠ” í•¨ìˆ˜ì´ë©°,
-			'sCPRequest'ê°’ì„ ì¶”ê°€ë¡œ ë³´ë‚´ì‹œë©´ CPìš”ì²­ë²ˆí˜¸ ì¼ì¹˜ì—¬ë¶€ë„ í™•ì¸í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤. (ì„¸ì…˜ì— ë„£ì€ sCPRequest ë°ì´íƒ€ë¡œ ê²€ì¦)
+			fnResponse ÇÔ¼ö´Â °á°ú µ¥ÀÌÅ¸¸¦ º¹È£È­ ÇÏ´Â ÇÔ¼öÀÌ¸ç,
+			'sCPRequest'°ªÀ» Ãß°¡·Î º¸³»½Ã¸é CP¿äÃ»¹øÈ£ ÀÏÄ¡¿©ºÎµµ È®ÀÎÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù. (¼¼¼Ç¿¡ ³ÖÀº sCPRequest µ¥ÀÌÅ¸·Î °ËÁõ)
 			
-			ë”°ë¼ì„œ ê·€ì‚¬ì—ì„œ ì›í•˜ëŠ” í•¨ìˆ˜ë¡œ ì´ìš©í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.
-		â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+			µû¶ó¼­ ±Í»ç¿¡¼­ ¿øÇÏ´Â ÇÔ¼ö·Î ÀÌ¿ëÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+		¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
 		*/
 		int iRtn = pClient.fnResponse(sSiteCode, sSitePw, sResponseData);
 		//int iRtn = pClient.fnResponse(sSiteCode, sSitePw, sResponseData, sCPRequest);
 		
-		String sRtnMsg				= "";							// ì²˜ë¦¬ê²°ê³¼ ë©”ì„¸ì§€
-		String sVNumber				= pClient.getVNumber();			// ê°€ìƒì£¼ë¯¼ë²ˆí˜¸ (13ìë¦¬ì´ë©°, ìˆ«ì ë˜ëŠ” ë¬¸ì í¬í•¨)
-		String sName				= pClient.getName();			// ì´ë¦„
-		String sDupInfo				= pClient.getDupInfo();			// ì¤‘ë³µê°€ì… í™•ì¸ê°’ (DI - 64 byte ê³ ìœ ê°’)
-		String sAgeCode				= pClient.getAgeCode();			// ì—°ë ¹ëŒ€ ì½”ë“œ (ê°œë°œ ê°€ì´ë“œ ì°¸ì¡°)
-		String sGenderCode			= pClient.getGenderCode();		// ì„±ë³„ ì½”ë“œ (ê°œë°œ ê°€ì´ë“œ ì°¸ì¡°)
-		String sBirthDate			= pClient.getBirthDate();		// ìƒë…„ì›”ì¼ (YYYYMMDD)
-		String sNationalInfo		= pClient.getNationalInfo();	// ë‚´/ì™¸êµ­ì¸ ì •ë³´ (ê°œë°œ ê°€ì´ë“œ ì°¸ì¡°)
-		String sCPRequestNum		= pClient.getCPRequestNO();		// CP ìš”ì²­ë²ˆí˜¸
+		String sRtnMsg				= "";							// Ã³¸®°á°ú ¸Ş¼¼Áö
+		String sVNumber				= pClient.getVNumber();			// °¡»óÁÖ¹Î¹øÈ£ (13ÀÚ¸®ÀÌ¸ç, ¼ıÀÚ ¶Ç´Â ¹®ÀÚ Æ÷ÇÔ)
+		String sName				= pClient.getName();			// ÀÌ¸§
+		String sDupInfo				= pClient.getDupInfo();			// Áßº¹°¡ÀÔ È®ÀÎ°ª (DI - 64 byte °íÀ¯°ª)
+		String sAgeCode				= pClient.getAgeCode();			// ¿¬·É´ë ÄÚµå (°³¹ß °¡ÀÌµå ÂüÁ¶)
+		String sGenderCode			= pClient.getGenderCode();		// ¼ºº° ÄÚµå (°³¹ß °¡ÀÌµå ÂüÁ¶)
+		String sBirthDate			= pClient.getBirthDate();		// »ı³â¿ùÀÏ (YYYYMMDD)
+		String sNationalInfo		= pClient.getNationalInfo();	// ³»/¿Ü±¹ÀÎ Á¤º¸ (°³¹ß °¡ÀÌµå ÂüÁ¶)
+		String sCPRequestNum		= pClient.getCPRequestNO();		// CP ¿äÃ»¹øÈ£
 		
 		String sGender = ("1".equals(sGenderCode)) ? "M":"W";
 		String sBirth = sBirthDate.substring(0, 4)+"."+sBirthDate.substring(4, 6)+"."+sBirthDate.substring(6, 8);
-	    String sMobileNumber = "";        // ipinì€ ë¹ˆê°’ì„ ì „ë‹¬
+	    String sMobileNumber = "";        // ipinÀº ºó°ªÀ» Àü´Ş
 				
-	 // Method ê²°ê³¼ê°’ì— ë”°ë¥¸ ì²˜ë¦¬ì‚¬í•­
+	 // Method °á°ú°ª¿¡ µû¸¥ Ã³¸®»çÇ×
 		if (iRtn == 1)
 		{			
-			sRtnMsg = "ì •ìƒ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.";
+			sRtnMsg = "Á¤»ó Ã³¸®µÇ¾ú½À´Ï´Ù.";
 	    	//Util.htmlPrint(sDupInfo, response);
 	    	Util.htmlPrint("{\"sDupInfo\":\""+sDupInfo+"\",\"sName\":\""+sName+"\",\"sGender\":\""+sGender+"\",\"sBirth\":\""+sBirth+"\",\"sMobileNumber\":\""+sMobileNumber+"\"}", response);
 			
 		}
 		else if (iRtn == -1 || iRtn == -4)
 		{
-			sRtnMsg =	"iRtn ê°’, ì„œë²„ í™˜ê²½ì •ë³´ë¥¼ ì •í™•íˆ í™•ì¸í•˜ì—¬ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+			sRtnMsg =	"iRtn °ª, ¼­¹ö È¯°æÁ¤º¸¸¦ Á¤È®È÷ È®ÀÎÇÏ¿© ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
 	    	Util.htmlPrint("N", response);
 		}
 		else if (iRtn == -6)
 		{
-			sRtnMsg =	"ë‹¹ì‚¬ëŠ” í•œê¸€ charset ì •ë³´ë¥¼ euc-kr ë¡œ ì²˜ë¦¬í•˜ê³  ìˆìœ¼ë‹ˆ, euc-kr ì— ëŒ€í•´ì„œ í—ˆìš©í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.<BR>" +
-						"í•œê¸€ charset ì •ë³´ê°€ ëª…í™•í•˜ë‹¤ë©´ ..<BR><B>iRtn ê°’, ì„œë²„ í™˜ê²½ì •ë³´ë¥¼ ì •í™•íˆ í™•ì¸í•˜ì—¬ ë©”ì¼ë¡œ ìš”ì²­í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.</B>";
+			sRtnMsg =	"´ç»ç´Â ÇÑ±Û charset Á¤º¸¸¦ euc-kr ·Î Ã³¸®ÇÏ°í ÀÖÀ¸´Ï, euc-kr ¿¡ ´ëÇØ¼­ Çã¿ëÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.<BR>" +
+						"ÇÑ±Û charset Á¤º¸°¡ ¸íÈ®ÇÏ´Ù¸é ..<BR><B>iRtn °ª, ¼­¹ö È¯°æÁ¤º¸¸¦ Á¤È®È÷ È®ÀÎÇÏ¿© ¸ŞÀÏ·Î ¿äÃ»ÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.</B>";
 	    	Util.htmlPrint("N", response);
 		}
 		else if (iRtn == -9)
 		{
-			sRtnMsg = "ì…ë ¥ê°’ ì˜¤ë¥˜ : fnResponse í•¨ìˆ˜ ì²˜ë¦¬ì‹œ, í•„ìš”í•œ íŒŒë¼ë¯¸í„°ê°’ì˜ ì •ë³´ë¥¼ ì •í™•í•˜ê²Œ ì…ë ¥í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+			sRtnMsg = "ÀÔ·Â°ª ¿À·ù : fnResponse ÇÔ¼ö Ã³¸®½Ã, ÇÊ¿äÇÑ ÆÄ¶ó¹ÌÅÍ°ªÀÇ Á¤º¸¸¦ Á¤È®ÇÏ°Ô ÀÔ·ÂÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
 	    	Util.htmlPrint("N", response);
 		}
 		else if (iRtn == -12)
 		{
-			sRtnMsg = "CP ë¹„ë°€ë²ˆí˜¸ ë¶ˆì¼ì¹˜ : IPIN ì„œë¹„ìŠ¤ ì‚¬ì´íŠ¸ íŒ¨ìŠ¤ì›Œë“œë¥¼ í™•ì¸í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+			sRtnMsg = "CP ºñ¹Ğ¹øÈ£ ºÒÀÏÄ¡ : IPIN ¼­ºñ½º »çÀÌÆ® ÆĞ½º¿öµå¸¦ È®ÀÎÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
 	    	Util.htmlPrint("N", response);
 		}
 		else if (iRtn == -13)
 		{
-			sRtnMsg = "CP ìš”ì²­ë²ˆí˜¸ ë¶ˆì¼ì¹˜ : ì„¸ì…˜ì— ë„£ì€ sCPRequest ë°ì´íƒ€ë¥¼ í™•ì¸í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.";
+			sRtnMsg = "CP ¿äÃ»¹øÈ£ ºÒÀÏÄ¡ : ¼¼¼Ç¿¡ ³ÖÀº sCPRequest µ¥ÀÌÅ¸¸¦ È®ÀÎÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
 	    	Util.htmlPrint("N", response);
 		}
 		else
 		{
-			sRtnMsg = "iRtn ê°’ í™•ì¸ í›„, NICEí‰ê°€ì •ë³´ ì „ì‚° ë‹´ë‹¹ìì—ê²Œ ë¬¸ì˜í•´ ì£¼ì„¸ìš”.";
+			sRtnMsg = "iRtn °ª È®ÀÎ ÈÄ, NICEÆò°¡Á¤º¸ Àü»ê ´ã´çÀÚ¿¡°Ô ¹®ÀÇÇØ ÁÖ¼¼¿ä.";
 	    	Util.htmlPrint("N", response);
 		}	
 
@@ -869,9 +869,9 @@ public class MemberController extends GenericController {
 	//*********************************************************************
 	
 	/**
-	 * íšŒì›ê°€ì… 1
+	 * È¸¿ø°¡ÀÔ 1
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -884,9 +884,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * íšŒì›ê°€ì… 2
+	 * È¸¿ø°¡ÀÔ 2
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -904,7 +904,7 @@ public class MemberController extends GenericController {
 		parameter.put("objBirth", param.get("objBirth"));
 		parameter.put("objMNum", param.get("objMNum"));
 		parameter.put("point_code", param.get("point"));
-		parameter.put("di_certi", param.get("obj"));  //ê³ ìœ í‚¤ê°’ ì¤‘ë³µì²´í¬
+		parameter.put("di_certi", param.get("obj"));  //°íÀ¯Å°°ª Áßº¹Ã¼Å©
 		
 		String searchId = memberCheck(parameter);
 		
@@ -926,9 +926,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * íšŒì›ê°€ì… 
+	 * È¸¿ø°¡ÀÔ 
 	 * 20180412	
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * 
 	 * @param param
 	 * @param model
@@ -964,45 +964,45 @@ public class MemberController extends GenericController {
 		parameter.put("ins_id", DecoderUtil.decode(param, "userId"));
 		parameter.put("ci_certi", param.get("obj"));
 		
-		//ì•„ì´ë”” ì¤‘ë³µì²´í¬
+		//¾ÆÀÌµğ Áßº¹Ã¼Å©
 		int idChk = frontMemberService.idChk(parameter);
 
-		//ë³¸ì¸ì¸ì¦í•œ íšŒì›ì˜ ì •ë³´ ì¡°íšŒ
+		//º»ÀÎÀÎÁõÇÑ È¸¿øÀÇ Á¤º¸ Á¶È¸
 		int niceChk = frontMemberService.niceChk(parameter);
 		
-		//ë³¸ì¸ì¸ì¦í•œ íšŒì›ì˜ ì •ë³´ê°€ DBì— ìˆì„ë•Œ íšŒì›ê°€ì… ì§„í–‰(ì·¨ì•½ì )
+		//º»ÀÎÀÎÁõÇÑ È¸¿øÀÇ Á¤º¸°¡ DB¿¡ ÀÖÀ»¶§ È¸¿ø°¡ÀÔ ÁøÇà(Ãë¾àÁ¡)
 		if(niceChk > 0) { 	
 			
-			//ì•„ì´ë”” ì¤‘ë³µì²´í¬(ì·¨ì•½ì  ê´€ë ¨ ì‘ì—…)		
+			//¾ÆÀÌµğ Áßº¹Ã¼Å©(Ãë¾àÁ¡ °ü·Ã ÀÛ¾÷)		
 			if(idChk == 0) {
 		
 				String result = frontMemberService.memberJoin(parameter);
 		
 		
-				//ê°€ì…ë¬¸ì ë°œì†¡
-				//String contents = "[ì•„ì¿ ì•„í•„ë“œ]"+DecoderUtil.decode(param, "userName")+"ê³ ê°ë‹˜  íšŒì›ê°€ì…ì™„ë£Œ(ID:"+parameter.get("mem_id")+")";
+				//°¡ÀÔ¹®ÀÚ ¹ß¼Û
+				//String contents = "[¾ÆÄí¾ÆÇÊµå]"+DecoderUtil.decode(param, "userName")+"°í°´´Ô  È¸¿ø°¡ÀÔ¿Ï·á(ID:"+parameter.get("mem_id")+")";
 				Map smsParam = new HashMap();
 				smsParam.put("point_code", "POINT01");
 				smsParam.put("sms_type", "JOIN");
 				
 				Map smsTemplte = commonService.getSmsTemplete(smsParam);
 				String contents = smsTemplte.get("SMS_CONTENT").toString();
-				contents = contents.replace("{ê³ ê°ëª…}",DecoderUtil.decode(param, "userName"));//ì´ë¦„ ì¹˜í™˜
-				contents = contents.replace("{ì•„ì´ë””}",DecoderUtil.decode(param, "userId"));//ê°€ì…ì•„ì´ë”” ì¹˜í™˜
+				contents = contents.replace("{°í°´¸í}",DecoderUtil.decode(param, "userName"));//ÀÌ¸§ Ä¡È¯
+				contents = contents.replace("{¾ÆÀÌµğ}",DecoderUtil.decode(param, "userId"));//°¡ÀÔ¾ÆÀÌµğ Ä¡È¯
 				
 				Map params = new HashMap();
-				params.put("recipient_num", parameter.get("mobile_num")); // ìˆ˜ì‹ ë²ˆí˜¸
-				//param.put("subject", "[ì•„ì¿ ì•„í•„ë“œ]íšŒì›ê°€ì…ë¬¸ìì…ë‹ˆë‹¤."); // LMSì¼ê²½ìš° ì œëª©ì„ ì¶”ê°€ í•  ìˆ˜ ìˆë‹¤.
-				params.put("content", contents);  // ë‚´ìš© (SMS=88Byte, LMS=2000Byte)				
-				//params.put("callback", "031-8072-8800");  // ë°œì‹ ë²ˆí˜¸  
-				params.put("callback", config.getProperty("sms.tel.number"));  // ë°œì‹ ë²ˆí˜¸ 
+				params.put("recipient_num", parameter.get("mobile_num")); // ¼ö½Å¹øÈ£
+				//param.put("subject", "[¾ÆÄí¾ÆÇÊµå]È¸¿ø°¡ÀÔ¹®ÀÚÀÔ´Ï´Ù."); // LMSÀÏ°æ¿ì Á¦¸ñÀ» Ãß°¡ ÇÒ ¼ö ÀÖ´Ù.
+				params.put("content", contents);  // ³»¿ë (SMS=88Byte, LMS=2000Byte)				
+				//params.put("callback", "031-8072-8800");  // ¹ß½Å¹øÈ£  
+				params.put("callback", config.getProperty("sms.tel.number"));  // ¹ß½Å¹øÈ£ 
 				
 				
 				if(!smsService.sendSms(params)){
 					result = "ERROR";
 				}
 				else{
-					//SMS ë°œì†¡ ì´ë ¥ ë“±ë¡
+					//SMS ¹ß¼Û ÀÌ·Â µî·Ï
 					smsParam.put("sms_uid", smsTemplte.get("SMS_UID"));
 					smsParam.put("mem_id", DecoderUtil.decode(param, "userId"));
 					smsParam.put("custom_nm", DecoderUtil.decode(param, "userName"));
@@ -1018,7 +1018,7 @@ public class MemberController extends GenericController {
 					}		
 				}
 			
-				//ë©”ì¼ë°œì†¡ #####################################
+				//¸ŞÀÏ¹ß¼Û #####################################
 				Map emailParam = new HashMap();
 				emailParam.put("email_uid", "1");
 				Map joinEmail = adminEmailTempletService.adminEmailTempletDetail(emailParam);
@@ -1031,10 +1031,10 @@ public class MemberController extends GenericController {
 		
 				String nowTime = AquaDateUtil.getToday();
 				nowTime = nowTime.substring(0, 4)+"."+nowTime.substring(4, 6)+"."+nowTime.substring(6, 8);		
-				joinHtml = joinHtml.replace("{{#NOW#}}",nowTime); // í˜„ì¬ì‹œê°„ ì¹˜í™˜
+				joinHtml = joinHtml.replace("{{#NOW#}}",nowTime); // ÇöÀç½Ã°£ Ä¡È¯
 				String reHtml= joinHtml.replace("{{#NAME#}}",DecoderUtil.decode(param, "userName"));
 		
-				boolean booleanresult =	mailService.sendmail(mailSender, "aquafield@shinsegae.com", "ì•„ì¿ ì•„í•„ë“œ", DecoderUtil.decode(param, "userId"), DecoderUtil.decode(param, "userName"), "[ì•„ì¿ ì•„í•„ë“œ]íšŒì›ê°€ì…ë©”ì¼ì…ë‹ˆë‹¤.", reHtml);
+				boolean booleanresult =	mailService.sendmail(mailSender, "aquafield@shinsegae.com", "¾ÆÄí¾ÆÇÊµå", DecoderUtil.decode(param, "userId"), DecoderUtil.decode(param, "userName"), "[¾ÆÄí¾ÆÇÊµå]È¸¿ø°¡ÀÔ¸ŞÀÏÀÔ´Ï´Ù.", reHtml);
 				
 				if(!booleanresult){
 					result = "ERROR";
@@ -1062,9 +1062,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * ì•„ì´ë”” ì°¾ê¸° í™”ë©´
+	 * ¾ÆÀÌµğ Ã£±â È­¸é
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -1077,9 +1077,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * ì•„ì´ë”” ì°¾ê¸° ê²°ê³¼ í™”ë©´
+	 * ¾ÆÀÌµğ Ã£±â °á°ú È­¸é
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -1103,9 +1103,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° í™”ë©´
+	 * ºñ¹Ğ¹øÈ£ Ã£±â È­¸é
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -1118,9 +1118,9 @@ public class MemberController extends GenericController {
     }
 	
 	/**
-	 * ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ê²°ê³¼ í™”ë©´
+	 * ºñ¹Ğ¹øÈ£ Ã£±â °á°ú È­¸é
 	 * 20180406
-	 * ì„œì˜ìš´
+	 * ¼­¿µ¿î
 	 * @param param
 	 * @param model
 	 * @param session
@@ -1145,7 +1145,7 @@ public class MemberController extends GenericController {
 			return "/front/member/result_Member_Pwd";
 		}
 		
-		/* í…ŒìŠ¤íŠ¸í• ë•Œ 
+		/* Å×½ºÆ®ÇÒ¶§ 
 		model.addAttribute("obj", param.get("obj"));
 		model.addAttribute("point", param.get("point"));
 		return "/front/member/result_Member_Pwd";

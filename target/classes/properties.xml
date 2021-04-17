@@ -44,6 +44,8 @@
 <!-- SMS 대표번호 -->
 <entry key="sms.tel.number.POINT01">031-8072-8800</entry>
 <entry key="sms.tel.number.POINT03">031-8072-8800</entry>
+<entry key="sms.tel.number.POINT05">031-8092-1900</entry>
+<entry key="sms.tel.number.POINT07">031-8092-1900</entry>
 
 <!-- 관리자 허용 IP ,59.15.3.213(ok),112.217.85.107(aqua), -->
 <entry key="admin.access.ip">,127.0.0.1,59.15.3.213,112.217.85.107,10.100.111.230</entry>
