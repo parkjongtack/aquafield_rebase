@@ -125,7 +125,11 @@ public class KakaoLoginController extends GenericController {
 			
 			//�븘�씠�뵒 以묐났泥댄겕(痍⑥빟�젏 愿��젴 �옉�뾽)		
 			if(idChk == 0) {
-		
+				
+				if(param.get("type") == null) {
+					return "redirect:/member/joinStep1.af";
+				}				
+				
 				String result = frontMemberService.memberJoin(parameter);
 		
 		

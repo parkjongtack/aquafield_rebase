@@ -39,6 +39,7 @@
 			form.email.value = email;
 			form.birthday.value = birthday;
 			form.gender.value = gender;
+			form.type.value = "<%=request.getParameter("type")%>";
 			form.submit();
 		} else {
 			console.log("AccessToken이 올바르지 않습니다.");
@@ -53,5 +54,6 @@
 	<input type="hidden" name="email" />
 	<input type="hidden" name="birthday" />
 	<input type="hidden" name="gender" />
+	<input type="hidden" name="type" />
 	<input type="hidden" name="naver_login_check" value="Y" />
 </form>

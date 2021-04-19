@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../../common/taglibs.jsp" %>
+<script type="text/javascript" src="/common/front/js/naveridlogin_js_sdk_2.0.0.js"></script>
+<script type="text/javascript" src="/common/front/js/kakao.js"></script>
 	
 	<div id="login_wrap" class="wrap_line">
 	   	<div class="inner">
@@ -30,12 +32,22 @@
 						   		<input type="hidden" name="adult_age_status" value="N" >						   		
 						   		<input type="hidden" name="young_age_set" >
 						   		<input type="hidden" name="adult_age_set" >	
+						   		<input type="hidden" name="sns_check" value="N" >
 						   		
 						   		<input type="hidden" name="young_obj" >	
 						   		<input type="hidden" name="young_objName" >
 						   		<input type="hidden" name="young_objGender" >
 						   		<input type="hidden" name="young_objBirth" >
 						   		<input type="hidden" name="young_objMNum" >							   		
+
+						        <input type="hidden" name="login_type" value="kakao">
+						        <input type="hidden" name="id" value="">
+						        <input type="hidden" name="name" value="">
+						        <input type="hidden" name="gender" value="">
+						        <input type="hidden" name="birthday" value="">
+						        <input type="hidden" name="nickname" value="">
+						        <input type="hidden" name="email" value="">
+						        <input type="hidden" name="phone_number" value="">				        
 						   						   								   								   		
 					            <div class="area_terms">
 					                <div class="bx_term">
@@ -384,6 +396,111 @@
 							</a>
 						</div>
 						
+						<br/>
+						
+						<div id="naverIdLogin" class="btn_con">
+							<img src="/common/front/images/naver_login_bt.png" class="input_btn"/>
+						</div>
+	
+						<br/>
+						<a id="custom-login-btn" href="javascript:loginWithKakao()">
+						  <img
+							src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
+							width="390"
+						  />
+						</a>
+					
+					<!-- 네이버아디디로로그인 초기화 Script -->
+					<script type="text/javascript">
+					
+						$("#naverIdLogin").click(function () {						
+							
+							var inputs = $('input[name="chkTerm"]'), len = inputs.length;
+							var cnt = 0;
+							for (var i = 0 ; i < len ; i++) {
+								if(inputs.eq(i).prop('checked')) cnt++;
+							}
+							if (len > cnt) {
+								alert('약관을 확인해주세요.');
+								return;
+							}
+							
+							if(document.step01.young_people_check.value == "Y") {
+								alert("14세 미만 회원가입을 시도하셨습니다. 일반 회원 가입을 원하실 경우 새로고침해주세요.");
+								return;
+							}							
+							
+							document.step01.login_type.value = "naver";
+					        document.step01.sns_check.value = "Y";							
+							
+							//실명 인증
+					        if($('div.content.on #certPhone').length > 0) {
+					            if($('#certPhone').is(':checked')) {
+					            	certiJoin('checkplus','/member/checkplus.sf');		            	
+					                //_this.realNameCert();
+					            } else if($('#certIpin').is(':checked')) {
+					            	certiJoin('ipin','/member/ipin.af');
+					                //_this.realNameCert();
+					            } else {
+					                alert('실명 인증 방법을 선택해주세요.');
+					                return;
+					            }
+					        } else {
+					           //memberPop.addCont({url: "/member/signupStep2.af"});
+					        }						
+														
+						});	
+						
+
+						/*
+					      window.addEventListener('load', function () {
+					          naverLogin.getLoginStatus(function (status) {
+	
+					             if (status) {
+
+									var inputs = $('input[name="chkTerm"]'), len = inputs.length;
+									var cnt = 0;
+									for (var i = 0 ; i < len ; i++) {
+										if(inputs.eq(i).prop('checked')) cnt++;
+									}
+									if (len > cnt) {
+										alert('약관을 확인해주세요.');
+										return;
+									}
+									
+									if(document.step01.young_people_check.value == "Y") {
+										alert("14세 미만 회원가입을 시도하셨습니다. 일반 회원 가입을 원하실 경우 새로고침해주세요.");
+										return;
+									}							
+									
+							        document.step01.sns_check.value = "Y";							
+									
+									//실명 인증
+							        if($('div.content.on #certPhone').length > 0) {
+							            if($('#certPhone').is(':checked')) {
+							            	certiJoin('checkplus','/member/checkplus.sf');		            	
+							                //_this.realNameCert();
+							            } else if($('#certIpin').is(':checked')) {
+							            	certiJoin('ipin','/member/ipin.af');
+							                //_this.realNameCert();
+							            } else {
+							                alert('실명 인증 방법을 선택해주세요.');
+							                return;
+							            }
+							        } else {
+							           //memberPop.addCont({url: "/member/signupStep2.af"});
+							        }							            	 
+					            	 
+					                //window.location.replace("http://127.0.0.1/test2.html");
+					             } else {
+					                console.log("callback 처리에 실패하였습니다.");
+					             }
+					          });
+					       });						
+						*/
+						
+					</script>
+					<!-- // 네이버아이디로로그인 초기화 Script -->							
 						<!-- 
 					    <a href="javascript:goStep2Process();">[다음진행]</a>
 					    
@@ -529,6 +646,9 @@
 						}else{
 							document.form_chk.EncodeData.value = obj;
 							fnPopup();
+
+							
+							
 						}
 			   		}
 			   		,error: function(xhr, option, error){
@@ -623,7 +743,43 @@
 			   document.step01.objBirth.value = result.sBirth;
 			   document.step01.objMNum.value = result.sMobileNumber;
 			   
+			   if(document.step01.sns_check.value == "Y") {
+				   
+					var naverLogin = new naver.LoginWithNaverId(
+							{								
+								clientId: "occAe_qDtkFxlWrdSTnc",
+								callbackUrl: "http://aquafield-ssg.co.kr/naverLoginCallBack.jsp?type=init_complete",
+								isPopup: false, /* 팝업을 통한 연동처리 여부 */
+								loginButton: {color: "green", type: 3, height: 82} /* 로그인 버튼의 타입을 지정 */
+							}
+						);
+						
+					/* 설정정보를 초기화하고 연동을 준비 */
+					naverLogin.init();					   
+				   
+				   document.step01.sns_check.value = "N";
+				   return;
+			   }
+			   
 			   if(document.step01.general_people_check.value == "Y") {
+				   
+				    var return_birth = document.step01.objBirth.value;
+				    
+				    var return_birth_array = return_birth.split(".");
+				    
+				    const today = new Date();
+				    const birthDate = new Date(return_birth_array[0], return_birth_array[1], return_birth_array[2]); // 2000년 8월 10일
+
+				    let age = today.getFullYear() - birthDate.getFullYear();
+				    const m = today.getMonth() - birthDate.getMonth();
+				    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+				        age--;
+				    }
+		        	
+		        	if(age < 14) {
+		        		alert("해당 회원은 14세미만 입니다. 어린이 회원 인증 후 보호자인증을 거처야 회원가입이 가능합니다.");
+		        		return;
+		        	}				   
 				   
 				   document.step01.young_people_check.value = "N";
 				   document.step01.young_age_status.value = "N";
@@ -755,6 +911,106 @@
 			document.form_chk.submit();
 		}
 	</script>
+	
+	<!-- 카카오톡로그인 초기화 Script -->
+	<script type="text/javascript">
+	  // input your appkey
+	  
+	  Kakao.init('0fbb7d4fae30c19a80e92d17c32cdcb3')
+	  function loginWithKakao() {
+		  
+		var inputs = $('input[name="chkTerm"]'), len = inputs.length;
+		var cnt = 0;
+		for (var i = 0 ; i < len ; i++) {
+			if(inputs.eq(i).prop('checked')) cnt++;
+		}
+		if (len > cnt) {
+			alert('약관을 확인해주세요.');
+			return;
+		}
+		
+		if(document.step01.young_people_check.value == "Y") {
+			alert("14세 미만 회원가입을 시도하셨습니다. 일반 회원 가입을 원하실 경우 새로고침해주세요.");
+			return;
+		}							
+		
+		document.step01.login_type.value = "kakao";
+        document.step01.sns_check.value = "Y";							
+		
+		//실명 인증
+        if($('div.content.on #certPhone').length > 0) {
+            if($('#certPhone').is(':checked')) {
+            	certiJoin('checkplus','/member/checkplus.sf');		            	
+                //_this.realNameCert();
+            } else if($('#certIpin').is(':checked')) {
+            	certiJoin('ipin','/member/ipin.af');
+                //_this.realNameCert();
+            } else {
+                alert('실명 인증 방법을 선택해주세요.');
+                return;
+            }
+        } else {
+           //memberPop.addCont({url: "/member/signupStep2.af"});
+        }					  
+		  
+		Kakao.Auth.loginForm({
+		  success: function(authObj) {
+			//alert(JSON.stringify(authObj));
+			Kakao.API.request({
+				url: '/v2/user/me',
+				success: function(res) {
+					/*
+					console.log(res);
+					console.log(res.kakao_account.phone_number);	
+					console.log(res.kakao_account.age);	
+					console.log(res.kakao_account.gender);	
+					console.log(res.kakao_account.birthyear);
+					console.log(res.kakao_account.birthday);
+					return;
+					
+					console.log(res);				
+					console.log(res.properties.birthday);
+					console.log(res.kakao_account.birthday);
+					console.log(res.kakao_account.phone_number);
+					console.log(res.properties.age_range);
+					console.log(res.properties.gender);
+					console.log(res.id);
+					console.log(res.properties.nickname);
+					console.log(res.kakao_account.email);
+					return;
+					*/
+					
+					//alert(res.id);
+					//alert(res.properties.nickname);
+					//alert(res.kakao_account.email);
+	
+				  //alert(JSON.stringify(res));
+				  $("input[name=id]").val("kakao_" + res.id);
+				  //$("input[name=name]").val(res.properties.nickname);
+				  $("input[name=name]").val("12341234");
+				  $("input[name=email]").val(res.kakao_account.email);
+				  $("input[name=gender]").val(res.kakao_account.gender);
+				  $("input[name=phone_number]").val(res.kakao_account.phone_number);
+				  $("input[name=birthday]").val(res.kakao_account.birthyear + "-" + res.kakao_account.birthday);
+				  document.step01.action = "/member/kakaologin.af";
+				  document.step01.submit();
+				},
+				fail: function(error) {
+				  alert(
+					'login success, but failed to request user information: ' +
+					  JSON.stringify(error)
+				  )
+				},
+			})
+		  },
+		  fail: function(err) {
+			alert(JSON.stringify(err));
+		  },
+		})
+	  }
+	  
+	</script>		
+	
 	<!-- ############### Ipin 인증  #######################-->
 	<form name="form_ipin" method="post">
 		<input type="hidden" name="m" value="pubmain">
